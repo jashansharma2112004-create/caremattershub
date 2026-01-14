@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin } from 'lucide-react';
-import logo from '@/assets/logo.jpeg';
+import logo from '@/assets/logo.jpg';
 
 const Footer = () => {
   return (
@@ -9,10 +9,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link to="/" className="flex items-center gap-3 mb-4">
-              <img src={logo} alt="Care Matters Hub" className="h-12 w-auto rounded-lg" />
+            <Link to="/" className="inline-block mb-4">
+              <img src={logo} alt="Care Matters Hub - Every Life Matters" className="h-20 w-auto" />
             </Link>
-            <h3 className="text-lg font-semibold mb-2">Care Matters Hub</h3>
             <p className="text-secondary/70 text-sm leading-relaxed">
               Supporting independence, dignity, and well-being for individuals and families across Australia.
             </p>
