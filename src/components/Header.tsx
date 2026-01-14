@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import logo from '@/assets/logo.jpeg';
+import logo from '@/assets/logo.jpg';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -24,12 +24,8 @@ const Header = () => {
       <div className="container-custom">
         <div className="flex items-center justify-between h-20 px-4 md:px-8">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="Care Matters Hub" className="h-14 w-auto rounded-lg" />
-            <div className="hidden sm:block">
-              <h1 className="text-lg font-semibold text-foreground leading-tight">Care Matters Hub</h1>
-              <p className="text-xs text-muted-foreground">Every Life Matters</p>
-            </div>
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="Care Matters Hub - Every Life Matters" className="h-14 md:h-16 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
