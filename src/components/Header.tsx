@@ -55,7 +55,7 @@ const Header = () => {
               <Phone className="h-4 w-4" />
               <span>+61 452 030 000</span>
             </a>
-            <Button asChild>
+            <Button asChild className="rounded-full">
               <Link to="/register">Get Started</Link>
             </Button>
           </div>
@@ -93,7 +93,7 @@ const Header = () => {
                   <Phone className="h-4 w-4" />
                   <span>+61 452 030 000</span>
                 </a>
-                <Button asChild className="w-full">
+                <Button asChild className="w-full rounded-full">
                   <Link to="/register" onClick={() => setIsMenuOpen(false)}>Get Started</Link>
                 </Button>
               </div>
