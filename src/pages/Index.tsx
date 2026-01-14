@@ -1,155 +1,138 @@
 import { Link } from 'react-router-dom';
-import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail } from 'lucide-react';
+import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, FileText, MessageCircle, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import heroImage from '@/assets/hero-care.jpg';
-
-const teamMembers = [
-  {
-    name: 'Sunil Bagga',
-    role: 'Operations Manager',
-    description: 'Sunil leads our operations with a focus on delivering seamless, high-quality care services. With extensive experience in healthcare management, he ensures our team delivers excellence in every interaction.',
-    phone: '+61 452 030 000',
-    email: 'Sunil@caremattershub.com.au',
-  },
-  {
-    name: 'Shubhpreet Cheema',
-    role: 'Clinical Services Manager',
-    description: 'Shubhpreet oversees our clinical services, bringing expertise in healthcare coordination and patient care. She is dedicated to ensuring the highest standards of clinical excellence and compassionate support.',
-    phone: '+61 469 786 104',
-    email: 'Shubh@caremattershub.com.au',
-  },
-];
 
 const services = [
   {
     icon: Heart,
     title: 'Personal Care',
-    description: 'Compassionate assistance with daily living activities, ensuring comfort and dignity.',
+    description: 'Daily living support with dignity and respect.',
   },
   {
     icon: Users,
-    title: 'Community Support',
-    description: 'Building connections and fostering independence through community engagement programs.',
+    title: 'Community Access',
+    description: 'Building connections and social participation.',
   },
   {
     icon: Shield,
-    title: 'Health Management',
-    description: 'Professional support for medication management and health monitoring services.',
+    title: 'Health Support',
+    description: 'Medication management and health monitoring.',
   },
   {
     icon: Clock,
     title: 'Respite Care',
-    description: 'Providing relief for primary caregivers with quality temporary care solutions.',
+    description: 'Quality relief for primary caregivers.',
   },
 ];
 
-const values = [
-  'Person-centred care approach',
-  'Qualified and experienced staff',
-  'Flexible service delivery',
-  'NDIS registered provider',
-  'Culturally sensitive care',
-  'Available 7 days a week',
+const steps = [
+  {
+    number: '01',
+    title: 'Get in Touch',
+    description: 'Call us or fill out our registration form to tell us about your needs.',
+  },
+  {
+    number: '02',
+    title: 'We Create Your Plan',
+    description: 'Our team works with you to develop a care plan that fits your life.',
+  },
+  {
+    number: '03',
+    title: 'Start Your Services',
+    description: 'Receive quality care from our experienced and friendly team.',
+  },
+];
+
+const whyChooseUs = [
+  'Locally owned Australian business',
+  'Experienced, qualified care professionals',
+  'Flexible services that work around you',
+  'Registered NDIS provider',
+  'Genuine care for every individual',
+  'Available when you need us',
 ];
 
 const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center">
+      <section className="relative min-h-[80vh] flex items-center">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroImage})` }}
         >
-          <div className="absolute inset-0" style={{ background: 'var(--hero-overlay)' }} />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
         </div>
         
-        <div className="relative container-custom px-4 md:px-8 py-20">
-          <div className="max-w-2xl animate-slide-up">
-            <span className="inline-block px-4 py-1.5 bg-accent/20 text-accent-foreground rounded-full text-sm font-medium mb-6 backdrop-blur-sm border border-accent/30">
-              Healthcare & Support Services
-            </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
-              Every Life <span className="text-accent">Matters</span>
+        <div className="relative container-custom px-4 md:px-8 py-16">
+          <div className="max-w-xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-5 leading-tight">
+              Every Life Matters
             </h1>
-            <p className="text-lg md:text-xl text-primary-foreground/90 mb-8 leading-relaxed">
-              At Care Matters Hub, we're dedicated to supporting your independence and well-being. 
-              Our compassionate team provides professional healthcare and support services tailored to your unique needs.
+            <p className="text-lg text-primary-foreground/90 mb-8 leading-relaxed">
+              We're here to support your independence and well-being. 
+              Care that's built around you, not the other way around.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                <Link to="/register">
-                  Register for Services
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" asChild className="bg-primary-foreground/10 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/20">
-                <Link to="/contact">Contact Us</Link>
-              </Button>
-            </div>
+            <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground rounded-full px-8">
+              <Link to="/register">
+                Register for Service
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
 
-      {/* Introduction Section */}
-      <section className="section-padding section-soft">
+      {/* About / Who We Are */}
+      <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Supporting Your Journey to <span className="text-gradient">Independence</span>
+              Who We Are
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Care Matters Hub is an Australian-owned healthcare and support services provider committed to enhancing 
-              the quality of life for individuals and families. We believe in treating every person with dignity, 
-              respect, and compassion while fostering independence and well-being.
+            <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+              Care Matters Hub is an Australian healthcare and support services provider based in Melbourne. 
+              We started with a simple belief: everyone deserves care that respects their choices and helps them live life on their terms.
             </p>
-          </div>
-
-          {/* Value Points */}
-          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-            {values.map((value, index) => (
-              <div 
-                key={index}
-                className="flex items-center gap-3 p-4 bg-card rounded-lg shadow-healthcare"
-              >
-                <CheckCircle className="h-5 w-5 text-accent flex-shrink-0" />
-                <span className="text-sm font-medium text-foreground">{value}</span>
-              </div>
-            ))}
+            <p className="text-muted-foreground leading-relaxed">
+              Our team brings together years of experience in disability support, aged care, and community services. 
+              We're not just caregivers — we're partners in your journey towards independence.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Services Overview */}
-      <section className="section-padding">
+      {/* Services Section */}
+      <section className="section-padding bg-muted/50">
         <div className="container-custom px-4 md:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Our Services</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive healthcare and support services designed to meet your individual needs and goals.
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">What We Offer</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Support services designed to fit your life, not ours.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
               <div 
                 key={index}
-                className="card-healthcare group cursor-pointer"
+                className="bg-card p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow"
               >
-                <div className="w-14 h-14 rounded-xl gradient-primary flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
-                  <service.icon className="h-7 w-7 text-primary-foreground" />
+                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <service.icon className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">{service.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{service.description}</p>
+                <h3 className="text-lg font-semibold text-foreground mb-2">{service.title}</h3>
+                <p className="text-muted-foreground text-sm">{service.description}</p>
               </div>
             ))}
           </div>
 
           <div className="text-center mt-10">
-            <Button asChild variant="outline" size="lg">
+            <Button asChild variant="outline" className="rounded-full">
               <Link to="/services">
-                View All Services
+                See All Services
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
@@ -157,69 +140,127 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Leadership Team Section */}
-      <section className="section-padding section-soft">
+      {/* How It Works */}
+      <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Meet Our Leadership</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our experienced leadership team is committed to delivering exceptional care and support services.
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">How It Works</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Getting started is straightforward. Here's what to expect.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {teamMembers.map((member, index) => (
-              <div key={index} className="card-healthcare">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center text-primary-foreground text-xl font-bold">
-                    {member.name.split(' ').map(n => n[0]).join('')}
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold text-foreground">{member.name}</h3>
-                    <p className="text-primary font-medium">{member.role}</p>
-                  </div>
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            {steps.map((step, index) => (
+              <div key={index} className="text-center">
+                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xl font-bold mx-auto mb-4">
+                  {step.number}
                 </div>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                  {member.description}
-                </p>
-                <div className="flex flex-col gap-2 pt-4 border-t border-border">
-                  <a 
-                    href={`tel:${member.phone.replace(/\s/g, '')}`}
-                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    <Phone className="h-4 w-4" />
-                    <span>{member.phone}</span>
-                  </a>
-                  <a 
-                    href={`mailto:${member.email}`}
-                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    <Mail className="h-4 w-4" />
-                    <span>{member.email}</span>
-                  </a>
-                </div>
+                <h3 className="text-lg font-semibold text-foreground mb-2">{step.title}</h3>
+                <p className="text-muted-foreground text-sm">{step.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="section-padding gradient-primary">
-        <div className="container-custom px-4 md:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
-            Ready to Get Started?
-          </h2>
-          <p className="text-lg text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-            Take the first step towards quality care and support. Our team is here to help you 
-            find the right services for your needs.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" asChild className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">
-              <Link to="/register">Register Now</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
-              <Link to="/contact">Speak to Our Team</Link>
+      {/* Why Choose Us */}
+      <section className="section-padding bg-muted/50">
+        <div className="container-custom px-4 md:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+                Why Families Trust Us
+              </h2>
+              <p className="text-muted-foreground mb-8">
+                We know choosing a care provider is a big decision. Here's what sets us apart.
+              </p>
+              <div className="grid gap-3">
+                {whyChooseUs.map((item, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-accent flex-shrink-0" />
+                    <span className="text-foreground">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="bg-card p-8 rounded-xl shadow-sm">
+              <h3 className="text-xl font-semibold text-foreground mb-4">Meet Our Team</h3>
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
+                    SB
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">Sunil Bagga</p>
+                    <p className="text-sm text-primary mb-1">Operations Manager</p>
+                    <a href="tel:0452030000" className="text-sm text-muted-foreground hover:text-primary">0452 030 000</a>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
+                    SC
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">Shubhpreet Cheema</p>
+                    <p className="text-sm text-primary mb-1">Clinical Services Manager</p>
+                    <a href="tel:0469786104" className="text-sm text-muted-foreground hover:text-primary">0469 786 104</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="section-padding bg-primary">
+        <div className="container-custom px-4 md:px-8">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+              Ready to Take the Next Step?
+            </h2>
+            <p className="text-primary-foreground/90 mb-8">
+              Get in touch today. We're here to answer your questions and help you find the right support.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+              <Button size="lg" asChild className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 rounded-full px-8">
+                <Link to="/register">Register for Service</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild className="border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-8">
+                <Link to="/contact">Contact Us</Link>
+              </Button>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center text-primary-foreground/80 text-sm">
+              <a href="mailto:sunil@caremattershub.com.au" className="flex items-center justify-center gap-2 hover:text-primary-foreground">
+                <Mail className="h-4 w-4" />
+                sunil@caremattershub.com.au
+              </a>
+              <a href="tel:0452030000" className="flex items-center justify-center gap-2 hover:text-primary-foreground">
+                <Phone className="h-4 w-4" />
+                0452 030 000
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Feedback CTA */}
+      <section className="section-padding">
+        <div className="container-custom px-4 md:px-8">
+          <div className="bg-muted/50 rounded-2xl p-8 md:p-12 text-center max-w-2xl mx-auto">
+            <Star className="h-10 w-10 text-accent mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-foreground mb-3">
+              Already using our services?
+            </h3>
+            <p className="text-muted-foreground mb-6">
+              Your feedback helps us improve. We'd love to hear about your experience.
+            </p>
+            <Button asChild variant="outline" className="rounded-full">
+              <Link to="/feedback">
+                Share Your Feedback
+                <MessageCircle className="ml-2 h-4 w-4" />
+              </Link>
             </Button>
           </div>
         </div>
