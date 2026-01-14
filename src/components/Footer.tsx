@@ -9,8 +9,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link to="/" className="inline-block mb-4">
-              <img src={logo} alt="Care Matters Hub - Every Life Matters" className="h-20 w-auto" />
+            <Link to="/" className="inline-flex items-center gap-3 mb-4">
+              <img src={logo} alt="Care Matters Hub - Every Life Matters" className="h-16 w-16 rounded-full object-cover" />
+              <span className="text-lg font-semibold">Care Matters Hub</span>
             </Link>
             <p className="text-secondary/70 text-sm leading-relaxed">
               Supporting independence, dignity, and well-being for individuals and families across Australia.
