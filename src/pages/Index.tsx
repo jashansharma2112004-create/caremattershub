@@ -1,8 +1,25 @@
 import { Link } from 'react-router-dom';
-import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle } from 'lucide-react';
+import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import heroImage from '@/assets/hero-care.jpg';
+
+const teamMembers = [
+  {
+    name: 'Sunil Bagga',
+    role: 'Operations Manager',
+    description: 'Sunil leads our operations with a focus on delivering seamless, high-quality care services. With extensive experience in healthcare management, he ensures our team delivers excellence in every interaction.',
+    phone: '+61 452 030 000',
+    email: 'Sunil@caremattershub.com.au',
+  },
+  {
+    name: 'Shubhpreet Cheema',
+    role: 'Clinical Services Manager',
+    description: 'Shubhpreet oversees our clinical services, bringing expertise in healthcare coordination and patient care. She is dedicated to ensuring the highest standards of clinical excellence and compassionate support.',
+    phone: '+61 469 786 104',
+    email: 'Shubh@caremattershub.com.au',
+  },
+];
 
 const services = [
   {
@@ -136,6 +153,53 @@ const Index = () => {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership Team Section */}
+      <section className="section-padding section-soft">
+        <div className="container-custom px-4 md:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Meet Our Leadership</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Our experienced leadership team is committed to delivering exceptional care and support services.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {teamMembers.map((member, index) => (
+              <div key={index} className="card-healthcare">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center text-primary-foreground text-xl font-bold">
+                    {member.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground">{member.name}</h3>
+                    <p className="text-primary font-medium">{member.role}</p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                  {member.description}
+                </p>
+                <div className="flex flex-col gap-2 pt-4 border-t border-border">
+                  <a 
+                    href={`tel:${member.phone.replace(/\s/g, '')}`}
+                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    <Phone className="h-4 w-4" />
+                    <span>{member.phone}</span>
+                  </a>
+                  <a 
+                    href={`mailto:${member.email}`}
+                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    <Mail className="h-4 w-4" />
+                    <span>{member.email}</span>
+                  </a>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
