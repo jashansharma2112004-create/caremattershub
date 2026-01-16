@@ -1,7 +1,13 @@
 import { Link } from 'react-router-dom';
-import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, FileText, MessageCircle, Star } from 'lucide-react';
+import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, FileText, MessageCircle, Star, HelpCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import heroImage from '@/assets/hero-care.jpg';
 
 const services = [
@@ -52,6 +58,33 @@ const whyChooseUs = [
   'Registered NDIS provider',
   'Genuine care for every individual',
   'Available when you need us',
+];
+
+const faqs = [
+  {
+    question: 'What services does Care Matters Hub provide?',
+    answer: 'We provide NDIS-approved support services including personal care, daily living assistance, community participation, and tailored support to help individuals live independently.',
+  },
+  {
+    question: 'Are you a registered NDIS provider?',
+    answer: 'Yes, Care Matters Hub is a registered NDIS provider and follows all NDIS quality and safeguarding standards.',
+  },
+  {
+    question: 'Who can access your services?',
+    answer: 'Anyone with an approved NDIS plan can access our services. We also assist participants in understanding and utilising their plans effectively.',
+  },
+  {
+    question: 'How do I register for services?',
+    answer: 'You can register directly through our website using the registration form or contact us via phone or email.',
+  },
+  {
+    question: 'How can I apply for a job at Care Matters Hub?',
+    answer: 'Visit our Careers / Apply for Job section and submit your application along with your resume.',
+  },
+  {
+    question: 'How is feedback handled?',
+    answer: 'We value your feedback. All feedback submitted through our website is reviewed by our management team to continuously improve our services.',
+  },
 ];
 
 const Index = () => {
@@ -209,6 +242,38 @@ const Index = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="section-padding">
+        <div className="container-custom px-4 md:px-8">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-10">
+              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <HelpCircle className="h-7 w-7 text-primary" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Frequently Asked Questions
+              </h2>
+              <p className="text-muted-foreground">
+                Find answers to common questions about our services and how we can help you.
+              </p>
+            </div>
+
+            <Accordion type="single" collapsible className="w-full">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger className="text-left text-foreground hover:no-underline">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
           </div>
         </div>
       </section>
