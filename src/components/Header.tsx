@@ -22,9 +22,9 @@ const navLinks = [
 ];
 
 const socialLinks = [
-  { name: 'Instagram', url: '#', icon: 'instagram' },
-  { name: 'Facebook', url: '#', icon: 'facebook' },
-  { name: 'TikTok', url: '#', icon: 'tiktok' },
+  { name: 'Instagram', url: 'https://www.instagram.com/caremattershub', icon: 'instagram' },
+  { name: 'Facebook', url: 'https://www.facebook.com/caremattershub', icon: 'facebook' },
+  { name: 'TikTok', url: 'https://www.tiktok.com/@caremattershub', icon: 'tiktok' },
 ];
 
 const Header = () => {
@@ -66,13 +66,13 @@ const Header = () => {
           {/* Social & CTA (Desktop) */}
           <div className="hidden lg:flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <a href="#" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Instagram">
                 <Instagram className="h-4 w-4" />
               </a>
-              <a href="#" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Facebook">
+              <a href="https://www.facebook.com/caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Facebook">
                 <Facebook className="h-4 w-4" />
               </a>
-              <a href="#" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="TikTok">
+              <a href="https://www.tiktok.com/@caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="TikTok">
                 <TikTokIcon className="h-4 w-4" />
               </a>
             </div>
