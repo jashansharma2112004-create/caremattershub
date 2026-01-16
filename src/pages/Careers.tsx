@@ -20,6 +20,7 @@ const formSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   phone: z.string().min(8, 'Please enter a valid phone number'),
   position: z.string().min(1, 'Please select a position'),
+  workExperience: z.string().min(10, 'Please describe your work experience'),
   message: z.string().optional(),
 });
 
@@ -49,6 +50,7 @@ const Careers = () => {
       email: '',
       phone: '',
       position: '',
+      workExperience: '',
       message: '',
     },
   });
@@ -277,6 +279,24 @@ const Careers = () => {
                             ))}
                           </SelectContent>
                         </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="workExperience"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Work Experience *</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Describe your relevant work experience, including previous roles, responsibilities, and years of experience..."
+                            className="min-h-[120px]"
+                            {...field} 
+                          />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
