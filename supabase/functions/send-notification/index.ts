@@ -82,6 +82,7 @@ const getEmailContent = (type: string, data: Record<string, unknown>) => {
             <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Email:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.email}</td></tr>
             <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Phone:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.phone}</td></tr>
             <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Position:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.position}</td></tr>
+            <tr><td style="padding: 8px; border: 1px solid #ddd; vertical-align: top;"><strong>Work Experience:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.workExperience}</td></tr>
             <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Resume:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.resumeFileName}</td></tr>
             ${data.message ? `<tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Message:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${data.message}</td></tr>` : ''}
           </table>

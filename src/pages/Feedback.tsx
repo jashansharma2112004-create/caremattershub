@@ -33,17 +33,12 @@ const services = [
   'Other',
 ];
 
-const ratings = [
-  { value: '5', label: '5 - Excellent' },
-  { value: '4', label: '4 - Very Good' },
-  { value: '3', label: '3 - Good' },
-  { value: '2', label: '2 - Fair' },
-  { value: '1', label: '1 - Needs Improvement' },
-];
+const ratingLabels = ['Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
 
 const Feedback = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [hoveredStar, setHoveredStar] = useState(0);
   const { toast } = useToast();
 
   const form = useForm<FormData>({
@@ -193,20 +188,40 @@ const Feedback = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Rating *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Rate your experience" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent className="bg-card">
-                            {ratings.map((rating) => (
-                              <SelectItem key={rating.value} value={rating.value}>
-                                {rating.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <FormControl>
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-1">
+                              {[1, 2, 3, 4, 5].map((star) => {
+                                const currentRating = parseInt(field.value) || 0;
+                                const isActive = star <= (hoveredStar || currentRating);
+                                return (
+                                  <button
+                                    key={star}
+                                    type="button"
+                                    onClick={() => field.onChange(star.toString())}
+                                    onMouseEnter={() => setHoveredStar(star)}
+                                    onMouseLeave={() => setHoveredStar(0)}
+                                    className="p-1 transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary rounded"
+                                    aria-label={`Rate ${star} out of 5 stars`}
+                                  >
+                                    <Star 
+                                      className={`h-8 w-8 transition-colors ${
+                                        isActive 
+                                          ? 'text-accent fill-accent' 
+                                          : 'text-muted-foreground/30'
+                                      }`} 
+                                    />
+                                  </button>
+                                );
+                              })}
+                            </div>
+                            {(hoveredStar || parseInt(field.value)) > 0 && (
+                              <p className="text-sm text-muted-foreground">
+                                {ratingLabels[(hoveredStar || parseInt(field.value)) - 1]}
+                              </p>
+                            )}
+                          </div>
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
