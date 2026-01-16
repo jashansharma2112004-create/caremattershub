@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
+import { supabase } from '@/integrations/supabase/client';
 
 const formSchema = z.object({
   fullName: z.string().min(2, 'Full name is required'),
@@ -54,19 +55,37 @@ const Register = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     
-    // Simulate form submission - in production, this would send emails
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    console.log('Registration submitted:', data);
-    console.log('Notification would be sent to: sunil@caremattershub.com.au and shubh@caremattershub.com.au');
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    toast({
-      title: 'Registration Submitted',
-      description: 'Thank you for registering. Our team will contact you shortly.',
-    });
+    try {
+      // Send email notification via edge function
+      const { error: emailError } = await supabase.functions.invoke('send-notification', {
+        body: {
+          type: 'registration',
+          data: data,
+        },
+      });
+
+      if (emailError) {
+        console.error('Email notification error:', emailError);
+        // Don't fail the submission if email fails
+      }
+
+      console.log('Registration submitted:', data);
+      setIsSubmitted(true);
+      
+      toast({
+        title: 'Registration Submitted',
+        description: 'Thank you for registering. Our team will contact you shortly.',
+      });
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast({
+        title: 'Submission Received',
+        description: 'Thank you for registering. Our team will contact you shortly.',
+      });
+      setIsSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {

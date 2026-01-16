@@ -1,6 +1,14 @@
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, Instagram, Facebook } from 'lucide-react';
 import logo from '@/assets/logo.jpg';
+import ndisLogo from '@/assets/ndis-logo.png';
+
+// TikTok icon component (not in lucide-react)
+const TikTokIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/>
+  </svg>
+);
 
 const Footer = () => {
   return (
@@ -13,9 +21,21 @@ const Footer = () => {
               <img src={logo} alt="Care Matters Hub - Every Life Matters" className="h-16 w-16 rounded-full object-cover" />
               <span className="text-lg font-semibold">Care Matters Hub</span>
             </Link>
-            <p className="text-secondary/70 text-sm leading-relaxed">
+            <p className="text-secondary/70 text-sm leading-relaxed mb-4">
               Supporting independence, dignity, and well-being for individuals and families across Australia.
             </p>
+            {/* Social Media Icons */}
+            <div className="flex items-center gap-3">
+              <a href="#" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors" aria-label="Instagram">
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a href="#" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors" aria-label="Facebook">
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a href="#" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors" aria-label="TikTok">
+                <TikTokIcon className="h-5 w-5" />
+              </a>
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -26,6 +46,7 @@ const Footer = () => {
               <Link to="/about" className="text-sm text-secondary/70 hover:text-secondary transition-colors">About Us</Link>
               <Link to="/services" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Our Services</Link>
               <Link to="/register" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Register</Link>
+              <Link to="/careers" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Careers</Link>
               <Link to="/feedback" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Feedback</Link>
               <Link to="/contact" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Contact</Link>
             </nav>
@@ -62,8 +83,22 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* NDIS Logo Section */}
+        <div className="mt-10 pt-8 border-t border-secondary/10">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <img 
+              src={ndisLogo} 
+              alt="NDIS Registered Provider - I Heart NDIS" 
+              className="h-16 w-auto object-contain"
+            />
+            <p className="text-sm text-secondary/60 text-center">
+              Registered NDIS Provider
+            </p>
+          </div>
+        </div>
+
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-secondary/10">
+        <div className="mt-8 pt-6 border-t border-secondary/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-secondary/60">
               © 2026 Care Matters Hub. All Rights Reserved.
