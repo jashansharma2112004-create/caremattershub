@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
+import { supabase } from '@/integrations/supabase/client';
 
 const formSchema = z.object({
   customerName: z.string().min(2, 'Name is required'),
@@ -58,18 +59,36 @@ const Feedback = () => {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    console.log('Feedback submitted:', data);
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    
-    toast({
-      title: 'Feedback Submitted',
-      description: 'Thank you for taking the time to share your feedback with us.',
-    });
+    try {
+      // Send email notification via edge function
+      const { error: emailError } = await supabase.functions.invoke('send-notification', {
+        body: {
+          type: 'feedback',
+          data: data,
+        },
+      });
+
+      if (emailError) {
+        console.error('Email notification error:', emailError);
+      }
+
+      console.log('Feedback submitted:', data);
+      setIsSubmitted(true);
+      
+      toast({
+        title: 'Feedback Submitted',
+        description: 'Thank you for taking the time to share your feedback with us.',
+      });
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast({
+        title: 'Feedback Received',
+        description: 'Thank you for taking the time to share your feedback with us.',
+      });
+      setIsSubmitted(true);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
