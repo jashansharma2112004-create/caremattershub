@@ -18,7 +18,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link to="/" className="inline-flex items-center gap-3 mb-4">
-              <img src={logo} alt="Care Matters Hub - Every Life Matters" className="h-16 w-16 rounded-full object-cover" />
+              <img src={logo} alt="Care Matters Hub - Every Life Matters" width={64} height={64} className="h-16 w-16 rounded-full object-cover" />
               <span className="text-lg font-semibold">Care Matters Hub</span>
             </Link>
             <p className="text-secondary/70 text-sm leading-relaxed mb-4">
@@ -89,6 +89,8 @@ const Footer = () => {
             <img 
               src={ndisLogo} 
               alt="NDIS Registered Provider - I Heart NDIS" 
+              width={64}
+              height={64}
               className="h-16 w-auto object-contain"
             />
             <p className="text-sm text-secondary/60 text-center">
