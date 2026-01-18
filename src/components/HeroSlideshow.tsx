@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import heroSlide1 from '@/assets/hero-slide-1.png';
-import heroSlide2 from '@/assets/hero-slide-2.png';
-import heroSlide3 from '@/assets/hero-slide-3.png';
+import heroSlide1 from '@/assets/hero-slide-1.webp';
+import heroSlide2 from '@/assets/hero-slide-2.webp';
+import heroSlide3 from '@/assets/hero-slide-3.webp';
 import heroImage from '@/assets/hero-care.jpg';
 
 const slides = [
@@ -29,7 +29,11 @@ const HeroSlideshow = () => {
           key={index}
           src={slide.src}
           alt={slide.alt}
+          width={1920}
+          height={1080}
           fetchPriority={index === 0 ? 'high' : undefined}
+          loading={index === 0 ? 'eager' : 'lazy'}
+          decoding={index === 0 ? 'sync' : 'async'}
           className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-1000 ${
             index === currentSlide ? 'opacity-100' : 'opacity-0'
           }`}
