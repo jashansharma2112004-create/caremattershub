@@ -331,7 +331,8 @@ const Index = () => {
                   <div>
                     <p className="font-semibold text-foreground">Sunil Bagga</p>
                     <p className="text-sm text-primary mb-1">Operations Manager</p>
-                    <a href="tel:0452030000" className="text-sm text-muted-foreground hover:text-primary">0452 030 000</a>
+                    <a href="tel:0452030000" className="block text-sm text-muted-foreground hover:text-primary">0452 030 000</a>
+                    <a href="mailto:sunil@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary">sunil@caremattershub.com.au</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -341,7 +342,8 @@ const Index = () => {
                   <div>
                     <p className="font-semibold text-foreground">Shubhpreet Cheema</p>
                     <p className="text-sm text-primary mb-1">Clinical Services Manager</p>
-                    <a href="tel:0469786104" className="text-sm text-muted-foreground hover:text-primary">0469 786 104</a>
+                    <a href="tel:0469786104" className="block text-sm text-muted-foreground hover:text-primary">0469 786 104</a>
+                    <a href="mailto:shubh@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary">shubh@caremattershub.com.au</a>
                   </div>
                 </div>
               </div>
@@ -432,14 +434,22 @@ const Index = () => {
                 <Link to="/contact">Contact Us</Link>
               </Button>
             </div>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center text-primary-foreground/80 text-sm">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 justify-center text-primary-foreground/80 text-sm">
               <a href="mailto:sunil@caremattershub.com.au" className="flex items-center justify-center gap-2 hover:text-primary-foreground">
                 <Mail className="h-4 w-4" />
                 sunil@caremattershub.com.au
               </a>
+              <a href="mailto:shubh@caremattershub.com.au" className="flex items-center justify-center gap-2 hover:text-primary-foreground">
+                <Mail className="h-4 w-4" />
+                shubh@caremattershub.com.au
+              </a>
               <a href="tel:0452030000" className="flex items-center justify-center gap-2 hover:text-primary-foreground">
                 <Phone className="h-4 w-4" />
                 0452 030 000
+              </a>
+              <a href="tel:0469786104" className="flex items-center justify-center gap-2 hover:text-primary-foreground">
+                <Phone className="h-4 w-4" />
+                0469 786 104
               </a>
             </div>
           </div>

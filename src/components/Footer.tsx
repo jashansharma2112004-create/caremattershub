@@ -68,6 +68,10 @@ const Footer = () => {
                 <Mail className="h-4 w-4 mt-0.5 flex-shrink-0" />
                 <span>sunil@caremattershub.com.au</span>
               </a>
+              <a href="mailto:shubh@caremattershub.com.au" className="flex items-start gap-3 text-sm text-secondary/70 hover:text-secondary transition-colors">
+                <Mail className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                <span>shubh@caremattershub.com.au</span>
+              </a>
             </div>
           </div>
 
