@@ -80,6 +80,8 @@ const Footer = () => {
             <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-secondary/80">Service Hours</h4>
             <div className="text-sm text-secondary/70 space-y-1">
               <p>Monday - Friday: 9am - 5pm</p>
+              <p>Saturday: 9am - 4pm</p>
+              <p>Sunday: Closed</p>
               <p className="mt-3 text-xs">24/7 Emergency Support Available</p>
             </div>
           </div>
