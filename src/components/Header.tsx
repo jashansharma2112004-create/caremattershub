@@ -32,7 +32,6 @@ const navLinks = [
   { name: 'Register', path: '/register' },
   { name: 'Careers', path: '/careers' },
   { name: 'Feedback', path: '/feedback' },
-  { name: 'Contact', path: '/contact' },
 ];
 
 const socialLinks = [
