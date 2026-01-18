@@ -141,17 +141,6 @@ const Header = () => {
                 <TikTokIcon className="h-4 w-4" />
               </a>
             </div>
-            <div className="flex items-center gap-3">
-              <a href="tel:+61452030000" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors">
-                <Phone className="h-4 w-4" />
-                <span>0452 030 000</span>
-              </a>
-              <span className="text-muted-foreground/50">|</span>
-              <a href="tel:+61469786104" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors">
-                <Phone className="h-4 w-4" />
-                <span>0469 786 104</span>
-              </a>
-            </div>
             <Button asChild className="rounded-full">
               <Link to="/register">Get Started</Link>
             </Button>
