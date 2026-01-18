@@ -2,12 +2,12 @@ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 
-// Allowed origins for CORS - restrict to your domain
+// Allowed origins for CORS - production domains only (no localhost)
 const ALLOWED_ORIGINS = [
   "https://caremattershub.com.au",
+  "https://www.caremattershub.com.au",
   "https://caremattershub.lovable.app",
-  "http://localhost:5173",
-  "http://localhost:8080"
+  "https://id-preview--d09202c5-b5db-4cde-ba44-328959322614.lovable.app"
 ];
 
 const getCorsHeaders = (origin: string | null) => {
@@ -22,6 +22,39 @@ const RECIPIENT_EMAILS = [
   "Shubh@caremattershub.com.au",
   "sunil@caremattershub.com.au"
 ];
+
+// Rate limiting: In-memory store (resets on function cold start, but provides protection)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const RATE_LIMIT_MAX_REQUESTS = 10; // 10 requests per hour per IP
+
+const checkRateLimit = (clientIp: string): { allowed: boolean; remaining: number } => {
+  const now = Date.now();
+  const record = rateLimitStore.get(clientIp);
+
+  // Clean up expired entries periodically
+  if (rateLimitStore.size > 1000) {
+    for (const [key, value] of rateLimitStore.entries()) {
+      if (now > value.resetTime) {
+        rateLimitStore.delete(key);
+      }
+    }
+  }
+
+  if (!record || now > record.resetTime) {
+    // First request or window expired
+    rateLimitStore.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - 1 };
+  }
+
+  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  record.count++;
+  return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - record.count };
+};
 
 interface NotificationRequest {
   type: 'registration' | 'feedback' | 'contact' | 'job_application';
@@ -73,6 +106,7 @@ const getEmailContent = (type: string, data: Record<string, unknown>) => {
             <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Phone:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.phone, 20))}</td></tr>
             <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Service:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.service, 100))}</td></tr>
             <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Address:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.address, 500))}</td></tr>
+            ${data.intakeSource ? `<tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>How they found us:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.intakeSource, 100))}</td></tr>` : ''}
             ${data.notes ? `<tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Notes:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.notes, 1000))}</td></tr>` : ''}
           </table>
           <p style="margin-top: 20px;">Please follow up with the client within 1-2 business days.</p>
@@ -147,6 +181,37 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Get client IP for rate limiting
+  const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
+                   req.headers.get("x-real-ip") || 
+                   "unknown";
+
+  // Check rate limit
+  const rateLimit = checkRateLimit(clientIp);
+  if (!rateLimit.allowed) {
+    console.warn(`Rate limit exceeded for IP: ${clientIp}`);
+    return new Response(
+      JSON.stringify({ error: "Too many requests. Please try again later." }),
+      { 
+        status: 429, 
+        headers: { 
+          "Content-Type": "application/json",
+          "Retry-After": "3600",
+          ...corsHeaders 
+        } 
+      }
+    );
+  }
+
+  // Verify origin is allowed (additional check beyond CORS)
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    console.warn(`Blocked request from unauthorized origin: ${origin}`);
+    return new Response(
+      JSON.stringify({ error: "Unauthorized origin" }),
+      { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+    );
+  }
+
   try {
     // Parse and validate request body
     let body: unknown;
@@ -185,7 +250,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    console.log(`Processing ${type} notification`);
+    console.log(`Processing ${type} notification from IP: ${clientIp} (${rateLimit.remaining} requests remaining)`);
 
     const { subject, html } = getEmailContent(type, data);
 
