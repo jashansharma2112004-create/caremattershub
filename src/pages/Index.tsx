@@ -16,8 +16,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import heroImage from '@/assets/hero-care.jpg';
 import logo from '@/assets/logo.jpg';
+import HeroSlideshow from '@/components/HeroSlideshow';
 
 const services = [
   {
@@ -128,12 +128,10 @@ const Index = () => {
             alt="" 
             className="absolute top-8 left-8 w-20 h-20 md:w-28 md:h-28 rounded-full object-cover opacity-30 z-10"
           />
-          <img 
-            src={heroImage} 
-            alt="" 
-            fetchPriority="high"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-          />
+          
+          {/* Hero Slideshow */}
+          <HeroSlideshow />
+          
           <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
         </div>
         
