@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, FileText, MessageCircle, Star, HelpCircle } from 'lucide-react';
+import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, MessageCircle, Star, HelpCircle, AlertCircle, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import {
@@ -8,7 +9,16 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
 import heroImage from '@/assets/hero-care.jpg';
+import logo from '@/assets/logo.jpg';
+import ndisLogo from '@/assets/ndis-logo.png';
 
 const services = [
   {
@@ -47,7 +57,7 @@ const steps = [
   {
     number: '03',
     title: 'Start Your Services',
-    description: 'Receive quality care from our experienced and friendly team.',
+    description: 'Receive quality care from our experienced and friendly team. Services can start same day!',
   },
 ];
 
@@ -57,7 +67,7 @@ const whyChooseUs = [
   'Flexible services that work around you',
   'Registered NDIS provider',
   'Genuine care for every individual',
-  'Available when you need us',
+  'Services can start same day',
 ];
 
 const faqs = [
@@ -75,7 +85,7 @@ const faqs = [
   },
   {
     question: 'How do I register for services?',
-    answer: 'You can register directly through our website using the registration form or contact us via phone or email.',
+    answer: 'You can register directly through our website using the registration form or contact us via phone or email. Services can start on the same day!',
   },
   {
     question: 'How can I apply for a job at Care Matters Hub?',
@@ -87,12 +97,44 @@ const faqs = [
   },
 ];
 
+const testimonials = [
+  {
+    name: 'Sarah M.',
+    rating: 5,
+    text: 'Care Matters Hub has been a blessing for our family. The carers are professional, kind, and truly care about my mother\'s wellbeing.',
+  },
+  {
+    name: 'James P.',
+    rating: 5,
+    text: 'Excellent service from start to finish. They took the time to understand my needs and matched me with the perfect support worker.',
+  },
+  {
+    name: 'Linda T.',
+    rating: 5,
+    text: 'Highly recommend! The team goes above and beyond. My son looks forward to his community participation activities every week.',
+  },
+];
+
 const Index = () => {
+  const [showEmergencyDialog, setShowEmergencyDialog] = useState(false);
+
   return (
     <Layout>
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
+          {/* Faded Logo on Left */}
+          <img 
+            src={logo} 
+            alt="" 
+            className="absolute top-8 left-8 w-20 h-20 md:w-28 md:h-28 rounded-full object-cover opacity-30 z-10"
+          />
+          {/* NDIS Logo on Right */}
+          <img 
+            src={ndisLogo} 
+            alt="NDIS Registered Provider" 
+            className="absolute top-8 right-8 w-16 h-16 md:w-24 md:h-24 object-contain opacity-40 z-10"
+          />
           <img 
             src={heroImage} 
             alt="" 
@@ -104,22 +146,79 @@ const Index = () => {
         
         <div className="relative container-custom px-4 md:px-8 py-16">
           <div className="max-w-xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-5 leading-tight">
-              Every Life Matters
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground mb-5 leading-tight tracking-tight">
+              <span className="drop-shadow-lg">Every Life Matters</span>
             </h1>
             <p className="text-lg text-primary-foreground/90 mb-8 leading-relaxed">
               We're here to support your independence and well-being. 
               Care that's built around you, not the other way around.
             </p>
-            <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground rounded-full px-8">
-              <Link to="/register">
-                Register for Service
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground rounded-full px-8">
+                <Link to="/register">
+                  Register for Service
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-8"
+                onClick={() => setShowEmergencyDialog(true)}
+              >
+                <AlertCircle className="mr-2 h-5 w-5" />
+                Need Care Now?
+              </Button>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Emergency Dialog */}
+      <Dialog open={showEmergencyDialog} onOpenChange={setShowEmergencyDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-destructive">
+              <AlertCircle className="h-6 w-6" />
+              Emergency Care Contact
+            </DialogTitle>
+            <DialogDescription>
+              For urgent care needs, please contact us immediately:
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
+              <p className="font-semibold text-foreground mb-3">24/7 Emergency Support</p>
+              <div className="space-y-2">
+                <a href="tel:+61452030000" className="flex items-center gap-3 text-foreground hover:text-primary transition-colors">
+                  <Phone className="h-5 w-5" />
+                  <div>
+                    <p className="font-medium">Sunil Bagga</p>
+                    <p className="text-sm text-muted-foreground">+61 452 030 000</p>
+                  </div>
+                </a>
+                <a href="tel:+61469786104" className="flex items-center gap-3 text-foreground hover:text-primary transition-colors">
+                  <Phone className="h-5 w-5" />
+                  <div>
+                    <p className="font-medium">Shubhpreet Cheema</p>
+                    <p className="text-sm text-muted-foreground">+61 469 786 104</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+            <div className="bg-muted rounded-lg p-4">
+              <p className="text-sm font-semibold text-foreground mb-2">Business Hours</p>
+              <p className="text-sm text-muted-foreground">Monday - Friday: 8am - 6pm</p>
+              <p className="text-sm text-muted-foreground">Saturday: 9am - 4pm</p>
+              <p className="text-sm text-muted-foreground">Sunday: Closed</p>
+              <p className="text-xs text-muted-foreground mt-2 italic">
+                For after-hours and emergencies, call either number above. 
+                Non-emergency inquiries: response within 48 business hours.
+              </p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* About / Who We Are */}
       <section className="section-padding">
@@ -146,7 +245,7 @@ const Index = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">What We Offer</h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              Support services designed to fit your life, not ours.
+              Support services designed to fit your life, not ours. <span className="font-semibold text-primary">Services can start same day!</span>
             </p>
           </div>
 
@@ -244,13 +343,45 @@ const Index = () => {
                   </div>
                 </div>
               </div>
+              {/* Business Hours */}
+              <div className="mt-6 pt-6 border-t border-border">
+                <p className="text-sm font-semibold text-foreground mb-2">Business Hours</p>
+                <p className="text-sm text-muted-foreground">Mon-Fri: 8am-6pm | Sat: 9am-4pm</p>
+                <p className="text-xs text-primary mt-1">24/7 Emergency Support Available</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
+      {/* Testimonials Section */}
       <section className="section-padding">
+        <div className="container-custom px-4 md:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">What Our Clients Say</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Hear from families who trust us with their care needs.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="bg-card p-6 rounded-xl shadow-sm">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="h-5 w-5 fill-accent text-accent" />
+                  ))}
+                </div>
+                <p className="text-muted-foreground text-sm mb-4 italic">"{testimonial.text}"</p>
+                <p className="font-semibold text-foreground">— {testimonial.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="section-padding bg-muted/50">
         <div className="container-custom px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-10">

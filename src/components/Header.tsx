@@ -1,7 +1,13 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, Instagram, Facebook } from 'lucide-react';
+import { Menu, X, Phone, Instagram, Facebook, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import logo from '@/assets/logo.jpg';
 
 // TikTok icon component (not in lucide-react)
@@ -11,10 +17,18 @@ const TikTokIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const servicesList = [
+  { name: 'Personal Care', path: '/services#personal-care' },
+  { name: 'Daily Living Support', path: '/services#daily-living' },
+  { name: 'Community Participation', path: '/services#community' },
+  { name: 'Transport Assistance', path: '/services#transport' },
+  { name: 'Respite Care', path: '/services#respite' },
+  { name: 'View All Services', path: '/services' },
+];
+
 const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'About Us', path: '/about' },
-  { name: 'Our Services', path: '/services' },
   { name: 'Register', path: '/register' },
   { name: 'Careers', path: '/careers' },
   { name: 'Feedback', path: '/feedback' },
@@ -32,6 +46,7 @@ const Header = () => {
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
+  const isServicesActive = location.pathname === '/services';
 
   return (
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
@@ -39,16 +54,67 @@ const Header = () => {
         <div className="flex items-center justify-between h-20 px-4 md:px-8">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            <img src={logo} alt="Care Matters Hub - Every Life Matters" width={64} height={64} className="h-14 md:h-16 w-14 md:w-16 rounded-full object-cover shadow-md" />
+            <img 
+              src={logo} 
+              alt="Care Matters Hub - Every Life Matters" 
+              width={64} 
+              height={64} 
+              className="h-14 md:h-16 w-14 md:w-16 rounded-full object-cover shadow-md animate-blink" 
+            />
             <div className="hidden sm:block">
               <span className="text-lg font-semibold text-foreground leading-tight">Care Matters Hub</span>
-              <p className="text-xs text-muted-foreground">Every Life Matters</p>
+              <p className="text-xs font-bold text-primary tracking-wide">Every Life Matters</p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1">
-            {navLinks.map((link) => (
+            <Link
+              to="/"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                isActive('/')
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-foreground hover:bg-secondary'
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              to="/about"
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                isActive('/about')
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-foreground hover:bg-secondary'
+              }`}
+            >
+              About Us
+            </Link>
+            
+            {/* Services Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
+                isServicesActive
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-foreground hover:bg-secondary'
+              }`}>
+                Our Services
+                <ChevronDown className="h-4 w-4" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56 bg-card border border-border shadow-lg z-50">
+                {servicesList.map((service) => (
+                  <DropdownMenuItem key={service.path} asChild>
+                    <Link 
+                      to={service.path} 
+                      className="w-full cursor-pointer"
+                    >
+                      {service.name}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {navLinks.filter(link => !['Home', 'About Us'].includes(link.name)).map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
@@ -99,7 +165,45 @@ const Header = () => {
         {isMenuOpen && (
           <div className="lg:hidden border-t border-border bg-card animate-fade-in">
             <nav className="flex flex-col p-4 gap-1">
-              {navLinks.map((link) => (
+              <Link
+                to="/"
+                onClick={() => setIsMenuOpen(false)}
+                className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                  isActive('/')
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:bg-secondary'
+                }`}
+              >
+                Home
+              </Link>
+              <Link
+                to="/about"
+                onClick={() => setIsMenuOpen(false)}
+                className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                  isActive('/about')
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:bg-secondary'
+                }`}
+              >
+                About Us
+              </Link>
+              
+              {/* Mobile Services Links */}
+              <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                Our Services
+              </div>
+              {servicesList.map((service) => (
+                <Link
+                  key={service.path}
+                  to={service.path}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="px-6 py-2 rounded-lg text-sm text-foreground hover:bg-secondary transition-colors"
+                >
+                  {service.name}
+                </Link>
+              ))}
+
+              {navLinks.filter(link => !['Home', 'About Us'].includes(link.name)).map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
