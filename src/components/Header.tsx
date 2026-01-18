@@ -62,7 +62,7 @@ const Header = () => {
               className="h-14 md:h-16 w-14 md:w-16 rounded-full object-cover shadow-md animate-blink" 
             />
             <div className="hidden sm:block">
-              <span className="text-lg font-semibold text-foreground leading-tight">Care Matters Hub</span>
+              <span className="text-lg font-bold leading-tight uppercase text-brand-dark-blue">CARE MATTERS HUB</span>
               <p className="text-xs font-bold text-primary tracking-wide">Every Life Matters</p>
             </div>
           </Link>
@@ -135,7 +135,7 @@ const Header = () => {
               <a href="https://www.instagram.com/caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Instagram">
                 <Instagram className="h-4 w-4" />
               </a>
-              <a href="https://www.facebook.com/caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Facebook">
+              <a href="https://www.facebook.com/share/1BBVzwFH6X/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Facebook">
                 <Facebook className="h-4 w-4" />
               </a>
               <a href="https://www.tiktok.com/@caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="TikTok">

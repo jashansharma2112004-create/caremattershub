@@ -42,6 +42,9 @@
     --border: 210 20% 88%;
     --input: 210 20% 88%;
     --ring: 195 55% 42%;
+    
+    /* Brand Dark Blue for Headers */
+    --brand-dark-blue: 217 71% 35%;
 
     --radius: 0.625rem;
 
