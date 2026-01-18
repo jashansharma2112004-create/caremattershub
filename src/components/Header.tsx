@@ -61,9 +61,9 @@ const Header = () => {
               height={64} 
               className="h-14 md:h-16 w-14 md:w-16 rounded-full object-cover shadow-md animate-blink" 
             />
-            <div className="hidden sm:block">
-              <span className="text-base font-bold leading-tight uppercase text-brand-dark-blue">CARE MATTERS HUB</span>
-              <p className="text-xs font-bold text-primary tracking-wide">Every Life Matters</p>
+            <div className="hidden xs:block">
+              <span className="text-sm sm:text-base font-bold leading-tight uppercase text-brand-dark-blue whitespace-nowrap">CARE MATTERS HUB</span>
+              <p className="text-xs font-bold text-primary tracking-wide whitespace-nowrap">Every Life Matters</p>
             </div>
           </Link>
 
