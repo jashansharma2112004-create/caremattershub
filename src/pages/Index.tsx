@@ -16,7 +16,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import logo from '@/assets/logo.jpg';
+import logoSmall from '@/assets/logo-small.webp';
 import HeroSlideshow from '@/components/HeroSlideshow';
 
 const services = [
@@ -124,8 +124,11 @@ const Index = () => {
         <div className="absolute inset-0">
           {/* Faded Logo on Left */}
           <img 
-            src={logo} 
+            src={logoSmall} 
             alt="" 
+            width={112}
+            height={112}
+            loading="eager"
             className="absolute top-8 left-8 w-20 h-20 md:w-28 md:h-28 rounded-full object-cover opacity-30 z-10"
           />
           
