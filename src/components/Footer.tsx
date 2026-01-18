@@ -86,13 +86,20 @@ const Footer = () => {
         {/* NDIS Logo Section */}
         <div className="mt-10 pt-8 border-t border-secondary/10">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <img 
-              src={ndisLogo} 
-              alt="NDIS Registered Provider - I Heart NDIS" 
-              width={64}
-              height={64}
-              className="h-16 w-auto object-contain"
-            />
+            <a 
+              href="https://www.ndis.gov.au" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:opacity-80 transition-opacity"
+            >
+              <img 
+                src={ndisLogo} 
+                alt="NDIS Registered Provider - I Heart NDIS" 
+                width={64}
+                height={64}
+                className="h-16 w-auto object-contain"
+              />
+            </a>
             <p className="text-sm text-secondary/60 text-center">
               Registered NDIS Provider
             </p>
