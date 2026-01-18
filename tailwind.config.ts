@@ -60,6 +60,7 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        "brand-dark-blue": "hsl(var(--brand-dark-blue))",
       },
       borderRadius: {
         lg: "var(--radius)",

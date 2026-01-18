@@ -18,7 +18,6 @@ import {
 } from '@/components/ui/dialog';
 import heroImage from '@/assets/hero-care.jpg';
 import logo from '@/assets/logo.jpg';
-import ndisLogo from '@/assets/ndis-logo.png';
 
 const services = [
   {
@@ -129,12 +128,6 @@ const Index = () => {
             alt="" 
             className="absolute top-8 left-8 w-20 h-20 md:w-28 md:h-28 rounded-full object-cover opacity-30 z-10"
           />
-          {/* NDIS Logo on Right */}
-          <img 
-            src={ndisLogo} 
-            alt="NDIS Registered Provider" 
-            className="absolute top-8 right-8 w-16 h-16 md:w-24 md:h-24 object-contain opacity-40 z-10"
-          />
           <img 
             src={heroImage} 
             alt="" 
@@ -162,11 +155,21 @@ const Index = () => {
               </Button>
               <Button 
                 size="lg" 
+                asChild
+                className="bg-destructive hover:bg-destructive/90 text-destructive-foreground rounded-full px-8"
+              >
+                <a href="tel:0452030000">
+                  <AlertCircle className="mr-2 h-5 w-5" />
+                  EMERGENCY
+                </a>
+              </Button>
+              <Button 
+                size="lg" 
                 variant="outline" 
                 className="border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10 rounded-full px-8"
                 onClick={() => setShowEmergencyDialog(true)}
               >
-                <AlertCircle className="mr-2 h-5 w-5" />
+                <Phone className="mr-2 h-5 w-5" />
                 Need Care Now?
               </Button>
             </div>
@@ -208,9 +211,7 @@ const Index = () => {
             </div>
             <div className="bg-muted rounded-lg p-4">
               <p className="text-sm font-semibold text-foreground mb-2">Business Hours</p>
-              <p className="text-sm text-muted-foreground">Monday - Friday: 8am - 6pm</p>
-              <p className="text-sm text-muted-foreground">Saturday: 9am - 4pm</p>
-              <p className="text-sm text-muted-foreground">Sunday: Closed</p>
+              <p className="text-sm text-muted-foreground">Monday - Friday: 9am - 5pm</p>
               <p className="text-xs text-muted-foreground mt-2 italic">
                 For after-hours and emergencies, call either number above. 
                 Non-emergency inquiries: response within 48 business hours.
@@ -320,7 +321,7 @@ const Index = () => {
               </div>
             </div>
             <div className="bg-card p-8 rounded-xl shadow-sm">
-              <h3 className="text-xl font-semibold text-foreground mb-4">Meet Our Team</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-4">Our Management</h3>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
@@ -345,8 +346,8 @@ const Index = () => {
               </div>
               {/* Business Hours */}
               <div className="mt-6 pt-6 border-t border-border">
-                <p className="text-sm font-semibold text-foreground mb-2">Business Hours</p>
-                <p className="text-sm text-muted-foreground">Mon-Fri: 8am-6pm | Sat: 9am-4pm</p>
+                <p className="text-sm font-semibold text-foreground mb-2">Office Hours</p>
+                <p className="text-sm text-muted-foreground">Mon - Fri: 9am - 5pm</p>
                 <p className="text-xs text-primary mt-1">24/7 Emergency Support Available</p>
               </div>
             </div>
