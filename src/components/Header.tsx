@@ -142,10 +142,17 @@ const Header = () => {
                 <TikTokIcon className="h-4 w-4" />
               </a>
             </div>
-            <a href="tel:+61452030000" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
-              <Phone className="h-4 w-4" />
-              <span>+61 452 030 000</span>
-            </a>
+            <div className="flex items-center gap-3">
+              <a href="tel:+61452030000" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Phone className="h-4 w-4" />
+                <span>0452 030 000</span>
+              </a>
+              <span className="text-muted-foreground/50">|</span>
+              <a href="tel:+61469786104" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors">
+                <Phone className="h-4 w-4" />
+                <span>0469 786 104</span>
+              </a>
+            </div>
             <Button asChild className="rounded-full">
               <Link to="/register">Get Started</Link>
             </Button>
@@ -218,10 +225,16 @@ const Header = () => {
                 </Link>
               ))}
               <div className="mt-4 pt-4 border-t border-border">
-                <a href="tel:+61452030000" className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-                  <Phone className="h-4 w-4" />
-                  <span>+61 452 030 000</span>
-                </a>
+                <div className="space-y-2 mb-4">
+                  <a href="tel:+61452030000" className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Phone className="h-4 w-4" />
+                    <span>0452 030 000</span>
+                  </a>
+                  <a href="tel:+61469786104" className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Phone className="h-4 w-4" />
+                    <span>0469 786 104</span>
+                  </a>
+                </div>
                 <Button asChild className="w-full rounded-full">
                   <Link to="/register" onClick={() => setIsMenuOpen(false)}>Get Started</Link>
                 </Button>
