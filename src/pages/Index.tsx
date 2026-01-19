@@ -16,7 +16,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import logoSmall from '@/assets/logo-small.webp';
+import logoSmall from '@/assets/logo-hero-optimized.webp';
 import HeroSlideshow from '@/components/HeroSlideshow';
 
 const services = [
