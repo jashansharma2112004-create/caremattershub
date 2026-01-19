@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import heroSlide1 from '@/assets/hero-slide-1.webp';
-import heroSlide2 from '@/assets/hero-slide-2.webp';
-import heroSlide3 from '@/assets/hero-slide-3.webp';
-import heroImage from '@/assets/hero-care.jpg';
+import heroSlide1 from '@/assets/hero-slide-1-optimized.webp';
+import heroSlide2 from '@/assets/hero-slide-2-optimized.webp';
+import heroSlide3 from '@/assets/hero-slide-3-optimized.webp';
+import heroImage from '@/assets/hero-care-optimized.webp';
 
 const slides = [
   { src: heroImage, alt: 'Quality care and support services' },
