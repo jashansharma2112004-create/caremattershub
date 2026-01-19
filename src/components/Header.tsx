@@ -52,18 +52,15 @@ const Header = () => {
       <div className="container-custom">
         <div className="flex items-center justify-between h-20 px-4 md:px-8">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-2">
             <img 
               src={logo} 
               alt="Care Matters Hub - Every Life Matters" 
               width={64} 
               height={64} 
-              className="h-14 md:h-16 w-14 md:w-16 rounded-full object-cover shadow-md animate-blink" 
+              className="h-12 md:h-14 w-12 md:w-14 rounded-full object-cover shadow-md animate-blink" 
             />
-            <div className="hidden xs:block">
-              <span className="text-base font-bold leading-tight uppercase text-brand-dark-blue whitespace-nowrap">CARE MATTERS HUB</span>
-              <p className="text-xs font-bold text-primary tracking-wide whitespace-nowrap">Every Life Matters</p>
-            </div>
+            <span className="text-sm md:text-base font-bold text-[hsl(210,80%,25%)] whitespace-nowrap">Care Matters Hub</span>
           </Link>
 
           {/* Desktop Navigation */}
