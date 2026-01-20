@@ -60,7 +60,7 @@ const Header = () => {
               height={64} 
               className="h-12 md:h-14 w-12 md:w-14 rounded-full object-cover shadow-md animate-blink" 
             />
-            <span className="text-sm md:text-base font-bold text-[hsl(210,80%,25%)] whitespace-nowrap">Care Matters Hub</span>
+            <span className="text-sm md:text-base font-bold text-primary whitespace-nowrap">Care Matters Hub</span>
           </Link>
 
           {/* Desktop Navigation */}

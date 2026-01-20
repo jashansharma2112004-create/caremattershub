@@ -28,11 +28,8 @@ type FormData = z.infer<typeof formSchema>;
 
 const positions = [
   'Support Worker',
-  'Personal Care Assistant',
+  'Enrolled Nurse',
   'Registered Nurse',
-  'Clinical Services Coordinator',
-  'Administration Support',
-  'Community Support Worker',
   'Other',
 ];
 
