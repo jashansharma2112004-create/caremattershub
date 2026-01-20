@@ -92,24 +92,35 @@ const isValidType = (type: string): type is NotificationRequest['type'] => {
   return ['registration', 'feedback', 'contact', 'job_application'].includes(type);
 };
 
-const getEmailContent = (type: string, data: Record<string, unknown>) => {
+// Email content for admin notifications
+const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
   switch (type) {
     case 'registration':
       return {
         subject: `New Service Registration - ${escapeHtml(validateInput(data.fullName, 100))}`,
         html: `
-          <h2>New Service Registration</h2>
-          <p>A new service registration has been submitted:</p>
-          <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.fullName, 100))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Email:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.email, 255))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Phone:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.phone, 20))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Service:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.service, 100))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Address:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.address, 500))}</td></tr>
-            ${data.intakeSource ? `<tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>How they found us:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.intakeSource, 100))}</td></tr>` : ''}
-            ${data.notes ? `<tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Notes:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.notes, 1000))}</td></tr>` : ''}
-          </table>
-          <p style="margin-top: 20px;">Please follow up with the client within 1-2 business days.</p>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 20px; text-align: center;">
+              <h1 style="color: white; margin: 0;">Care Matters Hub</h1>
+            </div>
+            <div style="padding: 30px; background: #f8fafc;">
+              <h2 style="color: #0e7490; margin-top: 0;">New Service Registration</h2>
+              <p style="color: #334155;">A new service registration has been submitted:</p>
+              <table style="border-collapse: collapse; width: 100%; background: white; border-radius: 8px; overflow: hidden;">
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Name:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.fullName, 100))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Email:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.email, 255))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Phone:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.phone, 20))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Service:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.service, 100))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Address:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.address, 500))}</td></tr>
+                ${data.intakeSource ? `<tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>How they found us:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.intakeSource, 100))}</td></tr>` : ''}
+                ${data.notes ? `<tr><td style="padding: 12px;"><strong>Notes:</strong></td><td style="padding: 12px;">${escapeHtml(validateInput(data.notes, 1000))}</td></tr>` : ''}
+              </table>
+              <p style="margin-top: 20px; color: #334155;">Please follow up with the client within 1-2 business days.</p>
+            </div>
+            <div style="background: #0e7490; padding: 15px; text-align: center;">
+              <p style="color: white; margin: 0; font-size: 12px;">© ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
+            </div>
+          </div>
         `,
       };
 
@@ -117,15 +128,24 @@ const getEmailContent = (type: string, data: Record<string, unknown>) => {
       return {
         subject: `Customer Feedback - ${escapeHtml(validateInput(data.customerName, 100))} (Rating: ${escapeHtml(validateInput(data.rating, 1))}/5)`,
         html: `
-          <h2>Customer Feedback Received</h2>
-          <p>A customer has submitted feedback:</p>
-          <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Customer Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.customerName, 100))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Service Received:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.serviceTaken, 100))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Rating:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.rating, 1))}/5 ⭐</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Feedback:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.feedback, 2000))}</td></tr>
-          </table>
-          <p style="margin-top: 20px;">Your feedback helps us improve our services.</p>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 20px; text-align: center;">
+              <h1 style="color: white; margin: 0;">Care Matters Hub</h1>
+            </div>
+            <div style="padding: 30px; background: #f8fafc;">
+              <h2 style="color: #0e7490; margin-top: 0;">Customer Feedback Received</h2>
+              <p style="color: #334155;">A customer has submitted feedback:</p>
+              <table style="border-collapse: collapse; width: 100%; background: white; border-radius: 8px; overflow: hidden;">
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Customer Name:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.customerName, 100))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Service Received:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.serviceTaken, 100))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Rating:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.rating, 1))}/5 ⭐</td></tr>
+                <tr><td style="padding: 12px;"><strong>Feedback:</strong></td><td style="padding: 12px;">${escapeHtml(validateInput(data.feedback, 2000))}</td></tr>
+              </table>
+            </div>
+            <div style="background: #0e7490; padding: 15px; text-align: center;">
+              <p style="color: white; margin: 0; font-size: 12px;">© ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
+            </div>
+          </div>
         `,
       };
 
@@ -133,15 +153,25 @@ const getEmailContent = (type: string, data: Record<string, unknown>) => {
       return {
         subject: `Contact Form Inquiry - ${escapeHtml(validateInput(data.name, 100))}`,
         html: `
-          <h2>New Contact Form Submission</h2>
-          <p>Someone has reached out through the contact form:</p>
-          <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.name, 100))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Email:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.email, 255))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Phone:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.phone, 20)) || 'Not provided'}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Message:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.message, 2000))}</td></tr>
-          </table>
-          <p style="margin-top: 20px;">Please respond to this inquiry promptly.</p>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 20px; text-align: center;">
+              <h1 style="color: white; margin: 0;">Care Matters Hub</h1>
+            </div>
+            <div style="padding: 30px; background: #f8fafc;">
+              <h2 style="color: #0e7490; margin-top: 0;">New Contact Form Submission</h2>
+              <p style="color: #334155;">Someone has reached out through the contact form:</p>
+              <table style="border-collapse: collapse; width: 100%; background: white; border-radius: 8px; overflow: hidden;">
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Name:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.name, 100))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Email:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.email, 255))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Phone:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.phone, 20)) || 'Not provided'}</td></tr>
+                <tr><td style="padding: 12px;"><strong>Message:</strong></td><td style="padding: 12px;">${escapeHtml(validateInput(data.message, 2000))}</td></tr>
+              </table>
+              <p style="margin-top: 20px; color: #334155;">Please respond to this inquiry promptly.</p>
+            </div>
+            <div style="background: #0e7490; padding: 15px; text-align: center;">
+              <p style="color: white; margin: 0; font-size: 12px;">© ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
+            </div>
+          </div>
         `,
       };
 
@@ -149,18 +179,28 @@ const getEmailContent = (type: string, data: Record<string, unknown>) => {
       return {
         subject: `Job Application - ${escapeHtml(validateInput(data.fullName, 100))} (${escapeHtml(validateInput(data.position, 100))})`,
         html: `
-          <h2>New Job Application</h2>
-          <p>A job application has been submitted:</p>
-          <table style="border-collapse: collapse; width: 100%; max-width: 600px;">
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Name:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.fullName, 100))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Email:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.email, 255))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Phone:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.phone, 20))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Position:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.position, 100))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd; vertical-align: top;"><strong>Work Experience:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.workExperience, 2000))}</td></tr>
-            <tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Resume:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.resumeFileName, 255))}</td></tr>
-            ${data.message ? `<tr><td style="padding: 8px; border: 1px solid #ddd;"><strong>Message:</strong></td><td style="padding: 8px; border: 1px solid #ddd;">${escapeHtml(validateInput(data.message, 2000))}</td></tr>` : ''}
-          </table>
-          <p style="margin-top: 20px;">Review the application and resume, then follow up within 5-7 business days.</p>
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 20px; text-align: center;">
+              <h1 style="color: white; margin: 0;">Care Matters Hub</h1>
+            </div>
+            <div style="padding: 30px; background: #f8fafc;">
+              <h2 style="color: #0e7490; margin-top: 0;">New Job Application</h2>
+              <p style="color: #334155;">A job application has been submitted:</p>
+              <table style="border-collapse: collapse; width: 100%; background: white; border-radius: 8px; overflow: hidden;">
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Name:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.fullName, 100))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Email:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.email, 255))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Phone:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.phone, 20))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Position:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.position, 100))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top;"><strong>Work Experience:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.workExperience, 2000))}</td></tr>
+                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Resume:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.resumeFileName, 255))}</td></tr>
+                ${data.message ? `<tr><td style="padding: 12px;"><strong>Message:</strong></td><td style="padding: 12px;">${escapeHtml(validateInput(data.message, 2000))}</td></tr>` : ''}
+              </table>
+              <p style="margin-top: 20px; color: #334155;">Review the application and resume, then follow up within 5-7 business days.</p>
+            </div>
+            <div style="background: #0e7490; padding: 15px; text-align: center;">
+              <p style="color: white; margin: 0; font-size: 12px;">© ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
+            </div>
+          </div>
         `,
       };
 
@@ -170,6 +210,56 @@ const getEmailContent = (type: string, data: Record<string, unknown>) => {
         html: `<h2>New Form Submission</h2><pre>${escapeHtml(JSON.stringify(data, null, 2))}</pre>`,
       };
   }
+};
+
+// Email content for user confirmation (registration only)
+const getUserConfirmationEmail = (data: Record<string, unknown>) => {
+  return {
+    subject: 'Registration Successful – Care Matters Hub',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 30px; text-align: center;">
+          <h1 style="color: white; margin: 0; font-size: 28px;">Care Matters Hub</h1>
+          <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">Quality Care, Every Day</p>
+        </div>
+        <div style="padding: 40px 30px; background: #ffffff;">
+          <h2 style="color: #0e7490; margin-top: 0;">Registration Successful!</h2>
+          <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+            Dear ${escapeHtml(validateInput(data.fullName, 100))},
+          </p>
+          <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+            Thank you for registering with Care Matters Hub. We have received your registration for <strong>${escapeHtml(validateInput(data.service, 100))}</strong>.
+          </p>
+          <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+            Our team will contact you shortly to discuss your care needs and answer any questions you may have.
+          </p>
+          <div style="background: #f0fdfa; border-left: 4px solid #0e7490; padding: 15px 20px; margin: 25px 0;">
+            <p style="color: #0e7490; margin: 0; font-weight: 600;">What happens next?</p>
+            <ul style="color: #334155; margin: 10px 0 0 0; padding-left: 20px;">
+              <li>A member of our team will call you within 1-2 business days</li>
+              <li>We'll discuss your specific care requirements</li>
+              <li>We'll match you with the right support services</li>
+            </ul>
+          </div>
+          <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+            If you have any urgent questions, please don't hesitate to contact us at <a href="tel:0493457047" style="color: #0e7490;">0493 457 047</a> or reply to this email.
+          </p>
+          <p style="color: #334155; font-size: 16px; line-height: 1.6; margin-top: 30px;">
+            Warm regards,<br>
+            <strong>The Care Matters Hub Team</strong>
+          </p>
+        </div>
+        <div style="background: #0e7490; padding: 20px; text-align: center;">
+          <p style="color: white; margin: 0 0 10px 0; font-size: 14px;">
+            <a href="https://caremattershub.com.au" style="color: white;">caremattershub.com.au</a>
+          </p>
+          <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 12px;">
+            © ${new Date().getFullYear()} Care Matters Hub. All rights reserved.
+          </p>
+        </div>
+      </div>
+    `,
+  };
 };
 
 const handler = async (req: Request): Promise<Response> => {
@@ -252,10 +342,10 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Processing ${type} notification from IP: ${clientIp} (${rateLimit.remaining} requests remaining)`);
 
-    const { subject, html } = getEmailContent(type, data);
+    const { subject, html } = getAdminEmailContent(type, data);
 
-    // Send email using Resend API directly
-    const emailResponse = await fetch("https://api.resend.com/emails", {
+    // Send admin notification email using Resend API
+    const adminEmailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -269,14 +359,42 @@ const handler = async (req: Request): Promise<Response> => {
       }),
     });
 
-    const emailResult = await emailResponse.json();
+    const adminEmailResult = await adminEmailResponse.json();
 
-    if (!emailResponse.ok) {
-      console.error("Resend API error:", emailResult);
-      throw new Error(emailResult.message || "Failed to send email");
+    if (!adminEmailResponse.ok) {
+      console.error("Admin notification email error:", adminEmailResult);
+      throw new Error(adminEmailResult.message || "Failed to send admin notification");
     }
 
-    console.log("Email sent successfully");
+    console.log("Admin notification email sent successfully");
+
+    // Send user confirmation email for registration type
+    if (type === 'registration' && data.email && isValidEmail(String(data.email))) {
+      const userEmail = getUserConfirmationEmail(data);
+      
+      const userEmailResponse = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+        },
+        body: JSON.stringify({
+          from: "Care Matters Hub <onboarding@resend.dev>",
+          to: [String(data.email)],
+          subject: userEmail.subject,
+          html: userEmail.html,
+        }),
+      });
+
+      const userEmailResult = await userEmailResponse.json();
+
+      if (!userEmailResponse.ok) {
+        console.error("User confirmation email error:", userEmailResult);
+        // Don't fail the whole request if user email fails, admin was already notified
+      } else {
+        console.log("User confirmation email sent successfully");
+      }
+    }
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
