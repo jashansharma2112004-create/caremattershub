@@ -100,17 +100,17 @@ const testimonials = [
   {
     name: 'Sarah M.',
     rating: 5,
-    text: 'Care Matters Hub has been a blessing for our family. The carers are professional, kind, and truly care about my mother\'s wellbeing.',
+    text: 'Care Matters Hub made the entire process smooth and stress-free. Highly professional and supportive.',
   },
   {
-    name: 'James P.',
+    name: 'Daniel R.',
     rating: 5,
-    text: 'Excellent service from start to finish. They took the time to understand my needs and matched me with the perfect support worker.',
+    text: 'The team was responsive and genuinely cared about our needs. Excellent service.',
   },
   {
-    name: 'Linda T.',
+    name: 'Priya K.',
     rating: 5,
-    text: 'Highly recommend! The team goes above and beyond. My son looks forward to his community participation activities every week.',
+    text: 'Reliable, compassionate, and well-organized. I would definitely recommend them.',
   },
 ];
 
@@ -456,6 +456,41 @@ const Index = () => {
                 0469 786 104
               </a>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Location Section */}
+      <section className="section-padding bg-muted/50">
+        <div className="container-custom px-4 md:px-8">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Our Location</h2>
+            <p className="text-muted-foreground mb-8">
+              Visit us at our Melbourne office or get in touch for home-based services across Victoria.
+            </p>
+            <div className="rounded-xl overflow-hidden shadow-md">
+              <a 
+                href="https://www.google.com/maps/search/?api=1&query=9+Damper+Way,+Lynbrook,+Melbourne,+Victoria,+Australia" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3144.6736285384073!2d145.25506421531647!3d-38.05889897971536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad615f3d9c10c1d%3A0x5a0e3d5b2a0e2c47!2s9%20Damper%20Way%2C%20Lynbrook%20VIC%203975%2C%20Australia!5e0!3m2!1sen!2sau!4v1700000000000!5m2!1sen!2sau"
+                  width="100%"
+                  height="300"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Care Matters Hub Location - 9 Damper Way, Lynbrook, Melbourne"
+                  className="pointer-events-none"
+                />
+              </a>
+            </div>
+            <p className="text-sm text-muted-foreground mt-4">
+              9 Damper Way, Lynbrook, Melbourne, Victoria
+            </p>
           </div>
         </div>
       </section>
