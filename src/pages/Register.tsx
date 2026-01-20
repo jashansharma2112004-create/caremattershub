@@ -65,11 +65,10 @@ const Register = () => {
       });
 
       if (emailError) {
-        console.error('Email notification error:', emailError);
+        console.error('Email notification failed');
         // Don't fail the submission if email fails
       }
 
-      console.log('Registration submitted:', data);
       setIsSubmitted(true);
       
       toast({

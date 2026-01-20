@@ -76,6 +76,15 @@ const Careers = () => {
     setResumeFile(file);
   };
 
+  // Sanitize filename to prevent path traversal and special character issues
+  const sanitizeFilename = (filename: string): string => {
+    return filename
+      .replace(/[^a-zA-Z0-9._\-]/g, '_')  // Allow only safe chars
+      .replace(/\.\./g, '_')              // Prevent directory traversal
+      .replace(/^\./g, '_')               // Remove leading dot
+      .substring(0, 200);                 // Leave room for timestamp
+  };
+
   const onSubmit = async (data: FormData) => {
     if (!resumeFile) {
       setResumeError('Please upload your resume');
@@ -85,8 +94,9 @@ const Careers = () => {
     setIsSubmitting(true);
 
     try {
-      // Upload resume to storage
-      const fileName = `${Date.now()}-${resumeFile.name}`;
+      // Upload resume to storage with sanitized filename
+      const sanitizedName = sanitizeFilename(resumeFile.name);
+      const fileName = `${Date.now()}-${sanitizedName}`;
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('resumes')
         .upload(fileName, resumeFile);
