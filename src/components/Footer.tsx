@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { Phone, Mail, Instagram, Facebook } from 'lucide-react';
+import { Phone, Mail, Instagram, Facebook, Shield } from 'lucide-react';
 import logo from '@/assets/logo.jpg';
 import ndisLogo from '@/assets/ndis-logo.png';
+import { useAuth } from '@/contexts/AuthContext';
 
 // TikTok icon component (not in lucide-react)
 const TikTokIcon = ({ className }: { className?: string }) => (
@@ -11,6 +12,8 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 );
 
 const Footer = () => {
+  const { isAdmin } = useAuth();
+
   return (
     <footer className="bg-foreground text-secondary">
       <div className="container-custom section-padding">
@@ -116,14 +119,25 @@ const Footer = () => {
             <p className="text-sm text-secondary/60">
               © 2026 Care Matters Hub. All Rights Reserved.
             </p>
-            <a 
-              href="https://caremattershub.com.au" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-sm text-secondary/60 hover:text-secondary transition-colors"
-            >
-              caremattershub.com.au
-            </a>
+            <div className="flex items-center gap-4">
+              <a 
+                href="https://caremattershub.com.au" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm text-secondary/60 hover:text-secondary transition-colors"
+              >
+                caremattershub.com.au
+              </a>
+              {isAdmin && (
+                <Link 
+                  to="/admin" 
+                  className="flex items-center gap-1.5 text-sm text-secondary/60 hover:text-secondary transition-colors"
+                >
+                  <Shield className="h-3.5 w-3.5" />
+                  Admin
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
