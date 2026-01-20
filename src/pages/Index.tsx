@@ -1,7 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, MessageCircle, Star, HelpCircle, AlertCircle, X } from 'lucide-react';
-import { useModeratedTestimonials } from '@/hooks/useModeratedTestimonials';
+import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, MessageCircle, Star, HelpCircle, AlertCircle } from 'lucide-react';
+import { useApprovedTestimonials } from '@/hooks/useApprovedTestimonials';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import {
@@ -97,32 +97,11 @@ const faqs = [
   },
 ];
 
-const rawTestimonials = [
-  {
-    name: 'Sarah M.',
-    rating: 5,
-    text: 'Care Matters Hub made the entire process smooth and stress-free. Highly professional and supportive.',
-  },
-  {
-    name: 'Daniel R.',
-    rating: 5,
-    text: 'The team was responsive and genuinely cared about our needs. Excellent service.',
-  },
-  {
-    name: 'Priya K.',
-    rating: 5,
-    text: 'Reliable, compassionate, and well-organized. I would definitely recommend them.',
-  },
-];
-
 const Index = () => {
   const [showEmergencyDialog, setShowEmergencyDialog] = useState(false);
   
-  // Memoize raw testimonials to prevent unnecessary re-renders
-  const memoizedRawTestimonials = useMemo(() => rawTestimonials, []);
-  
-  // Use AI-powered content moderation for testimonials
-  const { testimonials, isLoading: isModeratingTestimonials } = useModeratedTestimonials(memoizedRawTestimonials);
+  // Fetch only admin-approved testimonials from database
+  const { testimonials, isLoading: isLoadingTestimonials } = useApprovedTestimonials();
 
   return (
     <Layout>
@@ -379,7 +358,7 @@ const Index = () => {
             </p>
           </div>
 
-          {isModeratingTestimonials ? (
+          {isLoadingTestimonials ? (
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="bg-card p-6 rounded-xl shadow-sm animate-pulse">
