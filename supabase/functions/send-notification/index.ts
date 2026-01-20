@@ -352,7 +352,7 @@ const handler = async (req: Request): Promise<Response> => {
         Authorization: `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "Care Matters Hub <onboarding@resend.dev>",
+        from: "Care Matters Hub <noreply@caremattershub.com.au>",
         to: RECIPIENT_EMAILS,
         subject: subject,
         html: html,
@@ -379,7 +379,7 @@ const handler = async (req: Request): Promise<Response> => {
           Authorization: `Bearer ${RESEND_API_KEY}`,
         },
         body: JSON.stringify({
-          from: "Care Matters Hub <onboarding@resend.dev>",
+          from: "Care Matters Hub <noreply@caremattershub.com.au>",
           to: [String(data.email)],
           subject: userEmail.subject,
           html: userEmail.html,
