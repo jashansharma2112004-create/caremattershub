@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, MessageCircle, Star, HelpCircle, AlertCircle, X } from 'lucide-react';
+import { useModeratedTestimonials } from '@/hooks/useModeratedTestimonials';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import {
@@ -96,7 +97,7 @@ const faqs = [
   },
 ];
 
-const testimonials = [
+const rawTestimonials = [
   {
     name: 'Sarah M.',
     rating: 5,
@@ -116,6 +117,12 @@ const testimonials = [
 
 const Index = () => {
   const [showEmergencyDialog, setShowEmergencyDialog] = useState(false);
+  
+  // Memoize raw testimonials to prevent unnecessary re-renders
+  const memoizedRawTestimonials = useMemo(() => rawTestimonials, []);
+  
+  // Use AI-powered content moderation for testimonials
+  const { testimonials, isLoading: isModeratingTestimonials } = useModeratedTestimonials(memoizedRawTestimonials);
 
   return (
     <Layout>
@@ -372,19 +379,37 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-card p-6 rounded-xl shadow-sm">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-accent text-accent" />
-                  ))}
+          {isModeratingTestimonials ? (
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-card p-6 rounded-xl shadow-sm animate-pulse">
+                  <div className="flex gap-1 mb-4">
+                    {[1, 2, 3, 4, 5].map((j) => (
+                      <div key={j} className="h-5 w-5 bg-muted rounded" />
+                    ))}
+                  </div>
+                  <div className="h-16 bg-muted rounded mb-4" />
+                  <div className="h-4 w-24 bg-muted rounded" />
                 </div>
-                <p className="text-muted-foreground text-sm mb-4 italic">"{testimonial.text}"</p>
-                <p className="font-semibold text-foreground">— {testimonial.name}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : testimonials.length > 0 ? (
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className="bg-card p-6 rounded-xl shadow-sm">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-accent text-accent" />
+                    ))}
+                  </div>
+                  <p className="text-muted-foreground text-sm mb-4 italic">"{testimonial.text}"</p>
+                  <p className="font-semibold text-foreground">— {testimonial.name}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted-foreground">No testimonials available at this time.</p>
+          )}
         </div>
       </section>
 
