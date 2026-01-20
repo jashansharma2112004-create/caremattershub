@@ -64,10 +64,9 @@ const Feedback = () => {
       });
 
       if (emailError) {
-        console.error('Email notification error:', emailError);
+        console.error('Email notification failed');
       }
 
-      console.log('Feedback submitted:', data);
       setIsSubmitted(true);
       
       toast({
