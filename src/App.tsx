@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 // Eagerly load the Index page for best LCP
 import Index from "./pages/Index";
@@ -15,6 +16,8 @@ const Register = lazy(() => import("./pages/Register"));
 const Careers = lazy(() => import("./pages/Careers"));
 const Feedback = lazy(() => import("./pages/Feedback"));
 const Contact = lazy(() => import("./pages/Contact"));
+const AdminLogin = lazy(() => import("./pages/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -28,25 +31,29 @@ const PageLoader = () => (
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/careers" element={<Careers />} />
-            <Route path="/feedback" element={<Feedback />} />
-            <Route path="/contact" element={<Contact />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter>
-    </TooltipProvider>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="/feedback" element={<Feedback />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </TooltipProvider>
+    </AuthProvider>
   </QueryClientProvider>
 );
 
