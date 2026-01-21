@@ -361,53 +361,220 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
   }
 };
 
-const getUserConfirmationEmail = (data: Record<string, unknown>) => {
-  return {
-    subject: 'Registration Successful – Care Matters Hub',
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 30px; text-align: center;">
-          <h1 style="color: white; margin: 0; font-size: 28px;">Care Matters Hub</h1>
-          <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">Quality Care, Every Day</p>
-        </div>
-        <div style="padding: 40px 30px; background: #ffffff;">
-          <h2 style="color: #0e7490; margin-top: 0;">Registration Successful!</h2>
-          <p style="color: #334155; font-size: 16px; line-height: 1.6;">
-            Dear ${escapeHtml(validateInput(data.fullName, 100))},
-          </p>
-          <p style="color: #334155; font-size: 16px; line-height: 1.6;">
-            Thank you for registering with Care Matters Hub. We have received your registration for <strong>${escapeHtml(validateInput(data.service, 100))}</strong>.
-          </p>
-          <p style="color: #334155; font-size: 16px; line-height: 1.6;">
-            Our team will contact you shortly to discuss your care needs and answer any questions you may have.
-          </p>
-          <div style="background: #f0fdfa; border-left: 4px solid #0e7490; padding: 15px 20px; margin: 25px 0;">
-            <p style="color: #0e7490; margin: 0; font-weight: 600;">What happens next?</p>
-            <ul style="color: #334155; margin: 10px 0 0 0; padding-left: 20px;">
-              <li>A member of our team will call you within 1-2 business days</li>
-              <li>We'll discuss your specific care requirements</li>
-              <li>We'll match you with the right support services</li>
-            </ul>
+const getUserConfirmationEmail = (type: string, data: Record<string, unknown>) => {
+  switch (type) {
+    case 'registration':
+      return {
+        subject: 'Welcome to CareMattersHub – Your Service Registration is Successful',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 30px; text-align: center;">
+              <h1 style="color: white; margin: 0; font-size: 28px;">Care Matters Hub</h1>
+              <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">Quality Care, Every Day</p>
+            </div>
+            <div style="padding: 40px 30px; background: #ffffff;">
+              <h2 style="color: #0e7490; margin-top: 0;">Welcome to Care Matters Hub!</h2>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Dear ${escapeHtml(validateInput(data.fullName, 100))},
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Thank you for registering with Care Matters Hub. We're delighted to have you join our community of care.
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Your registration for <strong>${escapeHtml(validateInput(data.service, 100))}</strong> has been successfully received. Our team will review your request and contact you shortly to discuss the next steps.
+              </p>
+              <div style="background: #f0fdfa; border-left: 4px solid #0e7490; padding: 15px 20px; margin: 25px 0;">
+                <p style="color: #0e7490; margin: 0; font-weight: 600;">What happens next?</p>
+                <ul style="color: #334155; margin: 10px 0 0 0; padding-left: 20px;">
+                  <li>A member of our team will call you within 1-2 business days</li>
+                  <li>We'll discuss your specific care requirements</li>
+                  <li>We'll match you with the right support services</li>
+                </ul>
+              </div>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Rest assured, your personal details are kept safe and confidential. We take your privacy seriously.
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                If you have any questions in the meantime, please contact us:
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                📞 <a href="tel:0493457047" style="color: #0e7490;">0493 457 047</a><br>
+                ✉️ <a href="mailto:caremattershub@gmail.com" style="color: #0e7490;">caremattershub@gmail.com</a>
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                Warm regards,<br>
+                <strong>The Care Matters Hub Team</strong>
+              </p>
+            </div>
+            <div style="background: #0e7490; padding: 20px; text-align: center;">
+              <p style="color: white; margin: 0 0 10px 0; font-size: 14px;">
+                <a href="https://caremattershub.com.au" style="color: white;">caremattershub.com.au</a>
+              </p>
+              <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 12px;">
+                &copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.
+              </p>
+            </div>
           </div>
-          <p style="color: #334155; font-size: 16px; line-height: 1.6;">
-            If you have any urgent questions, please don't hesitate to contact us at <a href="tel:0493457047" style="color: #0e7490;">0493 457 047</a> or reply to this email.
-          </p>
-          <p style="color: #334155; font-size: 16px; line-height: 1.6; margin-top: 30px;">
-            Warm regards,<br>
-            <strong>The Care Matters Hub Team</strong>
-          </p>
-        </div>
-        <div style="background: #0e7490; padding: 20px; text-align: center;">
-          <p style="color: white; margin: 0 0 10px 0; font-size: 14px;">
-            <a href="https://caremattershub.com.au" style="color: white;">caremattershub.com.au</a>
-          </p>
-          <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 12px;">
-            &copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.
-          </p>
-        </div>
-      </div>
-    `,
-  };
+        `,
+      };
+
+    case 'feedback':
+      return {
+        subject: 'Thank You for Your Feedback – We Appreciate Your Time',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 30px; text-align: center;">
+              <h1 style="color: white; margin: 0; font-size: 28px;">Care Matters Hub</h1>
+              <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">Quality Care, Every Day</p>
+            </div>
+            <div style="padding: 40px 30px; background: #ffffff;">
+              <h2 style="color: #0e7490; margin-top: 0;">Thank You for Your Feedback!</h2>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Dear ${escapeHtml(validateInput(data.customerName, 100))},
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Thank you sincerely for taking the time to share your feedback with us. Your thoughts and opinions are invaluable to our team.
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                We want you to know that your message has been successfully received. Your feedback helps us understand how we can continue to improve our services and provide the best possible care for our clients.
+              </p>
+              <div style="background: #f0fdfa; border-left: 4px solid #0e7490; padding: 15px 20px; margin: 25px 0;">
+                <p style="color: #334155; margin: 0;">
+                  <strong style="color: #0e7490;">Your feedback matters:</strong> All feedback is reviewed by our management team to ensure we're constantly improving our services.
+                </p>
+              </div>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                We truly appreciate your support and trust in Care Matters Hub.
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                With gratitude,<br>
+                <strong>The Care Matters Hub Team</strong>
+              </p>
+            </div>
+            <div style="background: #0e7490; padding: 20px; text-align: center;">
+              <p style="color: white; margin: 0 0 10px 0; font-size: 14px;">
+                <a href="https://caremattershub.com.au" style="color: white;">caremattershub.com.au</a>
+              </p>
+              <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 12px;">
+                &copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.
+              </p>
+            </div>
+          </div>
+        `,
+      };
+
+    case 'contact':
+      return {
+        subject: 'We Received Your Message – Care Matters Hub',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 30px; text-align: center;">
+              <h1 style="color: white; margin: 0; font-size: 28px;">Care Matters Hub</h1>
+              <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">Quality Care, Every Day</p>
+            </div>
+            <div style="padding: 40px 30px; background: #ffffff;">
+              <h2 style="color: #0e7490; margin-top: 0;">Thank You for Contacting Us!</h2>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Dear ${escapeHtml(validateInput(data.name, 100))},
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Thank you for reaching out to Care Matters Hub. We have received your message and appreciate you taking the time to contact us.
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Our team is reviewing your inquiry and will get back to you as soon as possible. We strive to respond to all messages within 1-2 business days.
+              </p>
+              <div style="background: #f0fdfa; border-left: 4px solid #0e7490; padding: 15px 20px; margin: 25px 0;">
+                <p style="color: #0e7490; margin: 0; font-weight: 600;">Need urgent assistance?</p>
+                <p style="color: #334155; margin: 10px 0 0 0;">
+                  Call us directly at <a href="tel:0493457047" style="color: #0e7490; font-weight: 600;">0493 457 047</a>
+                </p>
+              </div>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                Kind regards,<br>
+                <strong>The Care Matters Hub Team</strong>
+              </p>
+            </div>
+            <div style="background: #0e7490; padding: 20px; text-align: center;">
+              <p style="color: white; margin: 0 0 10px 0; font-size: 14px;">
+                <a href="https://caremattershub.com.au" style="color: white;">caremattershub.com.au</a>
+              </p>
+              <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 12px;">
+                &copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.
+              </p>
+            </div>
+          </div>
+        `,
+      };
+
+    case 'job_application':
+      return {
+        subject: 'Application Received – CareMattersHub Careers',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 30px; text-align: center;">
+              <h1 style="color: white; margin: 0; font-size: 28px;">Care Matters Hub</h1>
+              <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0;">Careers</p>
+            </div>
+            <div style="padding: 40px 30px; background: #ffffff;">
+              <h2 style="color: #0e7490; margin-top: 0;">Application Received</h2>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Dear ${escapeHtml(validateInput(data.fullName, 100))},
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Thank you for applying to join the Care Matters Hub team. We appreciate your interest in becoming part of our dedicated care community.
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                We are pleased to confirm that your application for the <strong>${escapeHtml(validateInput(data.position, 100))}</strong> position has been successfully received, along with all supporting documents.
+              </p>
+              <div style="background: #f0fdfa; border-left: 4px solid #0e7490; padding: 15px 20px; margin: 25px 0;">
+                <p style="color: #0e7490; margin: 0; font-weight: 600;">What happens next?</p>
+                <ul style="color: #334155; margin: 10px 0 0 0; padding-left: 20px;">
+                  <li>Our hiring team will carefully review your application</li>
+                  <li>Shortlisted candidates will be contacted for the next steps</li>
+                  <li>Please keep an eye on your email for updates</li>
+                </ul>
+              </div>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                We wish you the best of luck with your application. Thank you for considering Care Matters Hub as your potential employer.
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                Best regards,<br>
+                <strong>Care Matters Hub Hiring Team</strong>
+              </p>
+            </div>
+            <div style="background: #0e7490; padding: 20px; text-align: center;">
+              <p style="color: white; margin: 0 0 10px 0; font-size: 14px;">
+                <a href="https://caremattershub.com.au" style="color: white;">caremattershub.com.au</a>
+              </p>
+              <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 12px;">
+                &copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.
+              </p>
+            </div>
+          </div>
+        `,
+      };
+
+    default:
+      return {
+        subject: 'Thank You – Care Matters Hub',
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 30px; text-align: center;">
+              <h1 style="color: white; margin: 0; font-size: 28px;">Care Matters Hub</h1>
+            </div>
+            <div style="padding: 40px 30px; background: #ffffff;">
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                Thank you for your submission. We have received your information and will be in touch if needed.
+              </p>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6; margin-top: 30px;">
+                Best regards,<br>
+                <strong>The Care Matters Hub Team</strong>
+              </p>
+            </div>
+          </div>
+        `,
+      };
+  }
 };
 
 const handler = async (req: Request): Promise<Response> => {
@@ -488,13 +655,19 @@ const handler = async (req: Request): Promise<Response> => {
     await sendEmail(RECIPIENT_EMAILS, subject, html);
     console.log("Admin notification email sent successfully");
 
-    // Send user confirmation email for registration type
-    if (type === 'registration' && data.email && isValidEmail(String(data.email))) {
-      const userEmail = getUserConfirmationEmail(data);
+    // Send user confirmation email for all form types
+    // Get user email based on form type
+    const userEmailAddress = type === 'registration' ? data.email :
+                             type === 'feedback' ? data.email :
+                             type === 'contact' ? data.email :
+                             type === 'job_application' ? data.email : null;
+    
+    if (userEmailAddress && isValidEmail(String(userEmailAddress))) {
+      const userConfirmation = getUserConfirmationEmail(type, data);
       
       try {
-        await sendEmail([String(data.email)], userEmail.subject, userEmail.html);
-        console.log("User confirmation email sent successfully");
+        await sendEmail([String(userEmailAddress)], userConfirmation.subject, userConfirmation.html);
+        console.log(`User confirmation email sent successfully for ${type}`);
       } catch (userEmailError) {
         console.error("User confirmation email error:", userEmailError);
       }
