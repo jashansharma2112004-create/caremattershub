@@ -1,6 +1,11 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 
-const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+// SMTP Configuration from environment variables
+const SMTP_HOST = Deno.env.get("SMTP_HOST") || "smtp.gmail.com";
+const SMTP_PORT = parseInt(Deno.env.get("SMTP_PORT") || "587");
+const SMTP_USER = Deno.env.get("SMTP_USER");
+const SMTP_PASS = Deno.env.get("SMTP_PASS");
 
 // Allowed origins for CORS - production domains only (no localhost)
 const ALLOWED_ORIGINS = [
@@ -90,6 +95,38 @@ const isValidEmail = (email: string): boolean => {
 // Validate notification type
 const isValidType = (type: string): type is NotificationRequest['type'] => {
   return ['registration', 'feedback', 'contact', 'job_application'].includes(type);
+};
+
+// Send email using SMTP
+const sendEmail = async (to: string[], subject: string, html: string): Promise<void> => {
+  if (!SMTP_USER || !SMTP_PASS) {
+    throw new Error("SMTP credentials not configured");
+  }
+
+  const client = new SMTPClient({
+    connection: {
+      hostname: SMTP_HOST,
+      port: SMTP_PORT,
+      tls: true,
+      auth: {
+        username: SMTP_USER,
+        password: SMTP_PASS,
+      },
+    },
+  });
+
+  try {
+    await client.send({
+      from: SMTP_USER,
+      to: to,
+      subject: subject,
+      content: "Please view this email in an HTML-compatible email client.",
+      html: html,
+    });
+    console.log(`Email sent successfully to: ${to.join(', ')}`);
+  } finally {
+    await client.close();
+  }
 };
 
 // Email content for admin notifications
@@ -344,55 +381,20 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { subject, html } = getAdminEmailContent(type, data);
 
-    // Send admin notification email using Resend API
-    const adminEmailResponse = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-      },
-      body: JSON.stringify({
-        from: "Care Matters Hub <noreply@caremattershub.com.au>",
-        to: RECIPIENT_EMAILS,
-        subject: subject,
-        html: html,
-      }),
-    });
-
-    const adminEmailResult = await adminEmailResponse.json();
-
-    if (!adminEmailResponse.ok) {
-      console.error("Admin notification email error:", adminEmailResult);
-      throw new Error(adminEmailResult.message || "Failed to send admin notification");
-    }
-
+    // Send admin notification email using Gmail SMTP
+    await sendEmail(RECIPIENT_EMAILS, subject, html);
     console.log("Admin notification email sent successfully");
 
     // Send user confirmation email for registration type
     if (type === 'registration' && data.email && isValidEmail(String(data.email))) {
       const userEmail = getUserConfirmationEmail(data);
       
-      const userEmailResponse = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${RESEND_API_KEY}`,
-        },
-        body: JSON.stringify({
-          from: "Care Matters Hub <noreply@caremattershub.com.au>",
-          to: [String(data.email)],
-          subject: userEmail.subject,
-          html: userEmail.html,
-        }),
-      });
-
-      const userEmailResult = await userEmailResponse.json();
-
-      if (!userEmailResponse.ok) {
-        console.error("User confirmation email error:", userEmailResult);
-        // Don't fail the whole request if user email fails, admin was already notified
-      } else {
+      try {
+        await sendEmail([String(data.email)], userEmail.subject, userEmail.html);
         console.log("User confirmation email sent successfully");
+      } catch (userEmailError) {
+        console.error("User confirmation email error:", userEmailError);
+        // Don't fail the whole request if user email fails, admin was already notified
       }
     }
 
