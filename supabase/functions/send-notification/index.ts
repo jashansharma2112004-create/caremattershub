@@ -1,5 +1,4 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { SMTPClient } from "https://deno.land/x/denomailer@1.6.0/mod.ts";
 
 // SMTP Configuration from environment variables
 const SMTP_HOST = Deno.env.get("SMTP_HOST") || "smtp.gmail.com";
@@ -38,7 +37,6 @@ const checkRateLimit = (clientIp: string): { allowed: boolean; remaining: number
   const now = Date.now();
   const record = rateLimitStore.get(clientIp);
 
-  // Clean up expired entries periodically
   if (rateLimitStore.size > 1000) {
     for (const [key, value] of rateLimitStore.entries()) {
       if (now > value.resetTime) {
@@ -48,7 +46,6 @@ const checkRateLimit = (clientIp: string): { allowed: boolean; remaining: number
   }
 
   if (!record || now > record.resetTime) {
-    // First request or window expired
     rateLimitStore.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
     return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - 1 };
   }
@@ -66,7 +63,6 @@ interface NotificationRequest {
   data: Record<string, unknown>;
 }
 
-// HTML escape function to prevent HTML injection
 const escapeHtml = (text: unknown): string => {
   const str = String(text ?? '');
   return str
@@ -77,7 +73,6 @@ const escapeHtml = (text: unknown): string => {
     .replace(/'/g, '&#039;');
 };
 
-// Input validation helper
 const validateInput = (value: unknown, maxLength: number = 1000): string => {
   const str = String(value ?? '').trim();
   if (str.length > maxLength) {
@@ -86,50 +81,166 @@ const validateInput = (value: unknown, maxLength: number = 1000): string => {
   return str;
 };
 
-// Validate email format
 const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
-// Validate notification type
 const isValidType = (type: string): type is NotificationRequest['type'] => {
   return ['registration', 'feedback', 'contact', 'job_application'].includes(type);
 };
 
-// Send email using SMTP
+// Base64 encode for SMTP AUTH
+const base64Encode = (str: string): string => {
+  return btoa(str);
+};
+
+// Send email using raw SMTP with STARTTLS
 const sendEmail = async (to: string[], subject: string, html: string): Promise<void> => {
   if (!SMTP_USER || !SMTP_PASS) {
     throw new Error("SMTP credentials not configured");
   }
 
-  const client = new SMTPClient({
-    connection: {
-      hostname: SMTP_HOST,
-      port: SMTP_PORT,
-      tls: true,
-      auth: {
-        username: SMTP_USER,
-        password: SMTP_PASS,
-      },
-    },
+  console.log(`Connecting to ${SMTP_HOST}:${SMTP_PORT}...`);
+  
+  // Connect to SMTP server
+  const tcpConn = await Deno.connect({
+    hostname: SMTP_HOST,
+    port: SMTP_PORT,
   });
 
+  const encoder = new TextEncoder();
+  const decoder = new TextDecoder();
+
+  // Use a mutable reference that can switch between TCP and TLS
+  let conn: Deno.Conn = tcpConn;
+
+  const read = async (): Promise<string> => {
+    const buffer = new Uint8Array(1024);
+    const n = await conn.read(buffer);
+    if (n === null) throw new Error("Connection closed");
+    const response = decoder.decode(buffer.subarray(0, n));
+    console.log("S:", response.trim());
+    return response;
+  };
+
+  const write = async (cmd: string): Promise<void> => {
+    console.log("C:", cmd.trim());
+    await conn.write(encoder.encode(cmd));
+  };
+
   try {
-    await client.send({
-      from: SMTP_USER,
-      to: to,
-      subject: subject,
-      content: "Please view this email in an HTML-compatible email client.",
-      html: html,
-    });
+    // Read greeting
+    await read();
+
+    // Send EHLO
+    await write(`EHLO ${SMTP_HOST}\r\n`);
+    await read();
+
+    // Start TLS
+    await write("STARTTLS\r\n");
+    const tlsResponse = await read();
+    if (!tlsResponse.startsWith("220")) {
+      throw new Error("STARTTLS failed: " + tlsResponse);
+    }
+
+    // Upgrade connection to TLS
+    const tlsConn = await Deno.startTls(tcpConn, { hostname: SMTP_HOST });
+    conn = tlsConn;
+    console.log("TLS connection established");
+
+    // Send EHLO again after TLS
+    await write(`EHLO ${SMTP_HOST}\r\n`);
+    await read();
+
+    // Authenticate with AUTH LOGIN
+    await write("AUTH LOGIN\r\n");
+    const authResponse = await read();
+    if (!authResponse.startsWith("334")) {
+      throw new Error("AUTH LOGIN failed: " + authResponse);
+    }
+
+    // Send username (base64)
+    await write(base64Encode(SMTP_USER) + "\r\n");
+    const userResponse = await read();
+    if (!userResponse.startsWith("334")) {
+      throw new Error("Username rejected: " + userResponse);
+    }
+
+    // Send password (base64)
+    await write(base64Encode(SMTP_PASS) + "\r\n");
+    const passResponse = await read();
+    if (!passResponse.startsWith("235")) {
+      throw new Error("Authentication failed: " + passResponse);
+    }
+
+    console.log("SMTP authenticated successfully");
+
+    // MAIL FROM
+    await write(`MAIL FROM:<${SMTP_USER}>\r\n`);
+    const fromResponse = await read();
+    if (!fromResponse.startsWith("250")) {
+      throw new Error("MAIL FROM failed: " + fromResponse);
+    }
+
+    // RCPT TO for each recipient
+    for (const recipient of to) {
+      await write(`RCPT TO:<${recipient}>\r\n`);
+      const rcptResponse = await read();
+      if (!rcptResponse.startsWith("250")) {
+        console.error(`RCPT TO failed for ${recipient}: ${rcptResponse}`);
+      }
+    }
+
+    // DATA
+    await write("DATA\r\n");
+    const dataResponse = await read();
+    if (!dataResponse.startsWith("354")) {
+      throw new Error("DATA failed: " + dataResponse);
+    }
+
+    // Email headers and body
+    const boundary = "----=_Part_" + Date.now();
+    const emailContent = [
+      `From: Care Matters Hub <${SMTP_USER}>`,
+      `To: ${to.join(", ")}`,
+      `Subject: ${subject}`,
+      "MIME-Version: 1.0",
+      `Content-Type: multipart/alternative; boundary="${boundary}"`,
+      "",
+      `--${boundary}`,
+      "Content-Type: text/plain; charset=utf-8",
+      "Content-Transfer-Encoding: 7bit",
+      "",
+      "Please view this email in an HTML-compatible email client.",
+      "",
+      `--${boundary}`,
+      "Content-Type: text/html; charset=utf-8",
+      "Content-Transfer-Encoding: 7bit",
+      "",
+      html,
+      "",
+      `--${boundary}--`,
+      "",
+      ".\r\n"
+    ].join("\r\n");
+
+    await write(emailContent);
+    const sendResponse = await read();
+    if (!sendResponse.startsWith("250")) {
+      throw new Error("Send failed: " + sendResponse);
+    }
+
+    // QUIT
+    await write("QUIT\r\n");
+    try { await read(); } catch { /* ignore quit response */ }
+
     console.log(`Email sent successfully to: ${to.join(', ')}`);
   } finally {
-    await client.close();
+    try { conn.close(); } catch { /* ignore close errors */ }
   }
 };
 
-// Email content for admin notifications
 const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
   switch (type) {
     case 'registration':
@@ -155,7 +266,7 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
               <p style="margin-top: 20px; color: #334155;">Please follow up with the client within 1-2 business days.</p>
             </div>
             <div style="background: #0e7490; padding: 15px; text-align: center;">
-              <p style="color: white; margin: 0; font-size: 12px;">© ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
+              <p style="color: white; margin: 0; font-size: 12px;">&copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
             </div>
           </div>
         `,
@@ -180,7 +291,7 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
               </table>
             </div>
             <div style="background: #0e7490; padding: 15px; text-align: center;">
-              <p style="color: white; margin: 0; font-size: 12px;">© ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
+              <p style="color: white; margin: 0; font-size: 12px;">&copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
             </div>
           </div>
         `,
@@ -206,7 +317,7 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
               <p style="margin-top: 20px; color: #334155;">Please respond to this inquiry promptly.</p>
             </div>
             <div style="background: #0e7490; padding: 15px; text-align: center;">
-              <p style="color: white; margin: 0; font-size: 12px;">© ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
+              <p style="color: white; margin: 0; font-size: 12px;">&copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
             </div>
           </div>
         `,
@@ -235,7 +346,7 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
               <p style="margin-top: 20px; color: #334155;">Review the application and resume, then follow up within 5-7 business days.</p>
             </div>
             <div style="background: #0e7490; padding: 15px; text-align: center;">
-              <p style="color: white; margin: 0; font-size: 12px;">© ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
+              <p style="color: white; margin: 0; font-size: 12px;">&copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
             </div>
           </div>
         `,
@@ -249,7 +360,6 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
   }
 };
 
-// Email content for user confirmation (registration only)
 const getUserConfirmationEmail = (data: Record<string, unknown>) => {
   return {
     subject: 'Registration Successful – Care Matters Hub',
@@ -291,7 +401,7 @@ const getUserConfirmationEmail = (data: Record<string, unknown>) => {
             <a href="https://caremattershub.com.au" style="color: white;">caremattershub.com.au</a>
           </p>
           <p style="color: rgba(255,255,255,0.8); margin: 0; font-size: 12px;">
-            © ${new Date().getFullYear()} Care Matters Hub. All rights reserved.
+            &copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.
           </p>
         </div>
       </div>
@@ -303,17 +413,14 @@ const handler = async (req: Request): Promise<Response> => {
   const origin = req.headers.get("origin");
   const corsHeaders = getCorsHeaders(origin);
 
-  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Get client IP for rate limiting
   const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || 
                    req.headers.get("x-real-ip") || 
                    "unknown";
 
-  // Check rate limit
   const rateLimit = checkRateLimit(clientIp);
   if (!rateLimit.allowed) {
     console.warn(`Rate limit exceeded for IP: ${clientIp}`);
@@ -330,7 +437,6 @@ const handler = async (req: Request): Promise<Response> => {
     );
   }
 
-  // Verify origin is allowed (additional check beyond CORS)
   if (origin && !ALLOWED_ORIGINS.includes(origin)) {
     console.warn(`Blocked request from unauthorized origin: ${origin}`);
     return new Response(
@@ -340,7 +446,6 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    // Parse and validate request body
     let body: unknown;
     try {
       body = await req.json();
@@ -353,7 +458,6 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { type, data } = body as NotificationRequest;
 
-    // Validate notification type
     if (!type || !isValidType(type)) {
       return new Response(
         JSON.stringify({ error: "Invalid or missing notification type" }),
@@ -361,7 +465,6 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Validate data object exists
     if (!data || typeof data !== 'object') {
       return new Response(
         JSON.stringify({ error: "Invalid or missing data object" }),
@@ -369,7 +472,6 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    // Validate email if present
     if (data.email && !isValidEmail(String(data.email))) {
       return new Response(
         JSON.stringify({ error: "Invalid email format" }),
@@ -394,7 +496,6 @@ const handler = async (req: Request): Promise<Response> => {
         console.log("User confirmation email sent successfully");
       } catch (userEmailError) {
         console.error("User confirmation email error:", userEmailError);
-        // Don't fail the whole request if user email fails, admin was already notified
       }
     }
 
