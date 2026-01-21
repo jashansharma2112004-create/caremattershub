@@ -24,7 +24,8 @@ const getCorsHeaders = (origin: string | null) => {
 
 const RECIPIENT_EMAILS = [
   "Shubh@caremattershub.com.au",
-  "sunil@caremattershub.com.au"
+  "sunil@caremattershub.com.au",
+  "caremattershub@gmail.com"
 ];
 
 // Rate limiting: In-memory store (resets on function cold start, but provides protection)
