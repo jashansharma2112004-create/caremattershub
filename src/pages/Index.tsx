@@ -142,22 +142,11 @@ const Index = () => {
               </Button>
               <Button 
                 size="lg" 
-                asChild
-                className="bg-transparent hover:bg-destructive/10 border-2 border-destructive text-destructive rounded-full px-8"
-              >
-                <a href="tel:0452030000">
-                  <AlertCircle className="mr-2 h-5 w-5" />
-                  EMERGENCY
-                </a>
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
                 className="bg-transparent hover:bg-destructive/10 border-2 border-destructive text-destructive rounded-full px-8"
                 onClick={() => setShowEmergencyDialog(true)}
               >
-                <Phone className="mr-2 h-5 w-5" />
-                Need Care Now?
+                <AlertCircle className="mr-2 h-5 w-5" />
+                EMERGENCY
               </Button>
             </div>
           </div>
