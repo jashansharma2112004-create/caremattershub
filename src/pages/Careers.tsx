@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { CheckCircle, ArrowRight, Upload, FileText, Briefcase } from 'lucide-react';
+import { CheckCircle, ArrowRight, Briefcase } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -11,9 +11,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
 import { supabase } from '@/integrations/supabase/client';
-
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
-const ACCEPTED_FILE_TYPES = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
 const formSchema = z.object({
   fullName: z.string().min(2, 'Full name is required'),
@@ -36,8 +33,6 @@ const positions = [
 const Careers = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [resumeError, setResumeError] = useState<string | null>(null);
   const { toast } = useToast();
 
   const form = useForm<FormData>({
@@ -52,77 +47,23 @@ const Careers = () => {
     },
   });
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    setResumeError(null);
-
-    if (!file) {
-      setResumeFile(null);
-      return;
-    }
-
-    if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
-      setResumeError('Please upload a PDF or Word document');
-      setResumeFile(null);
-      return;
-    }
-
-    if (file.size > MAX_FILE_SIZE) {
-      setResumeError('File size must be less than 5MB');
-      setResumeFile(null);
-      return;
-    }
-
-    setResumeFile(file);
-  };
-
-  // Sanitize filename to prevent path traversal and special character issues
-  const sanitizeFilename = (filename: string): string => {
-    return filename
-      .replace(/[^a-zA-Z0-9._\-]/g, '_')  // Allow only safe chars
-      .replace(/\.\./g, '_')              // Prevent directory traversal
-      .replace(/^\./g, '_')               // Remove leading dot
-      .substring(0, 200);                 // Leave room for timestamp
-  };
-
   const onSubmit = async (data: FormData) => {
-    if (!resumeFile) {
-      setResumeError('Please upload your resume');
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
-      // Upload resume via secure edge function (prevents direct storage access)
-      const formData = new FormData();
-      formData.append('file', resumeFile);
-
-      const { data: uploadData, error: uploadError } = await supabase.functions.invoke('upload-resume', {
-        body: formData,
-      });
-
-      if (uploadError || !uploadData?.fileName) {
-        throw new Error(uploadData?.error || 'Failed to upload resume');
-      }
-
-      const fileName = uploadData.fileName;
-
-      // Send email notification in background (don't await - speeds up submission)
-      supabase.functions.invoke('send-notification', {
+      // Send email notification (await so we can surface errors)
+      const { error: emailError } = await supabase.functions.invoke('send-notification', {
         body: {
           type: 'job_application',
           data: {
             ...data,
-            resumeFileName: fileName,
           },
-          attachment: uploadData.fileData ? {
-            base64: uploadData.fileData.base64,
-            mimeType: uploadData.fileData.mimeType,
-            filename: uploadData.fileData.originalName,
-          } : undefined,
         },
-      }).catch(err => console.error('Email notification error:', err));
+      });
+
+      if (emailError) {
+        throw emailError;
+      }
 
       setIsSubmitted(true);
       toast({
@@ -311,41 +252,6 @@ const Careers = () => {
                       </FormItem>
                     )}
                   />
-
-                  {/* Resume Upload */}
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Upload Resume (PDF/DOC) *</label>
-                    <div className="relative">
-                      <input
-                        type="file"
-                        accept=".pdf,.doc,.docx"
-                        onChange={handleFileChange}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      />
-                      <div className={`flex items-center gap-3 p-4 border-2 border-dashed rounded-lg transition-colors ${
-                        resumeFile ? 'border-accent bg-accent/5' : 'border-border hover:border-primary/50'
-                      }`}>
-                        {resumeFile ? (
-                          <>
-                            <FileText className="h-6 w-6 text-accent" />
-                            <div className="flex-1">
-                              <p className="text-sm font-medium text-foreground">{resumeFile.name}</p>
-                              <p className="text-xs text-muted-foreground">{(resumeFile.size / 1024).toFixed(1)} KB</p>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <Upload className="h-6 w-6 text-muted-foreground" />
-                            <div className="flex-1">
-                              <p className="text-sm font-medium text-foreground">Click to upload or drag and drop</p>
-                              <p className="text-xs text-muted-foreground">PDF, DOC, or DOCX (Max 5MB)</p>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                    {resumeError && <p className="text-sm text-destructive">{resumeError}</p>}
-                  </div>
 
                   <FormField
                     control={form.control}
