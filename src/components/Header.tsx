@@ -29,7 +29,7 @@ const servicesList = [
 const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'About Us', path: '/about' },
-  { name: 'Testimonials', path: '/feedback#testimonials' },
+  { name: 'Testimonials', path: '/#testimonials' },
   { name: 'Register', path: '/register' },
   { name: 'Careers', path: '/careers' },
   { name: 'Feedback', path: '/feedback' },
