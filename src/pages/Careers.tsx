@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { CheckCircle, ArrowRight, Briefcase } from 'lucide-react';
+import { CheckCircle, ArrowRight, Briefcase, Upload, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -11,6 +11,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
 import { supabase } from '@/integrations/supabase/client';
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_FILE_TYPES = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
 
 const formSchema = z.object({
   fullName: z.string().min(2, 'Full name is required'),
@@ -33,6 +36,9 @@ const positions = [
 const Careers = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [resumeFile, setResumeFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const form = useForm<FormData>({
@@ -47,17 +53,75 @@ const Careers = () => {
     },
   });
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setFileError(null);
+    
+    if (!file) {
+      setResumeFile(null);
+      return;
+    }
+
+    if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+      setFileError('Please upload a PDF or Word document (.pdf, .doc, .docx)');
+      setResumeFile(null);
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      setFileError('File size must be less than 5MB');
+      setResumeFile(null);
+      return;
+    }
+
+    setResumeFile(file);
+  };
+
+  const removeFile = () => {
+    setResumeFile(null);
+    setFileError(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
 
     try {
-      // Send email notification (await so we can surface errors)
+      let attachmentData: { base64: string; mimeType: string; filename: string } | undefined;
+
+      // Upload resume if provided
+      if (resumeFile) {
+        const formData = new FormData();
+        formData.append('file', resumeFile);
+
+        const { data: uploadResult, error: uploadError } = await supabase.functions.invoke('upload-resume', {
+          body: formData,
+        });
+
+        if (uploadError) {
+          throw new Error('Failed to upload resume');
+        }
+
+        // Use file data for email attachment
+        if (uploadResult?.fileData) {
+          attachmentData = {
+            base64: uploadResult.fileData.base64,
+            mimeType: uploadResult.fileData.mimeType,
+            filename: uploadResult.fileData.originalName,
+          };
+        }
+      }
+
+      // Send email notification
       const { error: emailError } = await supabase.functions.invoke('send-notification', {
         body: {
           type: 'job_application',
           data: {
             ...data,
           },
+          attachment: attachmentData,
         },
       });
 
@@ -270,6 +334,50 @@ const Careers = () => {
                       </FormItem>
                     )}
                   />
+
+                  {/* Resume Upload */}
+                  <div className="space-y-2">
+                    <FormLabel>Resume (Optional)</FormLabel>
+                    <div className="flex flex-col gap-2">
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        accept=".pdf,.doc,.docx"
+                        className="hidden"
+                        id="resume-upload"
+                      />
+                      {!resumeFile ? (
+                        <label
+                          htmlFor="resume-upload"
+                          className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-muted-foreground/25 rounded-lg cursor-pointer hover:border-primary/50 hover:bg-muted/50 transition-colors"
+                        >
+                          <Upload className="h-5 w-5 text-muted-foreground" />
+                          <span className="text-muted-foreground text-sm">
+                            Upload PDF or Word document (max 5MB)
+                          </span>
+                        </label>
+                      ) : (
+                        <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                          <span className="text-sm text-foreground truncate max-w-[80%]">
+                            {resumeFile.name}
+                          </span>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={removeFile}
+                            className="h-8 w-8 p-0"
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      )}
+                      {fileError && (
+                        <p className="text-sm text-destructive">{fileError}</p>
+                      )}
+                    </div>
+                  </div>
 
                   <div className="pt-4">
                     <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>

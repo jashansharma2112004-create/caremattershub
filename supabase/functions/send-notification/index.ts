@@ -796,8 +796,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { subject, html } = getAdminEmailContent(type, data);
 
-    // Attachments are disabled to improve deliverability.
-    const emailAttachment: Attachment | undefined = undefined;
+    // Attachment from request (for job applications with resume)
+    const emailAttachment: Attachment | undefined = _attachment;
 
     const replyTo = typeof data.email === 'string' && isValidEmail(data.email) ? data.email : undefined;
 
