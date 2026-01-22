@@ -194,11 +194,22 @@ serve(async (req) => {
 
     console.log(`Resume uploaded successfully: ${fileName}`);
 
+    // Convert file bytes to base64 for email attachment
+    const base64Content = btoa(
+      bytes.reduce((data, byte) => data + String.fromCharCode(byte), '')
+    );
+
     return new Response(
       JSON.stringify({ 
         success: true, 
         fileName: fileName,
-        path: uploadData.path
+        path: uploadData.path,
+        // Include file data for email attachment
+        fileData: {
+          base64: base64Content,
+          mimeType: file.type,
+          originalName: file.name
+        }
       }),
       { 
         status: 200, 
