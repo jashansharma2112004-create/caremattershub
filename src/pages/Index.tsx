@@ -133,8 +133,8 @@ const Index = () => {
               We're here to support your independence and well-being. 
               Care that's built around you, not the other way around.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground rounded-full px-8">
+            <div className="flex flex-col sm:flex-row gap-4 items-center">
+              <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground rounded-full px-10 py-6 text-base">
                 <Link to="/register">
                   Register for Service
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -142,7 +142,7 @@ const Index = () => {
               </Button>
               <Button 
                 size="lg" 
-                className="bg-transparent hover:bg-destructive/10 border-2 border-destructive text-destructive rounded-full px-8"
+                className="bg-transparent hover:bg-destructive/10 border-2 border-destructive text-destructive rounded-full px-10 py-6 text-base"
                 onClick={() => setShowEmergencyDialog(true)}
               >
                 <AlertCircle className="mr-2 h-5 w-5" />
