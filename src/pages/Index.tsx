@@ -17,8 +17,9 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import logoSmall from '@/assets/logo-hero-optimized.webp';
+import logoSmall from '@/assets/logo-hero-small.webp';
 import HeroSlideshow from '@/components/HeroSlideshow';
+import LazyGoogleMap from '@/components/LazyGoogleMap';
 
 const services = [
   {
@@ -468,16 +469,10 @@ const Index = () => {
                 rel="noopener noreferrer"
                 className="block"
               >
-                <iframe
+                <LazyGoogleMap
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3144.6736285384073!2d145.25506421531647!3d-38.05889897971536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad615f3d9c10c1d%3A0x5a0e3d5b2a0e2c47!2s9%20Damper%20Way%2C%20Lynbrook%20VIC%203975%2C%20Australia!5e0!3m2!1sen!2sau!4v1700000000000!5m2!1sen!2sau"
-                  width="100%"
-                  height="300"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
                   title="Care Matters Hub Location - 9 Damper Way, Lynbrook, Melbourne"
-                  className="pointer-events-none"
+                  height={300}
                 />
               </a>
             </div>
