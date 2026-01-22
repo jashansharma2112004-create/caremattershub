@@ -29,9 +29,11 @@ const servicesList = [
 const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'About Us', path: '/about' },
+  { name: 'Testimonials', path: '/feedback#testimonials' },
   { name: 'Register', path: '/register' },
   { name: 'Careers', path: '/careers' },
   { name: 'Feedback', path: '/feedback' },
+  { name: 'Contact Us', path: '/contact' },
 ];
 
 const socialLinks = [
@@ -51,8 +53,8 @@ const Header = () => {
     <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
       <div className="container-custom">
         <div className="flex items-center justify-between h-20 px-4 md:px-8">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
+          {/* Logo & Branding */}
+          <Link to="/" className="flex items-center gap-3">
             <img 
               src={logo} 
               alt="Care Matters Hub - Every Life Matters" 
@@ -60,14 +62,17 @@ const Header = () => {
               height={64} 
               className="h-12 md:h-14 w-12 md:w-14 rounded-full object-cover shadow-md animate-blink" 
             />
-            <span className="text-sm md:text-base font-bold text-primary whitespace-nowrap">Care Matters Hub</span>
+            <div className="flex flex-col">
+              <span className="text-sm md:text-lg font-bold text-primary leading-tight">Care Matters Hub</span>
+              <span className="text-[10px] md:text-xs text-muted-foreground font-normal tracking-wide">Every Life Matters</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden xl:flex items-center gap-0.5">
             <Link
               to="/"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive('/')
                   ? 'bg-primary text-primary-foreground'
                   : 'text-foreground hover:bg-secondary'
@@ -77,7 +82,7 @@ const Header = () => {
             </Link>
             <Link
               to="/about"
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive('/about')
                   ? 'bg-primary text-primary-foreground'
                   : 'text-foreground hover:bg-secondary'
@@ -88,13 +93,13 @@ const Header = () => {
             
             {/* Services Dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
+              <DropdownMenuTrigger className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
                 isServicesActive
                   ? 'bg-primary text-primary-foreground'
                   : 'text-foreground hover:bg-secondary'
               }`}>
                 Our Services
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className="h-3 w-3" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56 bg-card border border-border shadow-lg z-50">
                 {servicesList.map((service) => (
@@ -114,7 +119,7 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive(link.path)
                     ? 'bg-primary text-primary-foreground'
                     : 'text-foreground hover:bg-secondary'
@@ -126,26 +131,26 @@ const Header = () => {
           </nav>
 
           {/* Social & CTA (Desktop) */}
-          <div className="hidden lg:flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <a href="https://www.instagram.com/caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Instagram">
+          <div className="hidden xl:flex items-center gap-3">
+            <div className="flex items-center gap-1">
+              <a href="https://www.instagram.com/caremattershub" target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Instagram">
                 <Instagram className="h-4 w-4" />
               </a>
-              <a href="https://www.facebook.com/share/1BBVzwFH6X/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Facebook">
+              <a href="https://www.facebook.com/share/1BBVzwFH6X/" target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Facebook">
                 <Facebook className="h-4 w-4" />
               </a>
-              <a href="https://www.tiktok.com/@caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="TikTok">
+              <a href="https://www.tiktok.com/@caremattershub" target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="TikTok">
                 <TikTokIcon className="h-4 w-4" />
               </a>
             </div>
-            <Button asChild className="rounded-full">
+            <Button asChild size="sm" className="rounded-full">
               <Link to="/register">Get Started</Link>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 rounded-lg hover:bg-secondary transition-colors"
+            className="xl:hidden p-2 rounded-lg hover:bg-secondary transition-colors"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -155,7 +160,7 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-border bg-card animate-fade-in">
+          <div className="xl:hidden border-t border-border bg-card animate-fade-in">
             <nav className="flex flex-col p-4 gap-1">
               <Link
                 to="/"
