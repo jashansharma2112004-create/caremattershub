@@ -1,1 +1,4 @@
 project_id = "tbazbefalnamadvwsopz"
+
+[functions.upload-resume]
+verify_jwt = false
