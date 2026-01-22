@@ -63,7 +63,7 @@ const Header = () => {
               alt="Care Matters Hub - Every Life Matters" 
               width={64} 
               height={64} 
-              className="h-12 md:h-14 w-12 md:w-14 rounded-full object-cover shadow-md animate-logo-entrance" 
+              className="h-12 md:h-14 w-12 md:w-14 rounded-full object-cover shadow-md animate-blink" 
             />
             <div className="flex flex-col">
               <span className="text-sm md:text-lg font-bold text-primary leading-tight">Care Matters Hub</span>
