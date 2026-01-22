@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, Instagram, Facebook, Shield } from 'lucide-react';
-import logo from '@/assets/logo.jpg';
+import logo from '@/assets/logo-small.webp';
 import ndisLogo from '@/assets/ndis-logo.png';
 import { useAuth } from '@/contexts/AuthContext';
 
