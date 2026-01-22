@@ -15,6 +15,7 @@ const Services = lazy(() => import("./pages/Services"));
 const Register = lazy(() => import("./pages/Register"));
 const Careers = lazy(() => import("./pages/Careers"));
 const Feedback = lazy(() => import("./pages/Feedback"));
+const Testimonials = lazy(() => import("./pages/Testimonials"));
 const Contact = lazy(() => import("./pages/Contact"));
 const AdminLogin = lazy(() => import("./pages/AdminLogin"));
 const AdminResetPassword = lazy(() => import("./pages/AdminResetPassword"));
@@ -45,6 +46,7 @@ const App = () => (
               <Route path="/register" element={<Register />} />
               <Route path="/careers" element={<Careers />} />
               <Route path="/feedback" element={<Feedback />} />
+              <Route path="/testimonials" element={<Testimonials />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/admin/login" element={<AdminLogin />} />
               <Route path="/admin/reset-password" element={<AdminResetPassword />} />
