@@ -18,11 +18,14 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 );
 
 const servicesList = [
-  { name: 'Personal Care', path: '/services#personal-care' },
-  { name: 'Daily Living Support', path: '/services#daily-living' },
-  { name: 'Community Participation', path: '/services#community' },
-  { name: 'Transport Assistance', path: '/services#transport' },
-  { name: 'Respite Care', path: '/services#respite' },
+  { name: 'Supported Independent Living (SIL)', path: '/services#sil' },
+  { name: 'Short & Medium Term Accommodation', path: '/services#sta-mta' },
+  { name: 'Personal Care & Daily Living', path: '/services#personal-care' },
+  { name: 'Household & Shared Living', path: '/services#household' },
+  { name: 'Community Access & Transport', path: '/services#community' },
+  { name: 'Community Nursing Care', path: '/services#nursing' },
+  { name: 'Complex Care', path: '/services#complex-care' },
+  { name: 'Restrictive Practices', path: '/services#restrictive' },
   { name: 'View All Services', path: '/services' },
 ];
 
