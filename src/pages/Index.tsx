@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, MessageCircle, Star, HelpCircle, AlertCircle } from 'lucide-react';
+import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, MessageCircle, Star, HelpCircle, AlertCircle, Home, Car, Stethoscope, Brain } from 'lucide-react';
 import { useApprovedTestimonials } from '@/hooks/useApprovedTestimonials';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
@@ -23,24 +23,44 @@ import LazyGoogleMap from '@/components/LazyGoogleMap';
 
 const services = [
   {
-    icon: Heart,
-    title: 'Personal Care',
-    description: 'Daily living support with dignity and respect.',
-  },
-  {
-    icon: Users,
-    title: 'Community Access',
-    description: 'Building connections and social participation.',
-  },
-  {
-    icon: Shield,
-    title: 'Health Support',
-    description: 'Medication management and health monitoring.',
+    icon: Home,
+    title: 'Supported Independent Living (SIL)',
+    description: '24/7 support to live independently in your own home.',
   },
   {
     icon: Clock,
-    title: 'Respite Care',
-    description: 'Quality relief for primary caregivers.',
+    title: 'Short & Medium Term Accommodation',
+    description: 'Flexible STA/MTA options for respite and transitions.',
+  },
+  {
+    icon: Shield,
+    title: 'Personal Care & Daily Living',
+    description: 'Compassionate assistance with daily activities.',
+  },
+  {
+    icon: Users,
+    title: 'Household & Shared Living',
+    description: 'Support for household tasks and shared living.',
+  },
+  {
+    icon: Car,
+    title: 'Community Access & Transport',
+    description: 'Stay connected with reliable transport services.',
+  },
+  {
+    icon: Stethoscope,
+    title: 'Community Nursing Care',
+    description: 'Professional nursing in your home or community.',
+  },
+  {
+    icon: Brain,
+    title: 'Complex Care',
+    description: 'Medication, wound care, enteral feeding & more.',
+  },
+  {
+    icon: Heart,
+    title: 'Restrictive Practices',
+    description: 'NDIS-compliant safety protocols when needed.',
   },
 ];
 
@@ -229,7 +249,7 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {services.map((service, index) => (
               <div 
                 key={index}
