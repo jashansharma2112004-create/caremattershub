@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { CheckCircle, Star, ArrowRight, MessageSquare } from 'lucide-react';
+import { CheckCircle, Star, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -11,7 +11,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
 import { supabase } from '@/integrations/supabase/client';
-import TestimonialForm from '@/components/TestimonialForm';
 
 const formSchema = z.object({
   customerName: z.string().min(2, 'Name is required'),
@@ -23,14 +22,14 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const services = [
-  'Personal Care',
-  'Domestic Assistance',
-  'Community Participation',
-  'Health Management',
-  'Respite Care',
-  'Transport Services',
-  'Capacity Building',
-  'Social Support',
+  'Supported Independent Living (SIL)',
+  'Short & Medium Term Accommodation (STA/MTA)',
+  'Personal Care & Daily Living',
+  'Household & Shared Living',
+  'Community Access & Transport',
+  'Community Nursing Care',
+  'Complex Care',
+  'Restrictive Practices',
   'Other',
 ];
 
@@ -262,25 +261,6 @@ const Feedback = () => {
         </div>
       </section>
 
-      {/* Testimonial Submission Section */}
-      <section className="section-padding bg-muted/50">
-        <div className="container-custom px-4 md:px-8">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <MessageSquare className="h-7 w-7 text-primary" />
-              </div>
-              <h2 className="text-2xl font-semibold text-foreground mb-2">Share Your Story</h2>
-              <p className="text-muted-foreground">
-                Had a great experience? Share your testimonial and help others learn about our services.
-              </p>
-            </div>
-            <div className="card-healthcare">
-              <TestimonialForm />
-            </div>
-          </div>
-        </div>
-      </section>
     </Layout>
   );
 };
