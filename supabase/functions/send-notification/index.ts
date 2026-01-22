@@ -65,9 +65,16 @@ const checkRateLimit = (clientIp: string): { allowed: boolean; remaining: number
   return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - record.count };
 };
 
+interface Attachment {
+  base64: string;
+  mimeType: string;
+  filename: string;
+}
+
 interface NotificationRequest {
   type: 'registration' | 'feedback' | 'contact' | 'job_application';
   data: Record<string, unknown>;
+  attachment?: Attachment;
 }
 
 const escapeHtml = (text: unknown): string => {
@@ -102,8 +109,8 @@ const base64Encode = (str: string): string => {
   return btoa(str);
 };
 
-// Send email using raw SMTP with STARTTLS
-const sendEmail = async (to: string[], subject: string, html: string, cc: string[] = []): Promise<void> => {
+// Send email using raw SMTP with STARTTLS (with optional attachment)
+const sendEmail = async (to: string[], subject: string, html: string, cc: string[] = [], attachment?: Attachment): Promise<void> => {
   if (!SMTP_USER || !SMTP_PASS) {
     throw new Error("SMTP credentials not configured");
   }
@@ -207,8 +214,10 @@ const sendEmail = async (to: string[], subject: string, html: string, cc: string
       throw new Error("DATA failed: " + dataResponse);
     }
 
-    // Email headers and body
+    // Email headers and body - use mixed for attachments, alternative for text/html only
     const boundary = "----=_Part_" + Date.now();
+    const altBoundary = "----=_Alt_" + Date.now();
+    
     const emailHeaders = [
       `From: Care Matters Hub <${PRIMARY_EMAIL}>`,
       `To: ${to.join(", ")}`,
@@ -221,29 +230,73 @@ const sendEmail = async (to: string[], subject: string, html: string, cc: string
     
     emailHeaders.push(
       `Subject: ${subject}`,
-      "MIME-Version: 1.0",
-      `Content-Type: multipart/alternative; boundary="${boundary}"`
+      "MIME-Version: 1.0"
     );
 
-    const emailContent = [
-      ...emailHeaders,
-      "",
-      `--${boundary}`,
-      "Content-Type: text/plain; charset=utf-8",
-      "Content-Transfer-Encoding: 7bit",
-      "",
-      "Please view this email in an HTML-compatible email client.",
-      "",
-      `--${boundary}`,
-      "Content-Type: text/html; charset=utf-8",
-      "Content-Transfer-Encoding: 7bit",
-      "",
-      html,
-      "",
-      `--${boundary}--`,
-      "",
-      ".\r\n"
-    ].join("\r\n");
+    let emailContent: string;
+
+    if (attachment) {
+      // Multipart/mixed with attachment
+      emailHeaders.push(`Content-Type: multipart/mixed; boundary="${boundary}"`);
+      
+      // Break base64 into 76-char lines for MIME compliance
+      const formattedBase64 = attachment.base64.match(/.{1,76}/g)?.join("\r\n") || attachment.base64;
+      
+      emailContent = [
+        ...emailHeaders,
+        "",
+        `--${boundary}`,
+        `Content-Type: multipart/alternative; boundary="${altBoundary}"`,
+        "",
+        `--${altBoundary}`,
+        "Content-Type: text/plain; charset=utf-8",
+        "Content-Transfer-Encoding: 7bit",
+        "",
+        "Please view this email in an HTML-compatible email client.",
+        "",
+        `--${altBoundary}`,
+        "Content-Type: text/html; charset=utf-8",
+        "Content-Transfer-Encoding: 7bit",
+        "",
+        html,
+        "",
+        `--${altBoundary}--`,
+        "",
+        `--${boundary}`,
+        `Content-Type: ${attachment.mimeType}; name="${attachment.filename}"`,
+        "Content-Transfer-Encoding: base64",
+        `Content-Disposition: attachment; filename="${attachment.filename}"`,
+        "",
+        formattedBase64,
+        "",
+        `--${boundary}--`,
+        "",
+        ".\r\n"
+      ].join("\r\n");
+    } else {
+      // No attachment - simple multipart/alternative
+      emailHeaders.push(`Content-Type: multipart/alternative; boundary="${boundary}"`);
+      
+      emailContent = [
+        ...emailHeaders,
+        "",
+        `--${boundary}`,
+        "Content-Type: text/plain; charset=utf-8",
+        "Content-Transfer-Encoding: 7bit",
+        "",
+        "Please view this email in an HTML-compatible email client.",
+        "",
+        `--${boundary}`,
+        "Content-Type: text/html; charset=utf-8",
+        "Content-Transfer-Encoding: 7bit",
+        "",
+        html,
+        "",
+        `--${boundary}--`,
+        "",
+        ".\r\n"
+      ].join("\r\n");
+    }
 
     await write(emailContent);
     const sendResponse = await read();
@@ -667,7 +720,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const { type, data } = body as NotificationRequest;
+    const { type, data, attachment } = body as NotificationRequest;
 
     if (!type || !isValidType(type)) {
       return new Response(
@@ -694,10 +747,13 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { subject, html } = getAdminEmailContent(type, data);
 
+    // For job applications, include the resume attachment
+    const emailAttachment = type === 'job_application' && attachment ? attachment : undefined;
+
     // Send admin notification email to primary email with CC to owners
     // All emails go to caremattershub@gmail.com with CC to both owner emails
-    await sendEmail([PRIMARY_EMAIL], subject, html, OWNER_EMAILS);
-    console.log("Admin notification email sent successfully");
+    await sendEmail([PRIMARY_EMAIL], subject, html, OWNER_EMAILS, emailAttachment);
+    console.log("Admin notification email sent successfully" + (emailAttachment ? " (with attachment)" : ""));
 
     // Send user confirmation email
     // Get user email based on form type

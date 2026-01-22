@@ -108,7 +108,7 @@ const Careers = () => {
 
       const fileName = uploadData.fileName;
 
-      // Send email notification via edge function
+      // Send email notification via edge function with resume attachment
       const { error: emailError } = await supabase.functions.invoke('send-notification', {
         body: {
           type: 'job_application',
@@ -116,6 +116,12 @@ const Careers = () => {
             ...data,
             resumeFileName: fileName,
           },
+          // Include file data for email attachment
+          attachment: uploadData.fileData ? {
+            base64: uploadData.fileData.base64,
+            mimeType: uploadData.fileData.mimeType,
+            filename: uploadData.fileData.originalName,
+          } : undefined,
         },
       });
 
