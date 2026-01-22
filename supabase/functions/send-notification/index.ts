@@ -6,6 +6,18 @@ const SMTP_PORT = parseInt(Deno.env.get("SMTP_PORT") || "587");
 const SMTP_USER = Deno.env.get("SMTP_USER");
 const SMTP_PASS = Deno.env.get("SMTP_PASS");
 
+// Primary sender email
+const PRIMARY_EMAIL = "caremattershub@gmail.com";
+
+// Owner emails - always CC'd on all emails
+const OWNER_EMAILS = [
+  "shubh@caremattershub.com.au",
+  "sunil@caremattershub.com.au"
+];
+
+// All recipient emails for internal notifications
+const RECIPIENT_EMAILS = [PRIMARY_EMAIL, ...OWNER_EMAILS];
+
 // Allowed origins for CORS - production domains only (no localhost)
 const ALLOWED_ORIGINS = [
   "https://caremattershub.com.au",
@@ -21,12 +33,6 @@ const getCorsHeaders = (origin: string | null) => {
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   };
 };
-
-const RECIPIENT_EMAILS = [
-  "Shubh@caremattershub.com.au",
-  "sunil@caremattershub.com.au",
-  "caremattershub@gmail.com"
-];
 
 // Rate limiting: In-memory store (resets on function cold start, but provides protection)
 const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
@@ -97,7 +103,7 @@ const base64Encode = (str: string): string => {
 };
 
 // Send email using raw SMTP with STARTTLS
-const sendEmail = async (to: string[], subject: string, html: string): Promise<void> => {
+const sendEmail = async (to: string[], subject: string, html: string, cc: string[] = []): Promise<void> => {
   if (!SMTP_USER || !SMTP_PASS) {
     throw new Error("SMTP credentials not configured");
   }
@@ -177,15 +183,16 @@ const sendEmail = async (to: string[], subject: string, html: string): Promise<v
 
     console.log("SMTP authenticated successfully");
 
-    // MAIL FROM
+    // MAIL FROM - always send from primary email
     await write(`MAIL FROM:<${SMTP_USER}>\r\n`);
     const fromResponse = await read();
     if (!fromResponse.startsWith("250")) {
       throw new Error("MAIL FROM failed: " + fromResponse);
     }
 
-    // RCPT TO for each recipient
-    for (const recipient of to) {
+    // RCPT TO for each recipient (to + cc)
+    const allRecipients = [...to, ...cc];
+    for (const recipient of allRecipients) {
       await write(`RCPT TO:<${recipient}>\r\n`);
       const rcptResponse = await read();
       if (!rcptResponse.startsWith("250")) {
@@ -202,12 +209,24 @@ const sendEmail = async (to: string[], subject: string, html: string): Promise<v
 
     // Email headers and body
     const boundary = "----=_Part_" + Date.now();
-    const emailContent = [
-      `From: Care Matters Hub <${SMTP_USER}>`,
+    const emailHeaders = [
+      `From: Care Matters Hub <${PRIMARY_EMAIL}>`,
       `To: ${to.join(", ")}`,
+    ];
+    
+    // Add CC header if there are CC recipients
+    if (cc.length > 0) {
+      emailHeaders.push(`Cc: ${cc.join(", ")}`);
+    }
+    
+    emailHeaders.push(
       `Subject: ${subject}`,
       "MIME-Version: 1.0",
-      `Content-Type: multipart/alternative; boundary="${boundary}"`,
+      `Content-Type: multipart/alternative; boundary="${boundary}"`
+    );
+
+    const emailContent = [
+      ...emailHeaders,
       "",
       `--${boundary}`,
       "Content-Type: text/plain; charset=utf-8",
@@ -236,24 +255,42 @@ const sendEmail = async (to: string[], subject: string, html: string): Promise<v
     await write("QUIT\r\n");
     try { await read(); } catch { /* ignore quit response */ }
 
-    console.log(`Email sent successfully to: ${to.join(', ')}`);
+    console.log(`Email sent successfully to: ${to.join(', ')}${cc.length > 0 ? ` (CC: ${cc.join(', ')})` : ''}`);
   } finally {
     try { conn.close(); } catch { /* ignore close errors */ }
   }
 };
 
+// Get admin notification email subject based on form type
+const getAdminEmailSubject = (type: string): string => {
+  switch (type) {
+    case 'registration':
+      return 'New User Registration – Care Matters Hub';
+    case 'feedback':
+      return 'New Feedback Received – Care Matters Hub';
+    case 'contact':
+      return 'New Contact Query – Care Matters Hub';
+    case 'job_application':
+      return 'New Job Application – Care Matters Hub';
+    default:
+      return 'New Form Submission – Care Matters Hub';
+  }
+};
+
 const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
+  const subject = getAdminEmailSubject(type);
+  
   switch (type) {
     case 'registration':
       return {
-        subject: `New Service Registration - ${escapeHtml(validateInput(data.fullName, 100))}`,
+        subject,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 20px; text-align: center;">
               <h1 style="color: white; margin: 0;">Care Matters Hub</h1>
             </div>
             <div style="padding: 30px; background: #f8fafc;">
-              <h2 style="color: #0e7490; margin-top: 0;">New Service Registration</h2>
+              <h2 style="color: #0e7490; margin-top: 0;">New User Registration</h2>
               <p style="color: #334155;">A new service registration has been submitted:</p>
               <table style="border-collapse: collapse; width: 100%; background: white; border-radius: 8px; overflow: hidden;">
                 <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Name:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.fullName, 100))}</td></tr>
@@ -275,14 +312,14 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
 
     case 'feedback':
       return {
-        subject: `Customer Feedback - ${escapeHtml(validateInput(data.customerName, 100))} (Rating: ${escapeHtml(validateInput(data.rating, 1))}/5)`,
+        subject,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 20px; text-align: center;">
               <h1 style="color: white; margin: 0;">Care Matters Hub</h1>
             </div>
             <div style="padding: 30px; background: #f8fafc;">
-              <h2 style="color: #0e7490; margin-top: 0;">Customer Feedback Received</h2>
+              <h2 style="color: #0e7490; margin-top: 0;">New Feedback Received</h2>
               <p style="color: #334155;">A customer has submitted feedback:</p>
               <table style="border-collapse: collapse; width: 100%; background: white; border-radius: 8px; overflow: hidden;">
                 <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Customer Name:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.customerName, 100))}</td></tr>
@@ -300,14 +337,14 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
 
     case 'contact':
       return {
-        subject: `Contact Form Inquiry - ${escapeHtml(validateInput(data.name, 100))}`,
+        subject,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 20px; text-align: center;">
               <h1 style="color: white; margin: 0;">Care Matters Hub</h1>
             </div>
             <div style="padding: 30px; background: #f8fafc;">
-              <h2 style="color: #0e7490; margin-top: 0;">New Contact Form Submission</h2>
+              <h2 style="color: #0e7490; margin-top: 0;">New Contact Query</h2>
               <p style="color: #334155;">Someone has reached out through the contact form:</p>
               <table style="border-collapse: collapse; width: 100%; background: white; border-radius: 8px; overflow: hidden;">
                 <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Name:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.name, 100))}</td></tr>
@@ -326,7 +363,7 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
 
     case 'job_application':
       return {
-        subject: `Job Application - ${escapeHtml(validateInput(data.fullName, 100))} (${escapeHtml(validateInput(data.position, 100))})`,
+        subject,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 20px; text-align: center;">
@@ -355,7 +392,7 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
 
     default:
       return {
-        subject: 'New Form Submission - Care Matters Hub',
+        subject,
         html: `<h2>New Form Submission</h2><pre>${escapeHtml(JSON.stringify(data, null, 2))}</pre>`,
       };
   }
@@ -365,7 +402,7 @@ const getUserConfirmationEmail = (type: string, data: Record<string, unknown>) =
   switch (type) {
     case 'registration':
       return {
-        subject: 'Welcome to CareMattersHub – Your Service Registration is Successful',
+        subject: 'Welcome to Care Matters Hub – Your Service Registration is Successful',
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 30px; text-align: center;">
@@ -420,7 +457,7 @@ const getUserConfirmationEmail = (type: string, data: Record<string, unknown>) =
 
     case 'feedback':
       return {
-        subject: 'Thank You for Your Feedback – We Appreciate Your Time',
+        subject: 'Thank You for Your Feedback – Care Matters Hub',
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 30px; text-align: center;">
@@ -443,6 +480,9 @@ const getUserConfirmationEmail = (type: string, data: Record<string, unknown>) =
                   <strong style="color: #0e7490;">Your feedback matters:</strong> All feedback is reviewed by our management team to ensure we're constantly improving our services.
                 </p>
               </div>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                The Care Matters Hub team will be in touch if we need any additional information.
+              </p>
               <p style="color: #334155; font-size: 16px; line-height: 1.6;">
                 We truly appreciate your support and trust in Care Matters Hub.
               </p>
@@ -508,7 +548,7 @@ const getUserConfirmationEmail = (type: string, data: Record<string, unknown>) =
 
     case 'job_application':
       return {
-        subject: 'Application Received – CareMattersHub Careers',
+        subject: 'Application Received – Care Matters Hub Careers',
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <div style="background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); padding: 30px; text-align: center;">
@@ -534,6 +574,9 @@ const getUserConfirmationEmail = (type: string, data: Record<string, unknown>) =
                   <li>Please keep an eye on your email for updates</li>
                 </ul>
               </div>
+              <p style="color: #334155; font-size: 16px; line-height: 1.6;">
+                The Care Matters Hub team will contact you shortly to discuss the next steps.
+              </p>
               <p style="color: #334155; font-size: 16px; line-height: 1.6;">
                 We wish you the best of luck with your application. Thank you for considering Care Matters Hub as your potential employer.
               </p>
@@ -564,7 +607,7 @@ const getUserConfirmationEmail = (type: string, data: Record<string, unknown>) =
             </div>
             <div style="padding: 40px 30px; background: #ffffff;">
               <p style="color: #334155; font-size: 16px; line-height: 1.6;">
-                Thank you for your submission. We have received your information and will be in touch if needed.
+                Thank you for your submission. We have received your information and the Care Matters Hub team will be in touch shortly.
               </p>
               <p style="color: #334155; font-size: 16px; line-height: 1.6; margin-top: 30px;">
                 Best regards,<br>
@@ -651,11 +694,12 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { subject, html } = getAdminEmailContent(type, data);
 
-    // Send admin notification email using Gmail SMTP
-    await sendEmail(RECIPIENT_EMAILS, subject, html);
+    // Send admin notification email to primary email with CC to owners
+    // All emails go to caremattershub@gmail.com with CC to both owner emails
+    await sendEmail([PRIMARY_EMAIL], subject, html, OWNER_EMAILS);
     console.log("Admin notification email sent successfully");
 
-    // Send user confirmation email for all form types
+    // Send user confirmation email
     // Get user email based on form type
     const userEmailAddress = type === 'registration' ? data.email :
                              type === 'feedback' ? data.email :
@@ -666,7 +710,8 @@ const handler = async (req: Request): Promise<Response> => {
       const userConfirmation = getUserConfirmationEmail(type, data);
       
       try {
-        await sendEmail([String(userEmailAddress)], userConfirmation.subject, userConfirmation.html);
+        // Send confirmation to user from primary email, CC owners
+        await sendEmail([String(userEmailAddress)], userConfirmation.subject, userConfirmation.html, OWNER_EMAILS);
         console.log(`User confirmation email sent successfully for ${type}`);
       } catch (userEmailError) {
         console.error("User confirmation email error:", userEmailError);
