@@ -9,6 +9,9 @@ const SMTP_PASS = Deno.env.get("SMTP_PASS");
 // Primary sender email
 const PRIMARY_EMAIL = "caremattershub@gmail.com";
 
+// Used for Message-ID header (helps deliverability / threading)
+const MESSAGE_ID_DOMAIN = "caremattershub.com.au";
+
 // Owner emails - always CC'd on all emails
 const OWNER_EMAILS = [
   "shubh@caremattershub.com.au",
@@ -16,7 +19,7 @@ const OWNER_EMAILS = [
 ];
 
 // All recipient emails for internal notifications
-const RECIPIENT_EMAILS = [PRIMARY_EMAIL, ...OWNER_EMAILS];
+// (kept intentionally simple: admin notifications go to PRIMARY_EMAIL and CC owners)
 
 // Allowed origins for CORS - production domains only (no localhost)
 const ALLOWED_ORIGINS = [
@@ -109,8 +112,47 @@ const base64Encode = (str: string): string => {
   return btoa(str);
 };
 
+const htmlToText = (html: string): string => {
+  return html
+    // Remove style/script blocks
+    .replace(/<style[\s\S]*?>[\s\S]*?<\/style>/gi, "")
+    .replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, "")
+    // Convert basic line breaks
+    .replace(/<\s*br\s*\/?\s*>/gi, "\n")
+    .replace(/<\s*\/p\s*>/gi, "\n\n")
+    .replace(/<\s*\/div\s*>/gi, "\n")
+    .replace(/<\s*\/li\s*>/gi, "\n")
+    // Strip remaining tags
+    .replace(/<[^>]+>/g, " ")
+    // Decode common entities
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;/g, "'")
+    // Normalize whitespace
+    .replace(/\r\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
+};
+
+type SendEmailOptions = {
+  replyTo?: string;
+  text?: string;
+  extraHeaders?: string[];
+};
+
 // Send email using raw SMTP with STARTTLS (with optional attachment)
-const sendEmail = async (to: string[], subject: string, html: string, cc: string[] = [], attachment?: Attachment): Promise<void> => {
+const sendEmail = async (
+  to: string[],
+  subject: string,
+  html: string,
+  cc: string[] = [],
+  attachment?: Attachment,
+  options: SendEmailOptions = {},
+): Promise<void> => {
   if (!SMTP_USER || !SMTP_PASS) {
     throw new Error("SMTP credentials not configured");
   }
@@ -217,6 +259,9 @@ const sendEmail = async (to: string[], subject: string, html: string, cc: string
     // Email headers and body - use mixed for attachments, alternative for text/html only
     const boundary = "----=_Part_" + Date.now();
     const altBoundary = "----=_Alt_" + Date.now();
+
+    const plainText = (options.text ?? htmlToText(html)) || "";
+    const messageId = `<${crypto.randomUUID()}@${MESSAGE_ID_DOMAIN}>`;
     
     const emailHeaders = [
       `From: Care Matters Hub <${PRIMARY_EMAIL}>`,
@@ -230,6 +275,11 @@ const sendEmail = async (to: string[], subject: string, html: string, cc: string
     
     emailHeaders.push(
       `Subject: ${subject}`,
+      `Date: ${new Date().toUTCString()}`,
+      `Message-ID: ${messageId}`,
+      "Content-Language: en",
+      ...(options.replyTo ? [`Reply-To: ${options.replyTo}`] : []),
+      ...(options.extraHeaders?.length ? options.extraHeaders : []),
       "MIME-Version: 1.0"
     );
 
@@ -252,7 +302,7 @@ const sendEmail = async (to: string[], subject: string, html: string, cc: string
         "Content-Type: text/plain; charset=utf-8",
         "Content-Transfer-Encoding: 7bit",
         "",
-        "Please view this email in an HTML-compatible email client.",
+        plainText,
         "",
         `--${altBoundary}`,
         "Content-Type: text/html; charset=utf-8",
@@ -284,7 +334,7 @@ const sendEmail = async (to: string[], subject: string, html: string, cc: string
         "Content-Type: text/plain; charset=utf-8",
         "Content-Transfer-Encoding: 7bit",
         "",
-        "Please view this email in an HTML-compatible email client.",
+        plainText,
         "",
         `--${boundary}`,
         "Content-Type: text/html; charset=utf-8",
@@ -431,10 +481,9 @@ const getAdminEmailContent = (type: string, data: Record<string, unknown>) => {
                 <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Phone:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.phone, 20))}</td></tr>
                 <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Position:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.position, 100))}</td></tr>
                 <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top;"><strong>Work Experience:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.workExperience, 2000))}</td></tr>
-                <tr><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;"><strong>Resume:</strong></td><td style="padding: 12px; border-bottom: 1px solid #e2e8f0;">${escapeHtml(validateInput(data.resumeFileName, 255))}</td></tr>
                 ${data.message ? `<tr><td style="padding: 12px;"><strong>Message:</strong></td><td style="padding: 12px;">${escapeHtml(validateInput(data.message, 2000))}</td></tr>` : ''}
               </table>
-              <p style="margin-top: 20px; color: #334155;">Review the application and resume, then follow up within 5-7 business days.</p>
+              <p style="margin-top: 20px; color: #334155;">Review the application and follow up within 5-7 business days.</p>
             </div>
             <div style="background: #0e7490; padding: 15px; text-align: center;">
               <p style="color: white; margin: 0; font-size: 12px;">&copy; ${new Date().getFullYear()} Care Matters Hub. All rights reserved.</p>
@@ -617,7 +666,7 @@ const getUserConfirmationEmail = (type: string, data: Record<string, unknown>) =
                 Thank you for applying to join the Care Matters Hub team. We appreciate your interest in becoming part of our dedicated care community.
               </p>
               <p style="color: #334155; font-size: 16px; line-height: 1.6;">
-                We are pleased to confirm that your application for the <strong>${escapeHtml(validateInput(data.position, 100))}</strong> position has been successfully received, along with all supporting documents.
+                We are pleased to confirm that your application for the <strong>${escapeHtml(validateInput(data.position, 100))}</strong> position has been successfully received.
               </p>
               <div style="background: #f0fdfa; border-left: 4px solid #0e7490; padding: 15px 20px; margin: 25px 0;">
                 <p style="color: #0e7490; margin: 0; font-weight: 600;">What happens next?</p>
@@ -720,7 +769,7 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
-    const { type, data, attachment } = body as NotificationRequest;
+    const { type, data, attachment: _attachment } = body as NotificationRequest;
 
     if (!type || !isValidType(type)) {
       return new Response(
@@ -747,12 +796,14 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { subject, html } = getAdminEmailContent(type, data);
 
-    // For job applications, include the resume attachment
-    const emailAttachment = type === 'job_application' && attachment ? attachment : undefined;
+    // Attachments are disabled to improve deliverability.
+    const emailAttachment: Attachment | undefined = undefined;
+
+    const replyTo = typeof data.email === 'string' && isValidEmail(data.email) ? data.email : undefined;
 
     // Send admin notification email to primary email with CC to owners
     // All emails go to caremattershub@gmail.com with CC to both owner emails
-    await sendEmail([PRIMARY_EMAIL], subject, html, OWNER_EMAILS, emailAttachment);
+    await sendEmail([PRIMARY_EMAIL], subject, html, OWNER_EMAILS, emailAttachment, { replyTo });
     console.log("Admin notification email sent successfully" + (emailAttachment ? " (with attachment)" : ""));
 
     // Send user confirmation email
@@ -767,7 +818,20 @@ const handler = async (req: Request): Promise<Response> => {
       
       try {
         // Send confirmation to user from primary email, CC owners
-        await sendEmail([String(userEmailAddress)], userConfirmation.subject, userConfirmation.html, OWNER_EMAILS);
+        await sendEmail(
+          [String(userEmailAddress)],
+          userConfirmation.subject,
+          userConfirmation.html,
+          OWNER_EMAILS,
+          undefined,
+          {
+            replyTo: PRIMARY_EMAIL,
+            extraHeaders: [
+              "Auto-Submitted: auto-generated",
+              "X-Auto-Response-Suppress: All",
+            ],
+          },
+        );
         console.log(`User confirmation email sent successfully for ${type}`);
       } catch (userEmailError) {
         console.error("User confirmation email error:", userEmailError);
