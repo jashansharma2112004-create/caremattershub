@@ -55,6 +55,41 @@
     
     <!-- Preload LCP image -->
     <link rel="preload" as="image" href="/src/assets/hero-care-optimized.webp" fetchpriority="high" />
+
+    <!-- GA4 (gtag.js) - injected at build time via Vite env replacement -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA4_MEASUREMENT_ID%"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments);} // eslint-disable-line no-unused-vars
+      window.gtag = window.gtag || gtag;
+
+      (function () {
+        // Vite replaces these placeholders at build time
+        var gaId = "%VITE_GA4_MEASUREMENT_ID%";
+        var mode = "%MODE%";
+
+        // Run GA only in production builds
+        if (mode !== "production") return;
+        if (!gaId || gaId.indexOf("G-") !== 0) return;
+
+        window.gtag("js", new Date());
+
+        // Fire the initial page_view automatically (avoid admin routes)
+        var isAdminRoute =
+          window.location &&
+          window.location.pathname &&
+          window.location.pathname.indexOf("/admin") === 0;
+
+        window.gtag("config", gaId, {
+          anonymize_ip: true,
+          cookie_flags: "SameSite=None;Secure",
+          send_page_view: !isAdminRoute,
+        });
+
+        // Used by SPA route tracking to avoid double-firing the initial page_view
+        window.__GA4_INITIAL_PAGEVIEW__ = !isAdminRoute;
+      })();
+    </script>
     
     <!-- Organization Structured Data -->
     <script type="application/ld+json">

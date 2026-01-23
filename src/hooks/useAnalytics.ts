@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import {
   loadGA4Script,
@@ -15,6 +15,7 @@ import {
  */
 export function useAnalytics() {
   const location = useLocation();
+  const hasHandledInitialPageViewRef = useRef(false);
 
   // Initialize GA4 on mount
   useEffect(() => {
@@ -27,6 +28,17 @@ export function useAnalytics() {
 
     // Reset scroll tracking for new page
     resetScrollTracking();
+
+    // If `index.html` already fired the initial page_view via gtag('config', ...),
+    // skip the first SPA page_view to avoid duplicates.
+    const isFirstRouteEffect = !hasHandledInitialPageViewRef.current;
+    hasHandledInitialPageViewRef.current = true;
+
+    const initialPageViewAlreadySent =
+      typeof window !== 'undefined' &&
+      (window as any).__GA4_INITIAL_PAGEVIEW__ === true;
+
+    if (isFirstRouteEffect && initialPageViewAlreadySent) return;
 
     // Small delay to ensure document.title is updated
     const timeoutId = setTimeout(() => {
