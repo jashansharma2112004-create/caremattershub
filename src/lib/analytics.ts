@@ -12,7 +12,7 @@
  */
 
 // GA4 Measurement ID from environment variable
-const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA4_MEASUREMENT_ID as string | undefined;
 
 // Check if we're in production and have a valid measurement ID
 const isProduction = import.meta.env.PROD;
