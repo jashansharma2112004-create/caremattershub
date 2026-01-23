@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Star, Loader2, Send } from 'lucide-react';
+import { trackFormSubmission } from '@/lib/analytics';
 
 const TestimonialForm = () => {
   const [name, setName] = useState('');
@@ -52,6 +53,11 @@ const TestimonialForm = () => {
         });
 
       if (error) throw error;
+
+      // Track form submission
+      trackFormSubmission('Testimonial Form', 'testimonial', {
+        rating,
+      });
 
       setIsSubmitted(true);
       toast({
