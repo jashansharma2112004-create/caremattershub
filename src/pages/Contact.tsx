@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Clock, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
+import { SEO, BreadcrumbSchema } from '@/components/SEO';
 
 const teamMembers = [
   {
@@ -21,6 +22,18 @@ const teamMembers = [
 const Contact = () => {
   return (
     <Layout>
+      <SEO
+        title="Contact Us - Get in Touch"
+        description="Contact Care Matters Hub for NDIS support services in Melbourne. Call +61 452 030 000 or +61 469 786 104. 24/7 emergency support available."
+        canonical="/contact"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Contact', url: '/contact' },
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="section-padding gradient-primary">
         <div className="container-custom px-4 md:px-8">

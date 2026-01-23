@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
+import { SEO, BreadcrumbSchema } from '@/components/SEO';
 import { supabase } from '@/integrations/supabase/client';
 
 const formSchema = z.object({
@@ -113,6 +114,18 @@ const Register = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Register for NDIS Services"
+        description="Register for Care Matters Hub's NDIS support services. Easy online form to start your care journey. Same-day service available across Melbourne."
+        canonical="/register"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Register', url: '/register' },
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="section-padding gradient-primary">
         <div className="container-custom px-4 md:px-8">

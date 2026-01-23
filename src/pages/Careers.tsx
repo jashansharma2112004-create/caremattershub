@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
+import { SEO, BreadcrumbSchema } from '@/components/SEO';
 import { supabase } from '@/integrations/supabase/client';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -172,6 +173,18 @@ const Careers = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Careers - Join Our Care Team"
+        description="Join Care Matters Hub's team of healthcare professionals. We're hiring support workers, nurses, and care staff in Melbourne. Flexible hours and career growth."
+        canonical="/careers"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Careers', url: '/careers' },
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="section-padding gradient-primary">
         <div className="container-custom px-4 md:px-8">
