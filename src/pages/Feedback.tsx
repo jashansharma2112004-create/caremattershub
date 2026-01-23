@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
+import { SEO, BreadcrumbSchema } from '@/components/SEO';
 import { supabase } from '@/integrations/supabase/client';
 
 const formSchema = z.object({
@@ -111,6 +112,18 @@ const Feedback = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Share Your Feedback"
+        description="Share your experience with Care Matters Hub. Your feedback helps us improve our NDIS support services and better serve the Melbourne community."
+        canonical="/feedback"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Feedback', url: '/feedback' },
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="section-padding gradient-primary">
         <div className="container-custom px-4 md:px-8">

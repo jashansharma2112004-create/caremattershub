@@ -4,6 +4,7 @@ import { Heart, Users, Shield, Clock, ArrowRight, CheckCircle, Phone, Mail, Mess
 import { useApprovedTestimonials } from '@/hooks/useApprovedTestimonials';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
+import { SEO, OrganizationSchema, LocalBusinessSchema, WebsiteSchema, FAQSchema } from '@/components/SEO';
 import {
   Accordion,
   AccordionContent,
@@ -126,6 +127,16 @@ const Index = () => {
 
   return (
     <Layout>
+      <SEO
+        title="NDIS Healthcare & Support Services Melbourne"
+        description="Care Matters Hub is a registered NDIS provider in Melbourne offering disability support, personal care, community nursing, and independent living services. Every life matters."
+        canonical="/"
+      />
+      <OrganizationSchema />
+      <LocalBusinessSchema />
+      <WebsiteSchema />
+      <FAQSchema faqs={faqs} />
+
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">

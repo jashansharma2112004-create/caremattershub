@@ -1,3 +1,6 @@
+# robots.txt for Care Matters Hub
+# https://caremattershub.com.au
+
 User-agent: Googlebot
 Allow: /
 
@@ -12,3 +15,10 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+# Sitemap location
+Sitemap: https://caremattershub.com.au/sitemap.xml
+
+# Disallow admin pages from indexing
+Disallow: /admin
+Disallow: /admin/

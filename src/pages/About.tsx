@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Target, Heart, Award, Users, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
+import { SEO, BreadcrumbSchema } from '@/components/SEO';
 import teamImage from '@/assets/team.jpg';
 
 const coreValues = [
@@ -25,6 +26,18 @@ const coreValues = [
 const About = () => {
   return (
     <Layout>
+      <SEO
+        title="About Us - Our Mission & Values"
+        description="Learn about Care Matters Hub's mission to empower lives through compassionate NDIS care. Our experienced team provides person-centred healthcare across Melbourne."
+        canonical="/about"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'About Us', url: '/about' },
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="section-padding gradient-primary">
         <div className="container-custom px-4 md:px-8">

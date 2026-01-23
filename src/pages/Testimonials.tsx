@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Filter, ChevronLeft, ChevronRight, MessageSquareHeart } from 'lucide-react';
 import Layout from '@/components/Layout';
+import { SEO, BreadcrumbSchema } from '@/components/SEO';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -53,6 +54,18 @@ const Testimonials = () => {
 
   return (
     <Layout>
+      <SEO
+        title="Client Testimonials & Reviews"
+        description="Read testimonials from families who trust Care Matters Hub with their NDIS care needs. Real stories from our Melbourne community."
+        canonical="/testimonials"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Testimonials', url: '/testimonials' },
+        ]}
+      />
+
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-16 md:py-20">
         <div className="container-custom px-4 md:px-8">

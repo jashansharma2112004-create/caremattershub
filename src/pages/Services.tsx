@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
+import { SEO, BreadcrumbSchema, ServiceSchema } from '@/components/SEO';
 
 const services = [
   {
@@ -65,8 +66,23 @@ const services = [
 ];
 
 const Services = () => {
+  const serviceSchemaData = services.map(s => ({ name: s.title, description: s.description }));
+
   return (
     <Layout>
+      <SEO
+        title="NDIS Support Services - SIL, Personal Care, Nursing"
+        description="Explore Care Matters Hub's NDIS services: Supported Independent Living (SIL), personal care, community nursing, complex care, and more. Same-day service available."
+        canonical="/services"
+      />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services' },
+        ]}
+      />
+      <ServiceSchema services={serviceSchemaData} />
+
       {/* Hero Section */}
       <section className="section-padding gradient-primary">
         <div className="container-custom px-4 md:px-8">
