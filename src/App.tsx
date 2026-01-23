@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 
 // Eagerly load the Index page for best LCP
 import Index from "./pages/Index";
@@ -41,24 +42,26 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/careers" element={<Careers />} />
-                <Route path="/feedback" element={<Feedback />} />
-                <Route path="/testimonials" element={<Testimonials />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/admin/reset-password" element={<AdminResetPassword />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </Suspense>
+            <AnalyticsProvider>
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/services" element={<Services />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/careers" element={<Careers />} />
+                  <Route path="/feedback" element={<Feedback />} />
+                  <Route path="/testimonials" element={<Testimonials />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/admin/login" element={<AdminLogin />} />
+                  <Route path="/admin/reset-password" element={<AdminResetPassword />} />
+                  <Route path="/admin" element={<AdminDashboard />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </AnalyticsProvider>
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>

@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
 import { SEO, BreadcrumbSchema } from '@/components/SEO';
 import { supabase } from '@/integrations/supabase/client';
+import { trackFormSubmission } from '@/lib/analytics';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
@@ -129,6 +130,12 @@ const Careers = () => {
       if (emailError) {
         throw emailError;
       }
+
+      // Track form submission
+      trackFormSubmission('Job Application Form', 'job_application', {
+        position: data.position,
+        has_resume: !!resumeFile,
+      });
 
       setIsSubmitted(true);
       toast({

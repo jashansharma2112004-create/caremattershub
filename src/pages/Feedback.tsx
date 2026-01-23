@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
 import { SEO, BreadcrumbSchema } from '@/components/SEO';
 import { supabase } from '@/integrations/supabase/client';
+import { trackFormSubmission } from '@/lib/analytics';
 
 const formSchema = z.object({
   customerName: z.string().min(2, 'Name is required'),
@@ -67,6 +68,12 @@ const Feedback = () => {
       if (emailError) {
         console.error('Email notification failed');
       }
+
+      // Track form submission
+      trackFormSubmission('Service Feedback Form', 'feedback', {
+        service_type: data.serviceTaken,
+        rating: data.rating,
+      });
 
       setIsSubmitted(true);
       
