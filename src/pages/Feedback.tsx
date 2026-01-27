@@ -120,8 +120,8 @@ const Feedback = () => {
   return (
     <Layout>
       <SEO
-        title="Share Your Feedback"
-        description="Share your experience with Care Matters Hub. Your feedback helps us improve our NDIS support services and better serve the Melbourne community."
+        title="Share Your Feedback | Care Matters Hub Melbourne"
+        description="Share your experience with Care Matters Hub. Your feedback helps us improve our NDIS disability support services for the Melbourne community."
         canonical="/feedback"
       />
       <BreadcrumbSchema

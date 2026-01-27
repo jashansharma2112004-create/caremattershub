@@ -71,8 +71,8 @@ const Services = () => {
   return (
     <Layout>
       <SEO
-        title="NDIS Support Services - SIL, Personal Care, Nursing"
-        description="Explore Care Matters Hub's NDIS services: Supported Independent Living (SIL), personal care, community nursing, complex care, and more. Same-day service available."
+        title="NDIS Services Melbourne | SIL, Personal Care & Nursing"
+        description="Explore NDIS services by Care Matters Hub: Supported Independent Living (SIL), personal care, community nursing, STA/MTA, and complex care. Same-day service in Melbourne."
         canonical="/services"
       />
       <BreadcrumbSchema

@@ -181,8 +181,8 @@ const Careers = () => {
   return (
     <Layout>
       <SEO
-        title="Careers - Join Our Care Team"
-        description="Join Care Matters Hub's team of healthcare professionals. We're hiring support workers, nurses, and care staff in Melbourne. Flexible hours and career growth."
+        title="NDIS Jobs Melbourne | Support Worker & Nursing Careers"
+        description="Join Care Matters Hub in Melbourne. We're hiring NDIS support workers, enrolled nurses, and registered nurses. Flexible hours, training, and career growth opportunities."
         canonical="/careers"
       />
       <BreadcrumbSchema

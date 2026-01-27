@@ -8,8 +8,8 @@ const Privacy = () => {
   return (
     <Layout>
       <SEO
-        title="Privacy Policy"
-        description="Care Matters Hub privacy policy. Learn how we collect, use, and protect your personal information in accordance with Australian privacy laws."
+        title="Privacy Policy | Care Matters Hub"
+        description="Care Matters Hub privacy policy. Learn how we collect, use, and protect your personal information in accordance with Australian privacy laws and NDIS requirements."
         canonical="/privacy"
       />
       <BreadcrumbSchema
