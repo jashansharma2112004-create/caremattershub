@@ -55,8 +55,8 @@ const Testimonials = () => {
   return (
     <Layout>
       <SEO
-        title="Client Testimonials & Reviews"
-        description="Read testimonials from families who trust Care Matters Hub with their NDIS care needs. Real stories from our Melbourne community."
+        title="Client Testimonials | NDIS Provider Reviews Melbourne"
+        description="Read reviews and testimonials from families who trust Care Matters Hub for NDIS support. Real stories from our Melbourne disability care community."
         canonical="/testimonials"
       />
       <BreadcrumbSchema

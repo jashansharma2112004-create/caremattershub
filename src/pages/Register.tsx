@@ -121,8 +121,8 @@ const Register = () => {
   return (
     <Layout>
       <SEO
-        title="Register for NDIS Services"
-        description="Register for Care Matters Hub's NDIS support services. Easy online form to start your care journey. Same-day service available across Melbourne."
+        title="Register for NDIS Services | Care Matters Hub Melbourne"
+        description="Register for NDIS support services with Care Matters Hub. Easy online form to start your care journey. Same-day service available across Melbourne."
         canonical="/register"
       />
       <BreadcrumbSchema

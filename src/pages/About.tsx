@@ -27,8 +27,8 @@ const About = () => {
   return (
     <Layout>
       <SEO
-        title="About Us - Our Mission & Values"
-        description="Learn about Care Matters Hub's mission to empower lives through compassionate NDIS care. Our experienced team provides person-centred healthcare across Melbourne."
+        title="About Us | NDIS Care Provider Melbourne"
+        description="Learn about Care Matters Hub, a trusted NDIS provider in Melbourne. Our mission is empowering lives through compassionate, person-centred disability support services."
         canonical="/about"
       />
       <BreadcrumbSchema

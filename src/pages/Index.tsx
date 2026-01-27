@@ -128,8 +128,8 @@ const Index = () => {
   return (
     <Layout>
       <SEO
-        title="NDIS Healthcare & Support Services Melbourne"
-        description="Care Matters Hub is a registered NDIS provider in Melbourne offering disability support, personal care, community nursing, and independent living services. Every life matters."
+        title="NDIS Provider Melbourne | Disability Support Services"
+        description="Care Matters Hub is a registered NDIS provider in Melbourne. We offer disability support, personal care, community nursing, SIL, and independent living services. Same-day service available."
         canonical="/"
       />
       <OrganizationSchema />
@@ -219,7 +219,7 @@ const Index = () => {
             </div>
             <div className="bg-muted rounded-lg p-4">
               <p className="text-sm font-semibold text-foreground mb-2">Business Hours</p>
-              <p className="text-sm text-muted-foreground">Monday - Friday: 9am - 5pm</p>
+              <p className="text-sm text-muted-foreground">Monday - Friday: 9am - 6pm</p>
               <p className="text-sm text-muted-foreground">Saturday: 9am - 4pm</p>
               <p className="text-sm text-muted-foreground">Sunday: Closed</p>
               <p className="text-xs text-muted-foreground mt-2 italic">
@@ -359,7 +359,7 @@ const Index = () => {
               {/* Business Hours */}
               <div className="mt-6 pt-6 border-t border-border">
                 <p className="text-sm font-semibold text-foreground mb-2">Office Hours</p>
-                <p className="text-sm text-muted-foreground">Mon - Fri: 9am - 5pm</p>
+                <p className="text-sm text-muted-foreground">Mon - Fri: 9am - 6pm</p>
                 <p className="text-sm text-muted-foreground">Saturday: 9am - 4pm</p>
                 <p className="text-sm text-muted-foreground">Sunday: Closed</p>
                 <p className="text-xs text-primary mt-1">24/7 Emergency Support Available</p>
