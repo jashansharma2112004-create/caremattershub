@@ -140,7 +140,7 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
-          {/* Faded Logo on Left */}
+          {/* Faded Logo on Left - lazy load since it's decorative */}
           <img 
             src={logoSmall} 
             alt="" 
@@ -148,6 +148,7 @@ const Index = () => {
             height={112}
             loading="lazy"
             decoding="async"
+            aria-hidden="true"
             className="absolute top-8 left-8 w-20 h-20 md:w-28 md:h-28 rounded-full object-cover opacity-30 z-10"
           />
           
