@@ -25,13 +25,19 @@ const HeroSlideshow = () => {
       ]);
     };
 
-    // Delay loading until after LCP
-    const timer = requestIdleCallback 
-      ? requestIdleCallback(() => loadRemainingSlides())
-      : setTimeout(loadRemainingSlides, 2000);
+    // Delay loading until after LCP - use setTimeout as fallback for Safari
+    let timer: ReturnType<typeof setTimeout> | number;
+    
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window && typeof (window as Window & { requestIdleCallback?: (cb: () => void) => number }).requestIdleCallback === 'function') {
+      timer = (window as Window & { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(() => loadRemainingSlides());
+    } else {
+      timer = setTimeout(loadRemainingSlides, 2000);
+    }
 
     return () => {
-      if (typeof timer === 'number') {
+      if (typeof window !== 'undefined' && 'cancelIdleCallback' in window && typeof (window as Window & { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback === 'function') {
+        (window as Window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(timer as number);
+      } else {
         clearTimeout(timer);
       }
     };
