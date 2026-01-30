@@ -76,8 +76,9 @@
       .container-custom{width:100%;max-width:1280px;margin:0 auto}
     </style>
     
-    <!-- Non-render-blocking CSS loading -->
-    <link rel="preload" href="/src/index.css" as="style" />
+    <!-- Non-render-blocking CSS loading using media trick -->
+    <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript><link rel="stylesheet" href="/src/index.css" /></noscript>
 
     <!-- GA4 (gtag.js) - injected at build time via Vite env replacement -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA4_MEASUREMENT_ID%"></script>
