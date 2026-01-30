@@ -52,9 +52,21 @@
     <!-- Preconnect to external origins for faster loading -->
     <link rel="preconnect" href="https://tbazbefalnamadvwsopz.supabase.co" crossorigin />
     <link rel="dns-prefetch" href="https://tbazbefalnamadvwsopz.supabase.co" />
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
     
     <!-- Preload LCP image -->
-    <link rel="preload" as="image" href="/src/assets/hero-care-optimized.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/src/assets/hero-care-optimized.webp" fetchpriority="high" type="image/webp" />
+    
+    <!-- Critical CSS for immediate paint -->
+    <style>
+      body{margin:0;font-family:system-ui,-apple-system,sans-serif}
+      #root{min-height:100vh}
+      .hero-skeleton{min-height:80vh;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);display:flex;align-items:center}
+      .hero-skeleton .content{padding:2rem;max-width:36rem}
+      .hero-skeleton h1{font-size:2.5rem;font-weight:800;color:#fff;margin:0 0 1rem;line-height:1.1}
+      .hero-skeleton p{font-size:1.125rem;color:rgba(255,255,255,.9);margin:0}
+      @media(min-width:768px){.hero-skeleton h1{font-size:3rem}}
+    </style>
 
     <!-- GA4 (gtag.js) - injected at build time via Vite env replacement -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=%VITE_GA4_MEASUREMENT_ID%"></script>
@@ -205,7 +217,15 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- SSR-like skeleton for faster FCP -->
+      <div class="hero-skeleton" aria-hidden="true">
+        <div class="content">
+          <h1>Every Life Matters</h1>
+          <p>We're here to support your independence and well-being.</p>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
