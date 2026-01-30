@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback, memo } from 'react';
 import heroImage from '@/assets/hero-care-compressed.webp';
+import heroSlide1 from '@/assets/hero-slide-1-compressed.webp';
+import heroSlide2 from '@/assets/hero-slide-2-compressed.webp';
+import heroSlide3 from '@/assets/hero-slide-3-compressed.webp';
 
 // Slide data type
 interface Slide {
@@ -7,73 +10,27 @@ interface Slide {
   alt: string;
 }
 
-// Static first slide for immediate LCP
-const INITIAL_SLIDE: Slide = {
-  src: heroImage,
-  alt: 'Quality care and support services',
-};
+// All slides loaded immediately for fastest first paint
+const SLIDES: Slide[] = [
+  { src: heroImage, alt: 'Quality care and support services' },
+  { src: heroSlide1, alt: 'Independence and mobility support' },
+  { src: heroSlide2, alt: 'Community participation and social activities' },
+  { src: heroSlide3, alt: 'Personalized care assistance' },
+];
 
-// Defer loading other slides to reduce LCP blocking
 const HeroSlideshow = memo(() => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [allSlidesLoaded, setAllSlidesLoaded] = useState(false);
-  const [slides, setSlides] = useState<Slide[]>([INITIAL_SLIDE]);
 
-  // Load remaining slides after initial paint using IntersectionObserver
+  // Auto-advance slideshow
   useEffect(() => {
-    let cancelled = false;
-
-    const loadRemainingSlides = async () => {
-      try {
-        const [slide1, slide2, slide3] = await Promise.all([
-          import('@/assets/hero-slide-1-compressed.webp'),
-          import('@/assets/hero-slide-2-compressed.webp'),
-          import('@/assets/hero-slide-3-compressed.webp'),
-        ]);
-
-        if (cancelled) return;
-
-        setSlides([
-          INITIAL_SLIDE,
-          { src: slide1.default, alt: 'Independence and mobility support' },
-          { src: slide2.default, alt: 'Community participation and social activities' },
-          { src: slide3.default, alt: 'Personalized care assistance' },
-        ]);
-        setAllSlidesLoaded(true);
-      } catch (error) {
-        console.error('Failed to load slideshow images:', error);
-      }
-    };
-
-    // Use requestIdleCallback with fallback for Safari/mobile
-    const scheduleLoad = () => {
-      if ('requestIdleCallback' in window) {
-        const id = window.requestIdleCallback(() => loadRemainingSlides(), { timeout: 3000 });
-        return () => window.cancelIdleCallback(id);
-      } else {
-        const timer = setTimeout(loadRemainingSlides, 1500);
-        return () => clearTimeout(timer);
-      }
-    };
-
-    const cleanup = scheduleLoad();
-
-    return () => {
-      cancelled = true;
-      cleanup();
-    };
-  }, []);
-
-  // Auto-advance slideshow only after all slides loaded
-  useEffect(() => {
-    if (!allSlidesLoaded || slides.length <= 1) return;
+    if (SLIDES.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setCurrentSlide((prev) => (prev + 1) % SLIDES.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [allSlidesLoaded, slides.length]);
+  }, []);
 
   const handleSlideClick = useCallback((index: number) => {
     setCurrentSlide(index);
@@ -83,8 +40,8 @@ const HeroSlideshow = memo(() => {
     <>
       {/* First slide - always render immediately for LCP */}
       <img
-        src={INITIAL_SLIDE.src}
-        alt={INITIAL_SLIDE.alt}
+        src={SLIDES[0].src}
+        alt={SLIDES[0].alt}
         width={1920}
         height={1080}
         fetchPriority="high"
@@ -95,27 +52,26 @@ const HeroSlideshow = memo(() => {
         }`}
       />
 
-      {/* Remaining slides - only render after loaded */}
-      {allSlidesLoaded &&
-        slides.slice(1).map((slide, index) => (
-          <img
-            key={index + 1}
-            src={slide.src}
-            alt={slide.alt}
-            width={1920}
-            height={1080}
-            loading="lazy"
-            decoding="async"
-            className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ${
-              index + 1 === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-        ))}
+      {/* Remaining slides */}
+      {SLIDES.slice(1).map((slide, index) => (
+        <img
+          key={index + 1}
+          src={slide.src}
+          alt={slide.alt}
+          width={1920}
+          height={1080}
+          loading="eager"
+          decoding="async"
+          className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-700 ${
+            index + 1 === currentSlide ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+      ))}
 
-      {/* Slide indicators - only show when all slides loaded */}
-      {allSlidesLoaded && slides.length > 1 && (
+      {/* Slide indicators */}
+      {SLIDES.length > 1 && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-          {slides.map((_, index) => (
+          {SLIDES.map((_, index) => (
             <button
               key={index}
               onClick={() => handleSlideClick(index)}
