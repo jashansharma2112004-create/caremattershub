@@ -146,7 +146,8 @@ const Index = () => {
             alt="" 
             width={112}
             height={112}
-            loading="eager"
+            loading="lazy"
+            decoding="async"
             className="absolute top-8 left-8 w-20 h-20 md:w-28 md:h-28 rounded-full object-cover opacity-30 z-10"
           />
           

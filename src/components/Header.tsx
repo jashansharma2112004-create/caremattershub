@@ -63,6 +63,8 @@ const Header = () => {
               alt="Care Matters Hub - Every Life Matters" 
               width={64} 
               height={64} 
+              loading="lazy"
+              decoding="async"
               className="h-12 md:h-14 w-12 md:w-14 rounded-full object-cover shadow-md animate-blink" 
             />
             <div className="flex flex-col">
