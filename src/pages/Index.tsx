@@ -18,7 +18,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import logoSmall from '@/assets/logo-hero-small.webp';
+import logoSmall from '@/assets/logo-compressed.webp';
 import HeroSlideshow from '@/components/HeroSlideshow';
 import LazyGoogleMap from '@/components/LazyGoogleMap';
 
