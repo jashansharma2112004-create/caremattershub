@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import heroImage from '@/assets/hero-care-optimized.webp';
+import heroImage from '@/assets/hero-care-compressed.webp';
 
 // Defer loading other slides to reduce LCP blocking
 const HeroSlideshow = () => {
@@ -12,9 +12,9 @@ const HeroSlideshow = () => {
   useEffect(() => {
     const loadRemainingSlides = async () => {
       const [slide1, slide2, slide3] = await Promise.all([
-        import('@/assets/hero-slide-1-optimized.webp'),
-        import('@/assets/hero-slide-2-optimized.webp'),
-        import('@/assets/hero-slide-3-optimized.webp'),
+        import('@/assets/hero-slide-1-compressed.webp'),
+        import('@/assets/hero-slide-2-compressed.webp'),
+        import('@/assets/hero-slide-3-compressed.webp'),
       ]);
       
       setLoadedSlides([
