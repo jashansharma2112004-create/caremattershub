@@ -62,9 +62,10 @@ export function useApprovedTestimonials(): UseApprovedTestimonialsResult {
     }
 
     // Defer fetch until after initial paint to avoid blocking LCP
+    // Use setTimeout as fallback for Safari which doesn't support requestIdleCallback
     const deferFetch = () => {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => fetchTestimonials(), { timeout: 3000 });
+      if (typeof window !== 'undefined' && 'requestIdleCallback' in window && typeof (window as Window & { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback === 'function') {
+        (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback(() => fetchTestimonials(), { timeout: 3000 });
       } else {
         setTimeout(fetchTestimonials, 100);
       }
