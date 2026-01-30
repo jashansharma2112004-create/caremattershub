@@ -722,6 +722,54 @@ const getUserConfirmationEmail = (type: string, data: Record<string, unknown>) =
   }
 };
 
+// Background email sending function
+const sendEmailsInBackground = async (
+  type: NotificationRequest['type'],
+  data: Record<string, unknown>,
+  emailAttachment?: Attachment
+): Promise<void> => {
+  const { subject, html } = getAdminEmailContent(type, data);
+  const replyTo = typeof data.email === 'string' && isValidEmail(data.email) ? data.email : undefined;
+
+  try {
+    // Send admin notification email to primary email with CC to owners
+    await sendEmail([PRIMARY_EMAIL], subject, html, OWNER_EMAILS, emailAttachment, { replyTo });
+    console.log("Admin notification email sent successfully" + (emailAttachment ? " (with attachment)" : ""));
+  } catch (adminEmailError) {
+    console.error("Admin email error:", adminEmailError);
+  }
+
+  // Send user confirmation email
+  const userEmailAddress = type === 'registration' ? data.email :
+                           type === 'feedback' ? data.email :
+                           type === 'contact' ? data.email :
+                           type === 'job_application' ? data.email : null;
+  
+  if (userEmailAddress && isValidEmail(String(userEmailAddress))) {
+    const userConfirmation = getUserConfirmationEmail(type, data);
+    
+    try {
+      await sendEmail(
+        [String(userEmailAddress)],
+        userConfirmation.subject,
+        userConfirmation.html,
+        OWNER_EMAILS,
+        undefined,
+        {
+          replyTo: PRIMARY_EMAIL,
+          extraHeaders: [
+            "Auto-Submitted: auto-generated",
+            "X-Auto-Response-Suppress: All",
+          ],
+        },
+      );
+      console.log(`User confirmation email sent successfully for ${type}`);
+    } catch (userEmailError) {
+      console.error("User confirmation email error:", userEmailError);
+    }
+  }
+};
+
 const handler = async (req: Request): Promise<Response> => {
   const origin = req.headers.get("origin");
   const corsHeaders = getCorsHeaders(origin);
@@ -794,50 +842,21 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Processing ${type} notification from IP: ${clientIp} (${rateLimit.remaining} requests remaining)`);
 
-    const { subject, html } = getAdminEmailContent(type, data);
-
     // Attachment from request (for job applications with resume)
     const emailAttachment: Attachment | undefined = _attachment;
 
-    const replyTo = typeof data.email === 'string' && isValidEmail(data.email) ? data.email : undefined;
-
-    // Send admin notification email to primary email with CC to owners
-    // All emails go to caremattershub@gmail.com with CC to both owner emails
-    await sendEmail([PRIMARY_EMAIL], subject, html, OWNER_EMAILS, emailAttachment, { replyTo });
-    console.log("Admin notification email sent successfully" + (emailAttachment ? " (with attachment)" : ""));
-
-    // Send user confirmation email
-    // Get user email based on form type
-    const userEmailAddress = type === 'registration' ? data.email :
-                             type === 'feedback' ? data.email :
-                             type === 'contact' ? data.email :
-                             type === 'job_application' ? data.email : null;
-    
-    if (userEmailAddress && isValidEmail(String(userEmailAddress))) {
-      const userConfirmation = getUserConfirmationEmail(type, data);
-      
-      try {
-        // Send confirmation to user from primary email, CC owners
-        await sendEmail(
-          [String(userEmailAddress)],
-          userConfirmation.subject,
-          userConfirmation.html,
-          OWNER_EMAILS,
-          undefined,
-          {
-            replyTo: PRIMARY_EMAIL,
-            extraHeaders: [
-              "Auto-Submitted: auto-generated",
-              "X-Auto-Response-Suppress: All",
-            ],
-          },
-        );
-        console.log(`User confirmation email sent successfully for ${type}`);
-      } catch (userEmailError) {
-        console.error("User confirmation email error:", userEmailError);
-      }
+    // Use EdgeRuntime.waitUntil to send emails in background
+    // This returns immediately while emails are sent asynchronously
+    // @ts-ignore - EdgeRuntime is available in Supabase Edge Functions
+    if (typeof EdgeRuntime !== 'undefined' && EdgeRuntime.waitUntil) {
+      // @ts-ignore
+      EdgeRuntime.waitUntil(sendEmailsInBackground(type, data, emailAttachment));
+    } else {
+      // Fallback for environments without EdgeRuntime (shouldn't happen in production)
+      sendEmailsInBackground(type, data, emailAttachment).catch(console.error);
     }
 
+    // Return immediately - emails will be sent in background
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
       headers: {
