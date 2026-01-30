@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 
 interface Testimonial {
@@ -18,8 +18,12 @@ export function useApprovedTestimonials(): UseApprovedTestimonialsResult {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasFetched = useRef(false);
 
   useEffect(() => {
+    // Skip if already fetched
+    if (hasFetched.current) return;
+    
     let isMounted = true;
 
     async function fetchTestimonials() {
@@ -43,6 +47,7 @@ export function useApprovedTestimonials(): UseApprovedTestimonialsResult {
         }
 
         setTestimonials(data || []);
+        hasFetched.current = true;
       } catch (err) {
         console.error('Testimonials error:', err);
         if (isMounted) {
@@ -56,7 +61,16 @@ export function useApprovedTestimonials(): UseApprovedTestimonialsResult {
       }
     }
 
-    fetchTestimonials();
+    // Defer fetch until after initial paint to avoid blocking LCP
+    const deferFetch = () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => fetchTestimonials(), { timeout: 3000 });
+      } else {
+        setTimeout(fetchTestimonials, 100);
+      }
+    };
+
+    deferFetch();
 
     return () => {
       isMounted = false;
