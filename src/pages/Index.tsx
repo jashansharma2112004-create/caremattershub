@@ -152,23 +152,24 @@ const Index = () => {
             className="absolute top-8 left-8 w-20 h-20 md:w-28 md:h-28 rounded-full object-cover opacity-30 z-10"
           />
           
-          {/* Hero Slideshow */}
+          {/* Hero Slideshow - no overlay, clean natural images */}
           <HeroSlideshow />
-          
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/70" />
         </div>
         
-        <div className="relative container-custom px-4 md:px-8 py-16">
+        {/* Subtle left-side gradient for text readability - no tint on images */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent z-10" />
+        
+        <div className="relative container-custom px-4 md:px-8 py-16 z-20">
           <div className="max-w-xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-primary-foreground mb-5 leading-tight tracking-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-5 leading-tight tracking-tight">
               <span className="drop-shadow-lg">Every Life Matters</span>
             </h1>
-            <p className="text-lg text-primary-foreground/90 mb-8 leading-relaxed">
+            <p className="text-lg text-white/90 mb-8 leading-relaxed drop-shadow-sm">
               We're here to support your independence and well-being. 
               Care that's built around you, not the other way around.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-center">
-              <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground rounded-full px-10 py-6 text-base">
+              <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground rounded-full px-10 py-6 text-base shadow-lg">
                 <Link to="/register">
                   Register for Service
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -176,7 +177,7 @@ const Index = () => {
               </Button>
               <Button 
                 size="lg" 
-                className="bg-transparent hover:bg-destructive/10 border-2 border-destructive text-destructive rounded-full px-10 py-6 text-base"
+                className="bg-white/90 hover:bg-white border-2 border-destructive text-destructive rounded-full px-10 py-6 text-base shadow-lg"
                 onClick={() => setShowEmergencyDialog(true)}
               >
                 <AlertCircle className="mr-2 h-5 w-5" />
