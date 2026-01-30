@@ -1,30 +1,59 @@
-import { useState, useEffect } from 'react';
-import heroSlide1 from '@/assets/hero-slide-1-optimized.webp';
-import heroSlide2 from '@/assets/hero-slide-2-optimized.webp';
-import heroSlide3 from '@/assets/hero-slide-3-optimized.webp';
+import { useState, useEffect, useCallback } from 'react';
 import heroImage from '@/assets/hero-care-optimized.webp';
 
-const slides = [
-  { src: heroImage, alt: 'Quality care and support services' },
-  { src: heroSlide1, alt: 'Independence and mobility support' },
-  { src: heroSlide2, alt: 'Community participation and social activities' },
-  { src: heroSlide3, alt: 'Personalized care assistance' },
-];
-
+// Defer loading other slides to reduce LCP blocking
 const HeroSlideshow = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [loadedSlides, setLoadedSlides] = useState<Array<{ src: string; alt: string }>>([
+    { src: heroImage, alt: 'Quality care and support services' },
+  ]);
+
+  // Load remaining slides after initial paint
+  useEffect(() => {
+    const loadRemainingSlides = async () => {
+      const [slide1, slide2, slide3] = await Promise.all([
+        import('@/assets/hero-slide-1-optimized.webp'),
+        import('@/assets/hero-slide-2-optimized.webp'),
+        import('@/assets/hero-slide-3-optimized.webp'),
+      ]);
+      
+      setLoadedSlides([
+        { src: heroImage, alt: 'Quality care and support services' },
+        { src: slide1.default, alt: 'Independence and mobility support' },
+        { src: slide2.default, alt: 'Community participation and social activities' },
+        { src: slide3.default, alt: 'Personalized care assistance' },
+      ]);
+    };
+
+    // Delay loading until after LCP
+    const timer = requestIdleCallback 
+      ? requestIdleCallback(() => loadRemainingSlides())
+      : setTimeout(loadRemainingSlides, 2000);
+
+    return () => {
+      if (typeof timer === 'number') {
+        clearTimeout(timer);
+      }
+    };
+  }, []);
 
   useEffect(() => {
+    if (loadedSlides.length <= 1) return;
+    
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000); // Change slide every 5 seconds
+      setCurrentSlide((prev) => (prev + 1) % loadedSlides.length);
+    }, 5000);
 
     return () => clearInterval(interval);
+  }, [loadedSlides.length]);
+
+  const handleSlideClick = useCallback((index: number) => {
+    setCurrentSlide(index);
   }, []);
 
   return (
     <>
-      {slides.map((slide, index) => (
+      {loadedSlides.map((slide, index) => (
         <img
           key={index}
           src={slide.src}
@@ -40,21 +69,23 @@ const HeroSlideshow = () => {
         />
       ))}
       
-      {/* Slide indicators */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              index === currentSlide
-                ? 'bg-white w-8'
-                : 'bg-white/50 hover:bg-white/75'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      {/* Slide indicators - only show when all slides loaded */}
+      {loadedSlides.length > 1 && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+          {loadedSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => handleSlideClick(index)}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                index === currentSlide
+                  ? 'bg-white w-8'
+                  : 'bg-white/50 hover:bg-white/75'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 };
