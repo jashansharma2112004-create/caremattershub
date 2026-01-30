@@ -4,56 +4,54 @@
 
 /* Google Fonts loaded via index.html with preconnect and font-display:swap for performance */
 
-/* Care Matters Hub Design System
+/* Care Matters Hub Premium Healthcare Design System
    Typography: DM Sans (headings) + Inter (body)
-   Colors: Soft blue primary, calm green accent, neutral greys */
+   Colors: Clean white/grey base, cyan accent for CTAs and highlights only */
 
 @layer base {
   :root {
-    /* Background & Surface Colors */
-    --background: 210 20% 98%;
-    --foreground: 210 25% 15%;
+    /* Background & Surface Colors - Clean, neutral white/grey */
+    --background: 0 0% 100%;
+    --foreground: 220 15% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 210 25% 15%;
+    --card-foreground: 220 15% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 210 25% 15%;
+    --popover-foreground: 220 15% 20%;
 
-    /* Primary: Cyan Blue - Trust & Care */
-    --primary: 188 75% 45%;
+    /* Primary: Cyan Blue - Used ONLY for accents */
+    --primary: 188 75% 42%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Light Grey Blue */
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 210 25% 25%;
+    /* Secondary: Soft warm grey */
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 15% 30%;
 
-    /* Muted: Subtle backgrounds */
-    --muted: 210 15% 94%;
-    --muted-foreground: 210 15% 45%;
+    /* Muted: Light grey for subtle backgrounds */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 10% 50%;
 
     /* Accent: Calm Green - Growth & Healing */
-    --accent: 145 45% 45%;
+    --accent: 160 50% 42%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 88%;
-    --input: 210 20% 88%;
-    --ring: 188 75% 45%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 188 75% 42%;
     
     /* Brand Dark Blue for Headers */
     --brand-dark-blue: 217 71% 35%;
 
-    --radius: 0.625rem;
+    --radius: 0.75rem;
 
-    /* Custom Healthcare Tokens */
-    --hero-gradient: linear-gradient(135deg, hsl(188 75% 45%), hsl(175 60% 42%));
-    --card-shadow: 0 4px 20px -4px hsl(210 25% 15% / 0.08);
-    --card-shadow-hover: 0 8px 30px -4px hsl(210 25% 15% / 0.12);
-    --section-bg-soft: 188 30% 97%;
-    --hero-overlay: linear-gradient(to right, hsl(188 75% 20% / 0.85), hsl(188 75% 30% / 0.7));
+    /* Premium Healthcare Tokens */
+    --card-shadow: 0 1px 3px 0 hsl(220 15% 20% / 0.04), 0 4px 12px -2px hsl(220 15% 20% / 0.06);
+    --card-shadow-hover: 0 4px 16px -4px hsl(220 15% 20% / 0.1), 0 8px 24px -8px hsl(220 15% 20% / 0.08);
+    --section-bg-soft: 220 20% 98%;
 
     /* Sidebar defaults */
     --sidebar-background: 0 0% 98%;
@@ -63,36 +61,36 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 188 75% 42%;
   }
 
   .dark {
-    --background: 210 25% 8%;
-    --foreground: 210 20% 95%;
+    --background: 220 20% 10%;
+    --foreground: 220 14% 96%;
 
-    --card: 210 25% 12%;
-    --card-foreground: 210 20% 95%;
+    --card: 220 20% 13%;
+    --card-foreground: 220 14% 96%;
 
-    --popover: 210 25% 12%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 220 20% 13%;
+    --popover-foreground: 220 14% 96%;
 
     --primary: 188 75% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 20% 18%;
-    --secondary-foreground: 210 20% 90%;
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 220 14% 90%;
 
-    --muted: 210 20% 18%;
-    --muted-foreground: 210 15% 60%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 220 10% 60%;
 
-    --accent: 145 45% 50%;
+    --accent: 160 50% 48%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 20%;
-    --input: 210 20% 20%;
+    --border: 220 15% 22%;
+    --input: 220 15% 22%;
     --ring: 188 75% 50%;
 
     --sidebar-background: 240 5.9% 10%;
@@ -102,7 +100,7 @@
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 188 75% 50%;
   }
 }
 
@@ -119,20 +117,20 @@
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.7;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'DM Sans', system-ui, sans-serif;
-    @apply font-bold tracking-tight;
+    @apply font-bold tracking-tight text-foreground;
   }
 
   h1 {
-    @apply text-4xl md:text-5xl;
+    @apply text-4xl md:text-5xl leading-tight;
   }
 
   h2 {
-    @apply text-3xl md:text-4xl;
+    @apply text-3xl md:text-4xl leading-tight;
   }
 
   h3 {
@@ -142,37 +140,38 @@
 
 @layer components {
   .section-padding {
-    @apply py-16 md:py-24 px-4 md:px-8;
+    @apply py-20 md:py-28 px-4 md:px-8;
   }
 
   .container-custom {
     @apply max-w-7xl mx-auto;
   }
 
-  .card-healthcare {
-    @apply bg-card rounded-xl p-6 md:p-8;
+  /* Premium white card with gentle shadow */
+  .card-premium {
+    @apply bg-card rounded-2xl p-6 md:p-8 border border-border/50;
     box-shadow: var(--card-shadow);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
   }
 
-  .card-healthcare:hover {
+  .card-premium:hover {
     box-shadow: var(--card-shadow-hover);
     transform: translateY(-2px);
   }
 
+  /* Soft section background */
   .section-soft {
     background-color: hsl(var(--section-bg-soft));
   }
 
-  .gradient-primary {
-    background: var(--hero-gradient);
+  /* Accent underline for headings */
+  .heading-accent {
+    @apply relative inline-block;
   }
-
-  .text-gradient {
-    background: var(--hero-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  
+  .heading-accent::after {
+    content: '';
+    @apply absolute left-0 -bottom-2 w-12 h-1 bg-primary rounded-full;
   }
 }
 

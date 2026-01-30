@@ -15,7 +15,7 @@ const Footer = () => {
   const { isAdmin } = useAuth();
 
   return (
-    <footer className="bg-foreground text-secondary">
+    <footer className="bg-foreground text-white">
       <div className="container-custom section-padding">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand */}
@@ -24,18 +24,18 @@ const Footer = () => {
               <img src={logo} alt="Care Matters Hub - Every Life Matters" width={64} height={64} loading="lazy" decoding="async" className="h-16 w-16 rounded-full object-cover" />
               <span className="text-lg font-semibold">Care Matters Hub</span>
             </Link>
-            <p className="text-secondary/70 text-sm leading-relaxed mb-4">
+            <p className="text-white/70 text-sm leading-relaxed mb-4">
               Supporting independence, dignity, and well-being for individuals and families across Australia.
             </p>
             {/* Social Media Icons */}
-            <div className="flex items-center gap-3">
-              <a href="https://www.instagram.com/caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors" aria-label="Instagram">
+            <div className="flex items-center gap-2">
+              <a href="https://www.instagram.com/caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-white/10 text-white hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="Instagram">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="https://www.facebook.com/share/16pMDnRjSJ/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors" aria-label="Facebook">
+              <a href="https://www.facebook.com/share/16pMDnRjSJ/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-white/10 text-white hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="Facebook">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="https://www.tiktok.com/@caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-secondary/10 text-secondary hover:bg-secondary/20 transition-colors" aria-label="TikTok">
+              <a href="https://www.tiktok.com/@caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-white/10 text-white hover:bg-primary hover:text-primary-foreground transition-colors" aria-label="TikTok">
                 <TikTokIcon className="h-5 w-5" />
               </a>
             </div>
@@ -43,38 +43,38 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-secondary/80">Quick Links</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-white/80">Quick Links</h4>
             <nav className="flex flex-col gap-2">
-              <Link to="/" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Home</Link>
-              <Link to="/about" className="text-sm text-secondary/70 hover:text-secondary transition-colors">About Us</Link>
-              <Link to="/services" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Our Services</Link>
-              <Link to="/register" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Register</Link>
-              <Link to="/careers" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Careers</Link>
-              <Link to="/testimonials" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Testimonials</Link>
-              <Link to="/feedback" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Feedback</Link>
-              <Link to="/contact" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Contact</Link>
-              <Link to="/privacy" className="text-sm text-secondary/70 hover:text-secondary transition-colors">Privacy Policy</Link>
+              <Link to="/" className="text-sm text-white/70 hover:text-primary transition-colors">Home</Link>
+              <Link to="/about" className="text-sm text-white/70 hover:text-primary transition-colors">About Us</Link>
+              <Link to="/services" className="text-sm text-white/70 hover:text-primary transition-colors">Our Services</Link>
+              <Link to="/register" className="text-sm text-white/70 hover:text-primary transition-colors">Register</Link>
+              <Link to="/careers" className="text-sm text-white/70 hover:text-primary transition-colors">Careers</Link>
+              <Link to="/testimonials" className="text-sm text-white/70 hover:text-primary transition-colors">Testimonials</Link>
+              <Link to="/feedback" className="text-sm text-white/70 hover:text-primary transition-colors">Feedback</Link>
+              <Link to="/contact" className="text-sm text-white/70 hover:text-primary transition-colors">Contact</Link>
+              <Link to="/privacy" className="text-sm text-white/70 hover:text-primary transition-colors">Privacy Policy</Link>
             </nav>
           </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-secondary/80">Contact Us</h4>
+            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-white/80">Contact Us</h4>
             <div className="flex flex-col gap-3">
-              <a href="tel:+61452030000" className="flex items-start gap-3 text-sm text-secondary/70 hover:text-secondary transition-colors">
-                <Phone className="h-4 w-4 mt-0.5 flex-shrink-0" />
+              <a href="tel:+61452030000" className="flex items-start gap-3 text-sm text-white/70 hover:text-primary transition-colors">
+                <Phone className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
                 <span>+61 452 030 000</span>
               </a>
-              <a href="tel:+61469786104" className="flex items-start gap-3 text-sm text-secondary/70 hover:text-secondary transition-colors">
-                <Phone className="h-4 w-4 mt-0.5 flex-shrink-0" />
+              <a href="tel:+61469786104" className="flex items-start gap-3 text-sm text-white/70 hover:text-primary transition-colors">
+                <Phone className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
                 <span>+61 469 786 104</span>
               </a>
-              <a href="mailto:sunil@caremattershub.com.au" className="flex items-start gap-3 text-sm text-secondary/70 hover:text-secondary transition-colors">
-                <Mail className="h-4 w-4 mt-0.5 flex-shrink-0" />
+              <a href="mailto:sunil@caremattershub.com.au" className="flex items-start gap-3 text-sm text-white/70 hover:text-primary transition-colors">
+                <Mail className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
                 <span>sunil@caremattershub.com.au</span>
               </a>
-              <a href="mailto:shubh@caremattershub.com.au" className="flex items-start gap-3 text-sm text-secondary/70 hover:text-secondary transition-colors">
-                <Mail className="h-4 w-4 mt-0.5 flex-shrink-0" />
+              <a href="mailto:shubh@caremattershub.com.au" className="flex items-start gap-3 text-sm text-white/70 hover:text-primary transition-colors">
+                <Mail className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
                 <span>shubh@caremattershub.com.au</span>
               </a>
             </div>
@@ -82,18 +82,18 @@ const Footer = () => {
 
           {/* Hours */}
           <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-secondary/80">Service Hours</h4>
-            <div className="text-sm text-secondary/70 space-y-1">
+            <h4 className="text-sm font-semibold uppercase tracking-wider mb-4 text-white/80">Service Hours</h4>
+            <div className="text-sm text-white/70 space-y-1">
               <p>Monday - Friday: 9am - 6pm</p>
               <p>Saturday: 9am - 4pm</p>
               <p>Sunday: Closed</p>
-              <p className="mt-3 text-xs">24/7 Emergency Support Available</p>
+              <p className="mt-3 text-xs text-primary font-medium">24/7 Emergency Support Available</p>
             </div>
           </div>
         </div>
 
         {/* NDIS Logo Section */}
-        <div className="mt-10 pt-8 border-t border-secondary/10">
+        <div className="mt-10 pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a 
               href="https://www.ndis.gov.au" 
@@ -111,16 +111,16 @@ const Footer = () => {
                 className="h-16 w-auto object-contain"
               />
             </a>
-            <p className="text-sm text-secondary/60 text-center">
+            <p className="text-sm text-white/60 text-center">
               Registered NDIS Provider
             </p>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-8 pt-6 border-t border-secondary/10">
+        <div className="mt-8 pt-6 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-secondary/60">
+            <p className="text-sm text-white/60">
               © 2026 Care Matters Hub. All Rights Reserved.
             </p>
             <div className="flex items-center gap-4">
@@ -128,14 +128,14 @@ const Footer = () => {
                 href="https://caremattershub.com.au" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-sm text-secondary/60 hover:text-secondary transition-colors"
+                className="text-sm text-white/60 hover:text-primary transition-colors"
               >
                 caremattershub.com.au
               </a>
               {isAdmin && (
                 <Link 
                   to="/admin" 
-                  className="flex items-center gap-1.5 text-sm text-secondary/60 hover:text-secondary transition-colors"
+                  className="flex items-center gap-1.5 text-sm text-white/60 hover:text-primary transition-colors"
                 >
                   <Shield className="h-3.5 w-3.5" />
                   Admin
