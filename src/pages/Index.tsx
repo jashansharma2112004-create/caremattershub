@@ -138,7 +138,7 @@ const Index = () => {
       <FAQSchema faqs={faqs} />
 
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
         <div className="absolute inset-0">
           {/* Faded Logo on Left - lazy load since it's decorative */}
           <img 
@@ -149,7 +149,7 @@ const Index = () => {
             loading="lazy"
             decoding="async"
             aria-hidden="true"
-            className="absolute top-8 left-8 w-20 h-20 md:w-28 md:h-28 rounded-full object-cover opacity-30 z-10"
+            className="absolute top-8 left-8 w-20 h-20 md:w-28 md:h-28 rounded-full object-cover opacity-20 z-10"
           />
           
           {/* Hero Slideshow - no overlay, clean natural images */}
@@ -157,19 +157,19 @@ const Index = () => {
         </div>
         
         {/* Subtle left-side gradient for text readability - no tint on images */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground/70 via-foreground/40 to-transparent z-10" />
         
         <div className="relative container-custom px-4 md:px-8 py-16 z-20">
           <div className="max-w-xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-5 leading-tight tracking-tight">
-              <span className="drop-shadow-lg">Every Life Matters</span>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight tracking-tight drop-shadow-lg">
+              Every Life Matters
             </h1>
-            <p className="text-lg text-white/90 mb-8 leading-relaxed drop-shadow-sm">
+            <p className="text-lg md:text-xl text-white/95 mb-10 leading-relaxed drop-shadow-sm">
               We're here to support your independence and well-being. 
               Care that's built around you, not the other way around.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 items-center">
-              <Button size="lg" asChild className="bg-accent hover:bg-accent/90 text-accent-foreground rounded-full px-10 py-6 text-base shadow-lg">
+            <div className="flex flex-col sm:flex-row gap-4 items-start">
+              <Button size="lg" asChild className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-10 py-6 text-base shadow-lg shadow-primary/30">
                 <Link to="/register">
                   Register for Service
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -177,7 +177,7 @@ const Index = () => {
               </Button>
               <Button 
                 size="lg" 
-                className="bg-white/90 hover:bg-white border-2 border-destructive text-destructive rounded-full px-10 py-6 text-base shadow-lg"
+                className="bg-white hover:bg-white/95 text-destructive border-0 rounded-full px-10 py-6 text-base shadow-lg"
                 onClick={() => setShowEmergencyDialog(true)}
               >
                 <AlertCircle className="mr-2 h-5 w-5" />
@@ -201,18 +201,18 @@ const Index = () => {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-4">
+            <div className="bg-destructive/5 border border-destructive/10 rounded-xl p-4">
               <p className="font-semibold text-foreground mb-3">24/7 Emergency Support</p>
               <div className="space-y-2">
                 <a href="tel:+61452030000" className="flex items-center gap-3 text-foreground hover:text-primary transition-colors">
-                  <Phone className="h-5 w-5" />
+                  <Phone className="h-5 w-5 text-primary" />
                   <div>
                     <p className="font-medium">Sunil Bagga</p>
                     <p className="text-sm text-muted-foreground">+61 452 030 000</p>
                   </div>
                 </a>
                 <a href="tel:+61469786104" className="flex items-center gap-3 text-foreground hover:text-primary transition-colors">
-                  <Phone className="h-5 w-5" />
+                  <Phone className="h-5 w-5 text-primary" />
                   <div>
                     <p className="font-medium">Shubhpreet Cheema</p>
                     <p className="text-sm text-muted-foreground">+61 469 786 104</p>
@@ -220,7 +220,7 @@ const Index = () => {
                 </a>
               </div>
             </div>
-            <div className="bg-muted rounded-lg p-4">
+            <div className="bg-secondary rounded-xl p-4">
               <p className="text-sm font-semibold text-foreground mb-2">Business Hours</p>
               <p className="text-sm text-muted-foreground">Monday - Friday: 9am - 6pm</p>
               <p className="text-sm text-muted-foreground">Saturday: 9am - 4pm</p>
@@ -238,9 +238,10 @@ const Index = () => {
       <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
               Who We Are
             </h2>
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-8" />
             <p className="text-lg text-muted-foreground leading-relaxed mb-4">
               Care Matters Hub is an Australian healthcare and support services provider based in Melbourne. 
               We started with a simple belief: everyone deserves care that respects their choices and helps them live life on their terms.
@@ -254,32 +255,33 @@ const Index = () => {
       </section>
 
       {/* Services Section */}
-      <section className="section-padding bg-muted/50">
+      <section className="section-padding bg-secondary">
         <div className="container-custom px-4 md:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">What We Offer</h2>
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">What We Offer</h2>
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
             <p className="text-muted-foreground max-w-xl mx-auto">
               Support services designed to fit your life, not ours. <span className="font-semibold text-primary">Services can start same day!</span>
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((service, index) => (
               <div 
                 key={index}
-                className="bg-card p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                className="card-premium bg-card"
               >
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                   <service.icon className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{service.title}</h3>
+                <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
                 <p className="text-muted-foreground text-sm">{service.description}</p>
               </div>
             ))}
           </div>
 
-          <div className="text-center mt-10">
-            <Button asChild variant="outline" className="rounded-full">
+          <div className="text-center mt-12">
+            <Button asChild className="rounded-full shadow-md">
               <Link to="/services">
                 See All Services
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -292,8 +294,9 @@ const Index = () => {
       {/* How It Works */}
       <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">How It Works</h2>
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
             <p className="text-muted-foreground max-w-xl mx-auto">
               Getting started is straightforward. Here's what to expect.
             </p>
@@ -302,10 +305,10 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {steps.map((step, index) => (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xl font-bold mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xl font-bold mx-auto mb-5 shadow-lg shadow-primary/20">
                   {step.number}
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{step.title}</h3>
+                <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
                 <p className="text-muted-foreground text-sm">{step.description}</p>
               </div>
             ))}
@@ -314,58 +317,61 @@ const Index = () => {
       </section>
 
       {/* Why Choose Us */}
-      <section className="section-padding bg-muted/50">
+      <section className="section-padding bg-secondary">
         <div className="container-custom px-4 md:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 Why Families Trust Us
               </h2>
+              <div className="w-16 h-1 bg-primary rounded-full mb-8" />
               <p className="text-muted-foreground mb-8">
                 We know choosing a care provider is a big decision. Here's what sets us apart.
               </p>
-              <div className="grid gap-3">
+              <div className="grid gap-4">
                 {whyChooseUs.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    <CheckCircle className="h-5 w-5 text-accent flex-shrink-0" />
+                    <div className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                      <CheckCircle className="h-4 w-4 text-accent" />
+                    </div>
                     <span className="text-foreground">{item}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-card p-8 rounded-xl shadow-sm">
-              <h3 className="text-xl font-semibold text-foreground mb-4">Our Management</h3>
+            <div className="card-premium">
+              <h3 className="text-xl font-semibold mb-6">Our Management</h3>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0 shadow-md">
                     SB
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Sunil Bagga</p>
+                    <p className="font-semibold">Sunil Bagga</p>
                     <p className="text-sm text-primary mb-1">Operations Manager</p>
-                    <a href="tel:0452030000" className="block text-sm text-muted-foreground hover:text-primary">0452 030 000</a>
-                    <a href="mailto:sunil@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary">sunil@caremattershub.com.au</a>
+                    <a href="tel:0452030000" className="block text-sm text-muted-foreground hover:text-primary transition-colors">0452 030 000</a>
+                    <a href="mailto:sunil@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary transition-colors">sunil@caremattershub.com.au</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0 shadow-md">
                     SC
                   </div>
                   <div>
-                    <p className="font-semibold text-foreground">Shubhpreet Cheema</p>
+                    <p className="font-semibold">Shubhpreet Cheema</p>
                     <p className="text-sm text-primary mb-1">Clinical Services Manager</p>
-                    <a href="tel:0469786104" className="block text-sm text-muted-foreground hover:text-primary">0469 786 104</a>
-                    <a href="mailto:shubh@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary">shubh@caremattershub.com.au</a>
+                    <a href="tel:0469786104" className="block text-sm text-muted-foreground hover:text-primary transition-colors">0469 786 104</a>
+                    <a href="mailto:shubh@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary transition-colors">shubh@caremattershub.com.au</a>
                   </div>
                 </div>
               </div>
               {/* Business Hours */}
               <div className="mt-6 pt-6 border-t border-border">
-                <p className="text-sm font-semibold text-foreground mb-2">Office Hours</p>
+                <p className="text-sm font-semibold mb-2">Office Hours</p>
                 <p className="text-sm text-muted-foreground">Mon - Fri: 9am - 6pm</p>
                 <p className="text-sm text-muted-foreground">Saturday: 9am - 4pm</p>
                 <p className="text-sm text-muted-foreground">Sunday: Closed</p>
-                <p className="text-xs text-primary mt-1">24/7 Emergency Support Available</p>
+                <p className="text-xs text-primary mt-2 font-medium">24/7 Emergency Support Available</p>
               </div>
             </div>
           </div>
@@ -375,8 +381,9 @@ const Index = () => {
       {/* Testimonials Section */}
       <section id="testimonials" className="section-padding">
         <div className="container-custom px-4 md:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">What Our Clients Say</h2>
+          <div className="text-center mb-14">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
             <p className="text-muted-foreground max-w-xl mx-auto">
               Hear from families who trust us with their care needs.
             </p>
@@ -385,7 +392,7 @@ const Index = () => {
           {isLoadingTestimonials ? (
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-card p-6 rounded-xl shadow-sm animate-pulse">
+                <div key={i} className="card-premium animate-pulse">
                   <div className="flex gap-1 mb-4">
                     {[1, 2, 3, 4, 5].map((j) => (
                       <div key={j} className="h-5 w-5 bg-muted rounded" />
@@ -399,14 +406,14 @@ const Index = () => {
           ) : testimonials.length > 0 ? (
             <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
               {testimonials.map((testimonial, index) => (
-                <div key={index} className="bg-card p-6 rounded-xl shadow-sm">
+                <div key={index} className="card-premium">
                   <div className="flex gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="h-5 w-5 fill-accent text-accent" />
                     ))}
                   </div>
                   <p className="text-muted-foreground text-sm mb-4 italic">"{testimonial.text}"</p>
-                  <p className="font-semibold text-foreground">— {testimonial.name}</p>
+                  <p className="font-semibold">— {testimonial.name}</p>
                 </div>
               ))}
             </div>
@@ -417,70 +424,74 @@ const Index = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="section-padding bg-muted/50">
+      <section className="section-padding bg-secondary">
         <div className="container-custom px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-10">
-              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+            <div className="text-center mb-12">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <HelpCircle className="h-7 w-7 text-primary" />
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
                 Frequently Asked Questions
               </h2>
+              <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
               <p className="text-muted-foreground">
                 Find answers to common questions about our services and how we can help you.
               </p>
             </div>
 
-            <Accordion type="single" collapsible className="w-full">
-              {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left text-foreground hover:no-underline">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <div className="card-premium">
+              <Accordion type="single" collapsible className="w-full">
+                {faqs.map((faq, index) => (
+                  <AccordionItem key={index} value={`item-${index}`} className="border-border">
+                    <AccordionTrigger className="text-left hover:no-underline hover:text-primary">
+                      {faq.question}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground">
+                      {faq.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="section-padding bg-primary">
+      {/* CTA Section - Clean white with accent button */}
+      <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+          <div className="card-premium max-w-4xl mx-auto text-center py-12 md:py-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to Take the Next Step?
             </h2>
-            <p className="text-primary-foreground/90 mb-8">
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
+            <p className="text-muted-foreground mb-10 max-w-xl mx-auto">
               Get in touch today. We're here to answer your questions and help you find the right support.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <Button size="lg" asChild className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 rounded-full px-8">
+              <Button size="lg" asChild className="rounded-full px-10 shadow-lg shadow-primary/20">
                 <Link to="/register">Register for Service</Link>
               </Button>
-              <Button size="lg" variant="outline" asChild className="bg-transparent hover:bg-primary-foreground/10 border-2 border-primary-foreground text-primary-foreground rounded-full px-8">
+              <Button size="lg" variant="outline" asChild className="rounded-full px-10 border-2">
                 <Link to="/contact">Contact Us</Link>
               </Button>
             </div>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 justify-center text-primary-foreground/80 text-sm">
-              <a href="mailto:sunil@caremattershub.com.au" className="flex items-center justify-center gap-2 hover:text-primary-foreground">
-                <Mail className="h-4 w-4" />
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 justify-center text-sm">
+              <a href="mailto:sunil@caremattershub.com.au" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+                <Mail className="h-4 w-4 text-primary" />
                 sunil@caremattershub.com.au
               </a>
-              <a href="mailto:shubh@caremattershub.com.au" className="flex items-center justify-center gap-2 hover:text-primary-foreground">
-                <Mail className="h-4 w-4" />
+              <a href="mailto:shubh@caremattershub.com.au" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+                <Mail className="h-4 w-4 text-primary" />
                 shubh@caremattershub.com.au
               </a>
-              <a href="tel:0452030000" className="flex items-center justify-center gap-2 hover:text-primary-foreground">
-                <Phone className="h-4 w-4" />
+              <a href="tel:0452030000" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+                <Phone className="h-4 w-4 text-primary" />
                 0452 030 000
               </a>
-              <a href="tel:0469786104" className="flex items-center justify-center gap-2 hover:text-primary-foreground">
-                <Phone className="h-4 w-4" />
+              <a href="tel:0469786104" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+                <Phone className="h-4 w-4 text-primary" />
                 0469 786 104
               </a>
             </div>
@@ -489,14 +500,15 @@ const Index = () => {
       </section>
 
       {/* Our Location Section */}
-      <section className="section-padding bg-muted/50">
+      <section className="section-padding bg-secondary">
         <div className="container-custom px-4 md:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Our Location</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Location</h2>
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
             <p className="text-muted-foreground mb-8">
               Visit us at our Melbourne office or get in touch for home-based services across Victoria.
             </p>
-            <div className="rounded-xl overflow-hidden shadow-md">
+            <div className="card-premium p-0 overflow-hidden">
               <a 
                 href="https://www.google.com/maps/search/?api=1&query=9+Damper+Way,+Lynbrook,+Melbourne,+Victoria,+Australia" 
                 target="_blank" 
@@ -510,7 +522,7 @@ const Index = () => {
                 />
               </a>
             </div>
-            <p className="text-sm text-muted-foreground mt-4">
+            <p className="text-sm text-muted-foreground mt-6">
               9 Damper Way, Lynbrook, Melbourne, Victoria
             </p>
           </div>
@@ -520,15 +532,17 @@ const Index = () => {
       {/* Feedback CTA */}
       <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
-          <div className="bg-muted/50 rounded-2xl p-8 md:p-12 text-center max-w-2xl mx-auto">
-            <Star className="h-10 w-10 text-accent mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-foreground mb-3">
+          <div className="card-premium text-center max-w-2xl mx-auto">
+            <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
+              <Star className="h-7 w-7 text-accent" />
+            </div>
+            <h3 className="text-xl font-semibold mb-3">
               Already using our services?
             </h3>
             <p className="text-muted-foreground mb-6">
               Your feedback helps us improve. We'd love to hear about your experience.
             </p>
-            <Button asChild variant="outline" className="rounded-full">
+            <Button asChild className="rounded-full shadow-md">
               <Link to="/feedback">
                 Share Your Feedback
                 <MessageCircle className="ml-2 h-4 w-4" />

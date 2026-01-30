@@ -39,12 +39,6 @@ const navLinks = [
   { name: 'Contact Us', path: '/contact' },
 ];
 
-const socialLinks = [
-  { name: 'Instagram', url: 'https://www.instagram.com/caremattershub', icon: 'instagram' },
-  { name: 'Facebook', url: 'https://www.facebook.com/caremattershub', icon: 'facebook' },
-  { name: 'TikTok', url: 'https://www.tiktok.com/@caremattershub', icon: 'tiktok' },
-];
-
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
@@ -53,7 +47,7 @@ const Header = () => {
   const isServicesActive = location.pathname === '/services';
 
   return (
-    <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-md border-b border-border">
+    <header className="sticky top-0 z-50 bg-card border-b border-border">
       <div className="container-custom">
         <div className="flex items-center justify-between h-20 px-4 md:px-8">
           {/* Logo & Branding */}
@@ -65,7 +59,7 @@ const Header = () => {
               height={64} 
               loading="lazy"
               decoding="async"
-              className="h-12 md:h-14 w-12 md:w-14 rounded-full object-cover shadow-md animate-blink" 
+              className="h-12 md:h-14 w-12 md:w-14 rounded-full object-cover shadow-sm animate-blink" 
             />
             <div className="flex flex-col">
               <span className="text-sm md:text-lg font-bold text-primary leading-tight">Care Matters Hub</span>
@@ -74,13 +68,13 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-0.5">
+          <nav className="hidden xl:flex items-center gap-1">
             <Link
               to="/"
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive('/')
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-foreground hover:bg-secondary'
+                  ? 'text-primary bg-primary/5'
+                  : 'text-foreground hover:text-primary hover:bg-secondary'
               }`}
             >
               Home
@@ -89,8 +83,8 @@ const Header = () => {
               to="/about"
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                 isActive('/about')
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-foreground hover:bg-secondary'
+                  ? 'text-primary bg-primary/5'
+                  : 'text-foreground hover:text-primary hover:bg-secondary'
               }`}
             >
               About Us
@@ -100,8 +94,8 @@ const Header = () => {
             <DropdownMenu>
               <DropdownMenuTrigger className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1 ${
                 isServicesActive
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-foreground hover:bg-secondary'
+                  ? 'text-primary bg-primary/5'
+                  : 'text-foreground hover:text-primary hover:bg-secondary'
               }`}>
                 Our Services
                 <ChevronDown className="h-3 w-3" />
@@ -111,7 +105,7 @@ const Header = () => {
                   <DropdownMenuItem key={service.path} asChild>
                     <Link 
                       to={service.path} 
-                      className="w-full cursor-pointer"
+                      className="w-full cursor-pointer hover:text-primary"
                     >
                       {service.name}
                     </Link>
@@ -126,8 +120,8 @@ const Header = () => {
                 to={link.path}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   isActive(link.path)
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-foreground hover:bg-secondary'
+                    ? 'text-primary bg-primary/5'
+                    : 'text-foreground hover:text-primary hover:bg-secondary'
                 }`}
               >
                 {link.name}
@@ -138,17 +132,17 @@ const Header = () => {
           {/* Social & CTA (Desktop) */}
           <div className="hidden xl:flex items-center gap-3">
             <div className="flex items-center gap-1">
-              <a href="https://www.instagram.com/caremattershub" target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Instagram">
                 <Instagram className="h-4 w-4" />
               </a>
-              <a href="https://www.facebook.com/share/1BBVzwFH6X/" target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Facebook">
+              <a href="https://www.facebook.com/share/1BBVzwFH6X/" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="Facebook">
                 <Facebook className="h-4 w-4" />
               </a>
-              <a href="https://www.tiktok.com/@caremattershub" target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="TikTok">
+              <a href="https://www.tiktok.com/@caremattershub" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary transition-colors" aria-label="TikTok">
                 <TikTokIcon className="h-4 w-4" />
               </a>
             </div>
-            <Button asChild size="sm" className="rounded-full">
+            <Button asChild size="sm" className="rounded-full shadow-md shadow-primary/20">
               <Link to="/register">Get Started</Link>
             </Button>
           </div>
@@ -172,8 +166,8 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(false)}
                 className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                   isActive('/')
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-foreground hover:bg-secondary'
+                    ? 'text-primary bg-primary/5'
+                    : 'text-foreground hover:text-primary hover:bg-secondary'
                 }`}
               >
                 Home
@@ -183,8 +177,8 @@ const Header = () => {
                 onClick={() => setIsMenuOpen(false)}
                 className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                   isActive('/about')
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-foreground hover:bg-secondary'
+                    ? 'text-primary bg-primary/5'
+                    : 'text-foreground hover:text-primary hover:bg-secondary'
                 }`}
               >
                 About Us
@@ -199,7 +193,7 @@ const Header = () => {
                   key={service.path}
                   to={service.path}
                   onClick={() => setIsMenuOpen(false)}
-                  className="px-6 py-2 rounded-lg text-sm text-foreground hover:bg-secondary transition-colors"
+                  className="px-6 py-2 rounded-lg text-sm text-foreground hover:text-primary hover:bg-secondary transition-colors"
                 >
                   {service.name}
                 </Link>
@@ -212,8 +206,8 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                   className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                     isActive(link.path)
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-foreground hover:bg-secondary'
+                      ? 'text-primary bg-primary/5'
+                      : 'text-foreground hover:text-primary hover:bg-secondary'
                   }`}
                 >
                   {link.name}
@@ -221,16 +215,16 @@ const Header = () => {
               ))}
               <div className="mt-4 pt-4 border-t border-border">
                 <div className="space-y-2 mb-4">
-                  <a href="tel:+61452030000" className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Phone className="h-4 w-4" />
+                  <a href="tel:+61452030000" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+                    <Phone className="h-4 w-4 text-primary" />
                     <span>0452 030 000</span>
                   </a>
-                  <a href="tel:+61469786104" className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Phone className="h-4 w-4" />
+                  <a href="tel:+61469786104" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+                    <Phone className="h-4 w-4 text-primary" />
                     <span>0469 786 104</span>
                   </a>
                 </div>
-                <Button asChild className="w-full rounded-full">
+                <Button asChild className="w-full rounded-full shadow-md">
                   <Link to="/register" onClick={() => setIsMenuOpen(false)}>Get Started</Link>
                 </Button>
               </div>
