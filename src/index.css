@@ -140,7 +140,12 @@
 
 @layer components {
   .section-padding {
-    @apply py-20 md:py-28 px-4 md:px-8;
+    @apply py-12 md:py-16 px-4 md:px-8;
+  }
+
+  /* Compact padding for hero-style sections */
+  .section-padding-hero {
+    @apply py-16 md:py-20 px-4 md:px-8;
   }
 
   .container-custom {
@@ -162,6 +167,26 @@
   /* Soft section background */
   .section-soft {
     background-color: hsl(var(--section-bg-soft));
+  }
+
+  /* Gradient backgrounds for hero sections */
+  .gradient-primary {
+    @apply bg-primary;
+  }
+
+  /* Card healthcare - clean card with shadow */
+  .card-healthcare {
+    @apply bg-card rounded-xl p-5 md:p-6 border border-border/50;
+    box-shadow: var(--card-shadow);
+  }
+
+  /* Healthcare shadow utilities */
+  .shadow-healthcare {
+    box-shadow: var(--card-shadow);
+  }
+
+  .shadow-healthcare-hover {
+    box-shadow: var(--card-shadow-hover);
   }
 
   /* Accent underline for headings */

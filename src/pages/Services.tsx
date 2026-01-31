@@ -84,11 +84,11 @@ const Services = () => {
       <ServiceSchema services={serviceSchemaData} />
 
       {/* Hero Section */}
-      <section className="section-padding gradient-primary">
-        <div className="container-custom px-4 md:px-8">
+      <section className="py-12 md:py-16 bg-primary px-4 md:px-8">
+        <div className="container-custom">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6">Our Services</h1>
-            <p className="text-xl text-primary-foreground/90 leading-relaxed">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4">Our Services</h1>
+            <p className="text-lg text-primary-foreground/90 leading-relaxed">
               Comprehensive healthcare and support services designed to meet your individual needs 
               and help you achieve your goals.
             </p>
@@ -146,14 +146,14 @@ const Services = () => {
       {/* How It Works */}
       <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">How to Get Started</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">How to Get Started</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
               Getting the support you need is simple. Here's how to begin your journey with us.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <span className="text-2xl font-bold text-primary">1</span>
@@ -182,12 +182,12 @@ const Services = () => {
       </section>
 
       {/* CTA */}
-      <section className="section-padding gradient-primary">
-        <div className="container-custom px-4 md:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+      <section className="py-12 md:py-16 bg-primary px-4 md:px-8">
+        <div className="container-custom text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-3">
             Ready to Access Our Services?
           </h2>
-          <p className="text-lg text-primary-foreground/90 mb-8 max-w-xl mx-auto">
+          <p className="text-primary-foreground/90 mb-6 max-w-xl mx-auto">
             Register today to start receiving the care and support you deserve.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

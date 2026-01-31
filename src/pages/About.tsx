@@ -39,11 +39,11 @@ const About = () => {
       />
 
       {/* Hero Section */}
-      <section className="section-padding gradient-primary">
-        <div className="container-custom px-4 md:px-8">
+      <section className="py-12 md:py-16 bg-primary px-4 md:px-8">
+        <div className="container-custom">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6">About Care Matters Hub</h1>
-            <p className="text-xl text-primary-foreground/90 leading-relaxed">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4">About Care Matters Hub</h1>
+            <p className="text-lg text-primary-foreground/90 leading-relaxed">
               We are dedicated to providing exceptional healthcare and support services that make a 
               genuine difference in the lives of Australians.
             </p>
@@ -54,10 +54,10 @@ const About = () => {
       {/* Mission Section */}
       <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
               <span className="text-sm font-semibold text-primary uppercase tracking-wider">Our Mission</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2 mb-4">
                 Empowering Lives Through Compassionate Care
               </h2>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
@@ -95,18 +95,18 @@ const About = () => {
       {/* Core Values */}
       <section className="section-padding section-soft">
         <div className="container-custom px-4 md:px-8">
-          <div className="text-center mb-12">
+          <div className="text-center mb-10">
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">What We Stand For</span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-2">Our Core Values</h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6">
             {coreValues.map((value, index) => (
               <div key={index} className="card-healthcare text-center">
-                <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center mx-auto mb-6">
-                  <value.icon className="h-8 w-8 text-primary-foreground" />
+                <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center mx-auto mb-4">
+                  <value.icon className="h-7 w-7 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold text-foreground mb-4">{value.title}</h3>
+                <h3 className="text-xl font-semibold text-foreground mb-3">{value.title}</h3>
                 <p className="text-muted-foreground leading-relaxed">{value.description}</p>
               </div>
             ))}
@@ -118,12 +118,12 @@ const About = () => {
       <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">Why Choose Care Matters Hub?</h2>
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Why Choose Care Matters Hub?</h2>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex gap-4 p-6 bg-card rounded-xl shadow-healthcare">
+            <div className="space-y-4">
+              <div className="flex gap-4 p-5 bg-card rounded-xl shadow-healthcare">
                 <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <span className="text-primary font-semibold">01</span>
                 </div>
@@ -133,7 +133,7 @@ const About = () => {
                 </div>
               </div>
 
-              <div className="flex gap-4 p-6 bg-card rounded-xl shadow-healthcare">
+              <div className="flex gap-4 p-5 bg-card rounded-xl shadow-healthcare">
                 <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <span className="text-primary font-semibold">02</span>
                 </div>
@@ -143,7 +143,7 @@ const About = () => {
                 </div>
               </div>
 
-              <div className="flex gap-4 p-6 bg-card rounded-xl shadow-healthcare">
+              <div className="flex gap-4 p-5 bg-card rounded-xl shadow-healthcare">
                 <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <span className="text-primary font-semibold">03</span>
                 </div>
@@ -153,7 +153,7 @@ const About = () => {
                 </div>
               </div>
 
-              <div className="flex gap-4 p-6 bg-card rounded-xl shadow-healthcare">
+              <div className="flex gap-4 p-5 bg-card rounded-xl shadow-healthcare">
                 <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <span className="text-primary font-semibold">04</span>
                 </div>
@@ -168,12 +168,12 @@ const About = () => {
       </section>
 
       {/* CTA */}
-      <section className="section-padding gradient-primary">
-        <div className="container-custom px-4 md:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+      <section className="py-12 md:py-16 bg-primary px-4 md:px-8">
+        <div className="container-custom text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-3">
             Let's Start Your Care Journey Together
           </h2>
-          <p className="text-lg text-primary-foreground/90 mb-8 max-w-xl mx-auto">
+          <p className="text-primary-foreground/90 mb-6 max-w-xl mx-auto">
             Reach out today to discuss how we can support you or your loved ones.
           </p>
           <Button size="lg" asChild className="bg-primary-foreground text-primary hover:bg-primary-foreground/90">

@@ -35,11 +35,11 @@ const Contact = () => {
       />
 
       {/* Hero Section */}
-      <section className="section-padding gradient-primary">
-        <div className="container-custom px-4 md:px-8">
+      <section className="py-12 md:py-16 bg-primary px-4 md:px-8">
+        <div className="container-custom">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-6">Contact Us</h1>
-            <p className="text-xl text-primary-foreground/90 leading-relaxed">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4">Contact Us</h1>
+            <p className="text-lg text-primary-foreground/90 leading-relaxed">
               We're here to help. Reach out to our team to discuss your care needs or learn more 
               about our services.
             </p>
@@ -50,11 +50,11 @@ const Contact = () => {
       {/* Contact Information */}
       <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-10">
             {/* Team Contacts */}
             <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-8">Our Team</h2>
-              <div className="space-y-6">
+              <h2 className="text-2xl font-semibold text-foreground mb-6">Our Team</h2>
+              <div className="space-y-4">
                 {teamMembers.map((member, index) => (
                   <div key={index} className="card-healthcare">
                     <h3 className="text-xl font-semibold text-foreground mb-1">{member.name}</h3>
@@ -88,9 +88,9 @@ const Contact = () => {
 
             {/* Additional Info */}
             <div>
-              <h2 className="text-2xl font-semibold text-foreground mb-8">Get in Touch</h2>
+              <h2 className="text-2xl font-semibold text-foreground mb-6">Get in Touch</h2>
               
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <div className="card-healthcare">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 rounded-lg gradient-primary flex items-center justify-center flex-shrink-0">
@@ -145,7 +145,7 @@ const Contact = () => {
       {/* Quick Links Section */}
       <section className="section-padding section-soft">
         <div className="container-custom px-4 md:px-8">
-          <div className="text-center mb-10">
+          <div className="text-center mb-8">
             <h2 className="text-2xl font-semibold text-foreground">How Can We Help?</h2>
           </div>
 
