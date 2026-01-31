@@ -257,9 +257,9 @@ const Index = () => {
       {/* Services Section */}
       <section className="section-padding bg-secondary">
         <div className="container-custom px-4 md:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What We Offer</h2>
-            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">What We Offer</h2>
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-4" />
             <p className="text-muted-foreground max-w-xl mx-auto">
               Support services designed to fit your life, not ours. <span className="font-semibold text-primary">Services can start same day!</span>
             </p>
@@ -280,7 +280,7 @@ const Index = () => {
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-10">
             <Button asChild className="rounded-full shadow-md">
               <Link to="/services">
                 See All Services
@@ -294,18 +294,18 @@ const Index = () => {
       {/* How It Works */}
       <section className="section-padding">
         <div className="container-custom px-4 md:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">How It Works</h2>
-            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">How It Works</h2>
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-4" />
             <p className="text-muted-foreground max-w-xl mx-auto">
               Getting started is straightforward. Here's what to expect.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {steps.map((step, index) => (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xl font-bold mx-auto mb-5 shadow-lg shadow-primary/20">
+                <div className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg font-bold mx-auto mb-4 shadow-lg shadow-primary/20">
                   {step.number}
                 </div>
                 <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
@@ -319,13 +319,13 @@ const Index = () => {
       {/* Why Choose Us */}
       <section className="section-padding bg-secondary">
         <div className="container-custom px-4 md:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-10 items-center max-w-5xl mx-auto">
             <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">
                 Why Families Trust Us
               </h2>
-              <div className="w-16 h-1 bg-primary rounded-full mb-8" />
-              <p className="text-muted-foreground mb-8">
+              <div className="w-16 h-1 bg-primary rounded-full mb-6" />
+              <p className="text-muted-foreground mb-6">
                 We know choosing a care provider is a big decision. Here's what sets us apart.
               </p>
               <div className="grid gap-4">
@@ -381,9 +381,9 @@ const Index = () => {
       {/* Testimonials Section */}
       <section id="testimonials" className="section-padding">
         <div className="container-custom px-4 md:px-8">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Clients Say</h2>
-            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">What Our Clients Say</h2>
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-4" />
             <p className="text-muted-foreground max-w-xl mx-auto">
               Hear from families who trust us with their care needs.
             </p>
@@ -427,14 +427,14 @@ const Index = () => {
       <section className="section-padding bg-secondary">
         <div className="container-custom px-4 md:px-8">
           <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <HelpCircle className="h-7 w-7 text-primary" />
+            <div className="text-center mb-8">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                <HelpCircle className="h-6 w-6 text-primary" />
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold mb-3">
                 Frequently Asked Questions
               </h2>
-              <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
+              <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-4" />
               <p className="text-muted-foreground">
                 Find answers to common questions about our services and how we can help you.
               </p>
@@ -459,17 +459,17 @@ const Index = () => {
       </section>
 
       {/* CTA Section - Clean white with accent button */}
-      <section className="section-padding">
-        <div className="container-custom px-4 md:px-8">
-          <div className="card-premium max-w-4xl mx-auto text-center py-12 md:py-16">
+      <section className="py-10 md:py-12 px-4 md:px-8">
+        <div className="container-custom">
+          <div className="card-premium max-w-4xl mx-auto text-center py-8 md:py-10">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to Take the Next Step?
             </h2>
-            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
-            <p className="text-muted-foreground mb-10 max-w-xl mx-auto">
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-5" />
+            <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
               Get in touch today. We're here to answer your questions and help you find the right support.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Button size="lg" asChild className="rounded-full px-10 shadow-lg shadow-primary/20">
                 <Link to="/register">Register for Service</Link>
               </Button>
@@ -503,9 +503,9 @@ const Index = () => {
       <section className="section-padding bg-secondary">
         <div className="container-custom px-4 md:px-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Location</h2>
-            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-6" />
-            <p className="text-muted-foreground mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-3">Our Location</h2>
+            <div className="w-16 h-1 bg-primary rounded-full mx-auto mb-4" />
+            <p className="text-muted-foreground mb-6">
               Visit us at our Melbourne office or get in touch for home-based services across Victoria.
             </p>
             <div className="card-premium p-0 overflow-hidden">
@@ -522,7 +522,7 @@ const Index = () => {
                 />
               </a>
             </div>
-            <p className="text-sm text-muted-foreground mt-6">
+            <p className="text-sm text-muted-foreground mt-4">
               9 Damper Way, Lynbrook, Melbourne, Victoria
             </p>
           </div>
@@ -530,16 +530,16 @@ const Index = () => {
       </section>
 
       {/* Feedback CTA */}
-      <section className="section-padding">
-        <div className="container-custom px-4 md:px-8">
-          <div className="card-premium text-center max-w-2xl mx-auto">
-            <div className="w-14 h-14 rounded-2xl bg-accent/10 flex items-center justify-center mx-auto mb-4">
-              <Star className="h-7 w-7 text-accent" />
+      <section className="py-10 md:py-12 px-4 md:px-8">
+        <div className="container-custom">
+          <div className="card-premium text-center max-w-2xl mx-auto py-6">
+            <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mx-auto mb-3">
+              <Star className="h-6 w-6 text-accent" />
             </div>
-            <h3 className="text-xl font-semibold mb-3">
+            <h3 className="text-xl font-semibold mb-2">
               Already using our services?
             </h3>
-            <p className="text-muted-foreground mb-6">
+            <p className="text-muted-foreground text-sm mb-5">
               Your feedback helps us improve. We'd love to hear about your experience.
             </p>
             <Button asChild className="rounded-full shadow-md">
