@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import logo from '@/assets/company-logo.jpg';
 
 // TikTok icon component (not in lucide-react)
@@ -41,6 +42,7 @@ const navLinks = [
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
@@ -184,20 +186,27 @@ const Header = () => {
                 About Us
               </Link>
               
-              {/* Mobile Services Links */}
-              <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                Our Services
-              </div>
-              {servicesList.map((service) => (
-                <Link
-                  key={service.path}
-                  to={service.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="px-6 py-2 rounded-lg text-sm text-foreground hover:text-primary hover:bg-secondary transition-colors"
-                >
-                  {service.name}
-                </Link>
-              ))}
+              {/* Mobile Services Collapsible */}
+              <Collapsible open={isServicesOpen} onOpenChange={setIsServicesOpen}>
+                <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-3 rounded-lg text-sm font-medium text-foreground hover:text-primary hover:bg-secondary transition-colors">
+                  <span>Our Services</span>
+                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isServicesOpen ? 'rotate-180' : ''}`} />
+                </CollapsibleTrigger>
+                <CollapsibleContent className="overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+                  <div className="pl-4 space-y-1 py-2">
+                    {servicesList.map((service) => (
+                      <Link
+                        key={service.path}
+                        to={service.path}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block px-4 py-2 rounded-lg text-sm text-muted-foreground hover:text-primary hover:bg-secondary transition-colors"
+                      >
+                        {service.name}
+                      </Link>
+                    ))}
+                  </div>
+                </CollapsibleContent>
+              </Collapsible>
 
               {navLinks.filter(link => !['Home', 'About Us'].includes(link.name)).map((link) => (
                 <Link
