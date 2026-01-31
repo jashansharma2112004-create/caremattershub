@@ -137,8 +137,11 @@ const Index = () => {
       <WebsiteSchema />
       <FAQSchema faqs={faqs} />
 
-      {/* Hero Section */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+      {/* Hero Section - warm fallback color inline to prevent flash */}
+      <section 
+        className="relative min-h-[85vh] flex items-center overflow-hidden"
+        style={{ backgroundColor: '#f5f0eb' }}
+      >
         <div className="absolute inset-0">
           {/* Faded Logo on Left - lazy load since it's decorative */}
           <img 
@@ -156,8 +159,8 @@ const Index = () => {
           <HeroSlideshow />
         </div>
         
-        {/* Subtle left-side gradient for text readability - no tint on images */}
-        <div className="absolute inset-0 bg-gradient-to-r from-foreground/70 via-foreground/40 to-transparent z-10" />
+        {/* Subtle left-side gradient for text readability - dark overlay, not blue */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent z-10" />
         
         <div className="relative container-custom px-4 md:px-8 py-16 z-20">
           <div className="max-w-xl">

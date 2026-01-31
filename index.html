@@ -62,10 +62,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'" />
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" /></noscript>
     
-    <!-- Preload LCP image -->
-    <link rel="preload" as="image" href="/src/assets/hero-care-compressed.webp" fetchpriority="high" type="image/webp" />
+    <!-- Preload LCP image - first slide of hero slideshow -->
+    <link rel="preload" as="image" href="/src/assets/hero-slide-1.webp" fetchpriority="high" type="image/webp" />
     
-    <!-- Critical CSS for immediate paint - expanded to reduce FOUC -->
+    <!-- Critical CSS for immediate paint - warm neutral fallback, no blue -->
     <style>
       *,*::before,*::after{box-sizing:border-box}
       body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
@@ -73,10 +73,12 @@
       img,picture,video,canvas,svg{display:block;max-width:100%}
       button{cursor:pointer}
       a{text-decoration:none;color:inherit}
-      .hero-skeleton{min-height:80vh;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);display:flex;align-items:center}
-      .hero-skeleton .content{padding:2rem;max-width:36rem}
-      .hero-skeleton h1{font-size:2.5rem;font-weight:800;color:#fff;margin:0 0 1rem;line-height:1.1}
-      .hero-skeleton p{font-size:1.125rem;color:rgba(255,255,255,.9);margin:0}
+      /* Warm neutral skeleton - matches hero fallback color */
+      .hero-skeleton{min-height:80vh;background:#f5f0eb;display:flex;align-items:center;position:relative}
+      .hero-skeleton::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.5) 0%,rgba(0,0,0,.2) 50%,transparent 100%)}
+      .hero-skeleton .content{padding:2rem;max-width:36rem;position:relative;z-index:1}
+      .hero-skeleton h1{font-size:2.5rem;font-weight:800;color:#fff;margin:0 0 1rem;line-height:1.1;text-shadow:0 2px 4px rgba(0,0,0,.3)}
+      .hero-skeleton p{font-size:1.125rem;color:rgba(255,255,255,.9);margin:0;text-shadow:0 1px 2px rgba(0,0,0,.2)}
       @media(min-width:768px){.hero-skeleton h1{font-size:3rem}}
       header{background:#fff;position:sticky;top:0;z-index:50}
       .container-custom{width:100%;max-width:1280px;margin:0 auto}
