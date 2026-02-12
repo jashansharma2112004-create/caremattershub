@@ -75,6 +75,14 @@ const About = () => {
                   Whether you're seeking support for yourself or a loved one, we're committed to being a trusted 
                   partner on your journey towards greater independence and well-being.
                 </p>
+                <p>
+                  We proudly support people from all cultural backgrounds and treat every individual with dignity, 
+                  respect, and understanding. Our services are inclusive, culturally sensitive, and tailored to meet 
+                  diverse needs.
+                </p>
+                <p className="italic text-foreground/80">
+                  "Every culture has a story, and we honour each one with respect, compassion, and inclusive care."
+                </p>
               </div>
             </div>
             <div className="relative">
