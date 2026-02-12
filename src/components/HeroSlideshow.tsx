@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, memo, useRef } from 'react';
 
 // First slide - eagerly loaded for instant LCP
-import heroSlide1 from '@/assets/hero-slide-1.webp';
+import heroSlide1 from '@/assets/community-circle.jpg';
 
 // Slide data type
 interface Slide {
@@ -12,20 +12,20 @@ interface Slide {
 // First slide loaded statically, rest loaded dynamically
 const FIRST_SLIDE: Slide = { 
   src: heroSlide1, 
-  alt: 'Quality care and support services' 
+  alt: 'Community coming together to support inclusion and connection' 
 };
 
 // Paths for lazy-loaded slides
 const LAZY_SLIDE_IMPORTS = [
-  () => import('@/assets/hero-slide-2.webp'),
-  () => import('@/assets/hero-slide-3.webp'),
-  () => import('@/assets/hero-slide-4.webp'),
+  () => import('@/assets/home-care-laughing.jpg'),
+  () => import('@/assets/cafe-social.jpg'),
+  () => import('@/assets/inclusive-netball.jpg'),
 ];
 
 const LAZY_SLIDE_ALTS = [
-  'Community participation and creative activities',
-  'Social activities and community connection',
-  'Personalized nursing care assistance',
+  'Joyful moments of care and companionship at home',
+  'Social outing and community participation over coffee',
+  'Inclusive sports and active community engagement',
 ];
 
 const HeroSlideshow = memo(() => {
