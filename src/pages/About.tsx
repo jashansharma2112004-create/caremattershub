@@ -3,7 +3,7 @@ import { Target, Heart, Award, Users, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Layout from '@/components/Layout';
 import { SEO, BreadcrumbSchema } from '@/components/SEO';
-import teamImage from '@/assets/team.jpg';
+import aboutHeroImage from '@/assets/about-hero.jpg';
 
 const coreValues = [
   {
@@ -87,7 +87,7 @@ const About = () => {
             </div>
             <div className="relative">
               <img 
-                src={teamImage} 
+                src={aboutHeroImage} 
                 alt="Care Matters Hub Team" 
                 className="rounded-2xl shadow-healthcare-hover w-full object-cover aspect-square"
               />
