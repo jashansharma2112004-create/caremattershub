@@ -112,7 +112,7 @@ const Footer = () => {
               />
             </a>
             <p className="text-sm text-white/60 text-center">
-              Registered NDIS Provider
+              Registered NDIS Provider (Reg No. – 4-K75TMLQ)
             </p>
           </div>
         </div>
