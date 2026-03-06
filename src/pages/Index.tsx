@@ -361,7 +361,7 @@ const Index = () => {
                     SC
                   </div>
                   <div>
-                    <p className="font-semibold">Shubhpreet Cheema</p>
+                    <p className="font-semibold">S.P Cheema</p>
                     <p className="text-sm text-primary mb-1">Clinical Services Manager</p>
                     <a href="tel:0469786104" className="block text-sm text-muted-foreground hover:text-primary transition-colors">0469 786 104</a>
                     <a href="mailto:shubh@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary transition-colors">shubh@caremattershub.com.au</a>
