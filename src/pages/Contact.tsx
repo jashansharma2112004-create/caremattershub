@@ -12,7 +12,7 @@ const teamMembers = [
     email: 'Sunil@caremattershub.com.au',
   },
   {
-    name: 'S.P Cheema',
+    name: 'Sk Cheema',
     role: 'Clinical Services Manager',
     phone: '+61 469 786 104',
     email: 'Shubh@caremattershub.com.au',
