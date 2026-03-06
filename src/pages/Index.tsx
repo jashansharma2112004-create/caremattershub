@@ -217,7 +217,7 @@ const Index = () => {
                 <a href="tel:+61469786104" className="flex items-center gap-3 text-foreground hover:text-primary transition-colors">
                   <Phone className="h-5 w-5 text-primary" />
                   <div>
-                    <p className="font-medium">S.P Cheema</p>
+                    <p className="font-medium">Sk Cheema</p>
                     <p className="text-sm text-muted-foreground">+61 469 786 104</p>
                   </div>
                 </a>
@@ -361,7 +361,7 @@ const Index = () => {
                     SC
                   </div>
                   <div>
-                    <p className="font-semibold">S.P Cheema</p>
+                    <p className="font-semibold">Sk Cheema</p>
                     <p className="text-sm text-primary mb-1">Clinical Services Manager</p>
                     <a href="tel:0469786104" className="block text-sm text-muted-foreground hover:text-primary transition-colors">0469 786 104</a>
                     <a href="mailto:shubh@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary transition-colors">shubh@caremattershub.com.au</a>
