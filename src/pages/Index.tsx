@@ -467,17 +467,9 @@ const Index = () => {
                 <Mail className="h-4 w-4 text-primary" />
                 sunil@caremattershub.com.au
               </a>
-              <a href="mailto:shubh@caremattershub.com.au" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                <Mail className="h-4 w-4 text-primary" />
-                shubh@caremattershub.com.au
-              </a>
               <a href="tel:0452030000" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                 <Phone className="h-4 w-4 text-primary" />
                 0452 030 000
-              </a>
-              <a href="tel:0469786104" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                <Phone className="h-4 w-4 text-primary" />
-                0469 786 104
               </a>
             </div>
           </div>

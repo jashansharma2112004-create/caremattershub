@@ -65,17 +65,9 @@ const Footer = () => {
                 <Phone className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
                 <span>+61 452 030 000</span>
               </a>
-              <a href="tel:+61469786104" className="flex items-start gap-3 text-sm text-white/70 hover:text-primary transition-colors">
-                <Phone className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
-                <span>+61 469 786 104</span>
-              </a>
               <a href="mailto:sunil@caremattershub.com.au" className="flex items-start gap-3 text-sm text-white/70 hover:text-primary transition-colors">
                 <Mail className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
                 <span>sunil@caremattershub.com.au</span>
-              </a>
-              <a href="mailto:shubh@caremattershub.com.au" className="flex items-start gap-3 text-sm text-white/70 hover:text-primary transition-colors">
-                <Mail className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary" />
-                <span>shubh@caremattershub.com.au</span>
               </a>
             </div>
           </div>
