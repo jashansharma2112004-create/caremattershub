@@ -349,17 +349,6 @@ const Index = () => {
                     <a href="mailto:sunil@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary transition-colors">sunil@caremattershub.com.au</a>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0 shadow-md">
-                    SC
-                  </div>
-                  <div>
-                    <p className="font-semibold">SK Cheema</p>
-                    <p className="text-sm text-primary mb-1">Clinical Services Manager</p>
-                    <a href="tel:0469786104" className="block text-sm text-muted-foreground hover:text-primary transition-colors">0469 786 104</a>
-                    <a href="mailto:shubh@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary transition-colors">shubh@caremattershub.com.au</a>
-                  </div>
-                </div>
               </div>
               {/* Business Hours */}
               <div className="mt-6 pt-6 border-t border-border">
