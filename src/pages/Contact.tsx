@@ -11,12 +11,6 @@ const teamMembers = [
     phone: '+61 452 030 000',
     email: 'Sunil@caremattershub.com.au',
   },
-  {
-    name: 'SK Cheema',
-    role: 'Clinical Services Manager',
-    phone: '+61 469 786 104',
-    email: 'Shubh@caremattershub.com.au',
-  },
 ];
 
 const Contact = () => {
