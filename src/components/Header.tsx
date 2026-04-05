@@ -228,10 +228,6 @@ const Header = () => {
                     <Phone className="h-4 w-4 text-primary" />
                     <span>0452 030 000</span>
                   </a>
-                  <a href="tel:+61469786104" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
-                    <Phone className="h-4 w-4 text-primary" />
-                    <span>0469 786 104</span>
-                  </a>
                 </div>
                 <Button asChild className="w-full rounded-full shadow-md">
                   <Link to="/register" onClick={() => setIsMenuOpen(false)}>Get Started</Link>

@@ -102,8 +102,8 @@ export const LocalBusinessSchema = () => (
         name: 'Care Matters Hub',
         image: `${BASE_URL}/favicon.jpg`,
         url: BASE_URL,
-        telephone: ['+61-452-030-000', '+61-469-786-104'],
-        email: ['sunil@caremattershub.com.au', 'shubh@caremattershub.com.au'],
+        telephone: ['+61-452-030-000'],
+        email: ['sunil@caremattershub.com.au'],
         description: 'Registered NDIS provider offering disability support, personal care, community nursing, and independent living services in Melbourne.',
         address: {
           '@type': 'PostalAddress',

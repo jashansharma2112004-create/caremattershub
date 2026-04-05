@@ -14,7 +14,6 @@ const MESSAGE_ID_DOMAIN = "caremattershub.com.au";
 
 // Owner emails - always CC'd on all emails
 const OWNER_EMAILS = [
-  "shubh@caremattershub.com.au",
   "sunil@caremattershub.com.au"
 ];
 

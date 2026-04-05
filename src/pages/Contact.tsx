@@ -11,12 +11,6 @@ const teamMembers = [
     phone: '+61 452 030 000',
     email: 'Sunil@caremattershub.com.au',
   },
-  {
-    name: 'SK Cheema',
-    role: 'Clinical Services Manager',
-    phone: '+61 469 786 104',
-    email: 'Shubh@caremattershub.com.au',
-  },
 ];
 
 const Contact = () => {
@@ -24,7 +18,7 @@ const Contact = () => {
     <Layout>
       <SEO
         title="Contact Us | NDIS Support Melbourne"
-        description="Contact Care Matters Hub for NDIS support in Melbourne. Call +61 452 030 000 or +61 469 786 104. 24/7 emergency support available. Get in touch today."
+        description="Contact Care Matters Hub for NDIS support in Melbourne. Call +61 452 030 000. 24/7 emergency support available. Get in touch today."
         canonical="/contact"
       />
       <BreadcrumbSchema

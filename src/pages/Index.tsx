@@ -214,13 +214,6 @@ const Index = () => {
                     <p className="text-sm text-muted-foreground">+61 452 030 000</p>
                   </div>
                 </a>
-                <a href="tel:+61469786104" className="flex items-center gap-3 text-foreground hover:text-primary transition-colors">
-                  <Phone className="h-5 w-5 text-primary" />
-                  <div>
-                    <p className="font-medium">SK Cheema</p>
-                    <p className="text-sm text-muted-foreground">+61 469 786 104</p>
-                  </div>
-                </a>
               </div>
             </div>
             <div className="bg-secondary rounded-xl p-4">
@@ -356,17 +349,6 @@ const Index = () => {
                     <a href="mailto:sunil@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary transition-colors">sunil@caremattershub.com.au</a>
                   </div>
                 </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold flex-shrink-0 shadow-md">
-                    SC
-                  </div>
-                  <div>
-                    <p className="font-semibold">SK Cheema</p>
-                    <p className="text-sm text-primary mb-1">Clinical Services Manager</p>
-                    <a href="tel:0469786104" className="block text-sm text-muted-foreground hover:text-primary transition-colors">0469 786 104</a>
-                    <a href="mailto:shubh@caremattershub.com.au" className="text-sm text-muted-foreground hover:text-primary transition-colors">shubh@caremattershub.com.au</a>
-                  </div>
-                </div>
               </div>
               {/* Business Hours */}
               <div className="mt-6 pt-6 border-t border-border">
@@ -485,17 +467,9 @@ const Index = () => {
                 <Mail className="h-4 w-4 text-primary" />
                 sunil@caremattershub.com.au
               </a>
-              <a href="mailto:shubh@caremattershub.com.au" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                <Mail className="h-4 w-4 text-primary" />
-                shubh@caremattershub.com.au
-              </a>
               <a href="tel:0452030000" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                 <Phone className="h-4 w-4 text-primary" />
                 0452 030 000
-              </a>
-              <a href="tel:0469786104" className="flex items-center justify-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                <Phone className="h-4 w-4 text-primary" />
-                0469 786 104
               </a>
             </div>
           </div>
